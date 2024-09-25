@@ -1,0 +1,14 @@
+.raiz {
+     -fx-background-color: #FF0000;
+}
+
+#btCero {
+    -fx-font: 22 arial;
+	-fx-base: #000000;
+	-fx-text-fill: white;
+}
+
+#lbContador {
+    -fx-text-fill: blue;
+}
+

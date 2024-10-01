@@ -14,7 +14,7 @@ module com.example.ejercicios {
     requires java.desktop;
 
     opens com.example.ejercicios to javafx.fxml;
-    exports com.example.ejercicios;
-    exports com.example.prueba;
     opens com.example.prueba to javafx.fxml;
+    exports com.example.ejercicios.ContadorPuls;
+    opens com.example.ejercicios.ContadorPuls to javafx.fxml;
 }

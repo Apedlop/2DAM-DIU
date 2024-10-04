@@ -7,20 +7,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="346.0" prefWidth="546.0" styleClass="raiz" stylesheets="@styles/styleContador.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ejercicios.ContadorPuls2">
+<AnchorPane prefHeight="346.0" prefWidth="546.0" styleClass="raiz" stylesheets="@styles/styleContador.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ejercicios.ContadorPuls.controler.controlerPuls">
    <children>
-      <Button fx:id="mas" layoutX="101.0" layoutY="124.0" mnemonicParsing="false" onAction="#btCont" prefHeight="49.0" prefWidth="100.0" text="+">
+      <Button fx:id="mas" layoutX="101.0" layoutY="124.0" mnemonicParsing="false" onAction="#sumar" prefHeight="49.0" prefWidth="100.0" text="+">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="menos" layoutX="222.0" layoutY="124.0" mnemonicParsing="false" onAction="#btCont" prefHeight="49.0" prefWidth="100.0" text="-" textAlignment="CENTER">
+      <Button fx:id="menos" layoutX="222.0" layoutY="124.0" mnemonicParsing="false" onAction="#restar" prefHeight="49.0" prefWidth="100.0" text="-" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button id="btCero" fx:id="cero" layoutX="345.0" layoutY="124.0" mnemonicParsing="false" onAction="#btCont" prefHeight="49.0" prefWidth="100.0" stylesheets="@styles/styleContador.css" text="0">
+      <Button id="btCero" fx:id="cero" layoutX="345.0" layoutY="124.0" mnemonicParsing="false" onAction="#resetear" prefHeight="49.0" prefWidth="100.0" stylesheets="@styles/styleContador.css" text="0">
          <font>
             <Font size="20.0" />
          </font>
@@ -30,7 +29,7 @@
             <Font size="35.0" />
          </font>
       </Label>
-      <TextField layoutX="149.0" layoutY="55.0" prefHeight="31.0" prefWidth="248.0" />
-      <ProgressBar layoutX="92.0" layoutY="277.0" prefHeight="19.0" prefWidth="363.0" progress="0.0" />
+      <TextField fx:id="remplNum" layoutX="149.0" layoutY="55.0" onAction="#remplazar" prefHeight="31.0" prefWidth="248.0" />
+      <ProgressBar fx:id="progress" layoutX="92.0" layoutY="277.0" prefHeight="19.0" prefWidth="363.0" progress="0.0" />
    </children>
 </AnchorPane>

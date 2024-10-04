@@ -17,4 +17,6 @@ module com.example.ejercicios {
     opens com.example.prueba to javafx.fxml;
     exports com.example.ejercicios.ContadorPuls;
     opens com.example.ejercicios.ContadorPuls to javafx.fxml;
+    exports com.example.ejercicios.ContadorPuls.controler;
+    opens com.example.ejercicios.ContadorPuls.controler to javafx.fxml;
 }

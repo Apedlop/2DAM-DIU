@@ -1,27 +1,41 @@
 package com.example.agenda_v2.modelo;
 
+import com.example.agenda_v2.modelo.repository.PersonRepository; // Cambiado a la interfaz
 import com.example.agenda_v2.modelo.repository.impl.PersonRepositoryImpl;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 
 public class AgendaModelo {
 
-    private PersonRepositoryImpl personRepository;
+    private PersonRepository personRepository; // Cambiado a la interfaz
 
-    public void setPersonRepository(PersonRepositoryImpl personRepository) {
-        this.personRepository = personRepository;
+    // Constructor que acepta un PersonRepository
+    public AgendaModelo(PersonRepository personRepository) {
+        this.personRepository = personRepository; // Inicializa el repositorio
     }
 
-    public PersonVO recuperarPersona(int codigo)  {
-        Iterator<PersonVO> it = this.personRepository.ObtenerListaPersonas().iterator();
-        PersonVO person = null;
-        while (it.hasNext()) {
-            PersonVO personVO = it.next();
-            if (personVO.getCodigo().equals(codigo)) {
-                person = personVO;
+    public PersonVO recuperarPersonaCodigo(int codigo) {
+        for (PersonVO personVO : this.personRepository.ObtenerListaPersonas()) {
+            if (personVO.getCodigo() == codigo) { // Usa '==' para comparación de primitivos
+                return personVO; // Retorna la persona encontrada
             }
         }
-        return person;
+        return null; // Retorna null si no se encuentra la persona
     }
 
+    public void agregarPersona(PersonVO nuevaPersona) {
+        personRepository.guardarPersona(nuevaPersona);
+    }
+
+    public void eliminarPersona(int codigo) {
+        personRepository.eliminarPersona(codigo);
+    }
+
+    public void actualizarPersona(PersonVO personaActualizada) {
+        personRepository.actualizarPersona(personaActualizada);
+    }
+
+    public ArrayList<PersonVO> obtenerTodasLasPersonas() {
+        return this.personRepository.ObtenerListaPersonas();
+    }
 }

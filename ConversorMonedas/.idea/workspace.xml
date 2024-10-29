@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="895aab22-ff30-4968-a34e-7b8f17dde20e" name="Changes" comment="22/10/2024, Realización ConversorMoneda">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/conversorMonedas/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/conversorMonedas/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,8 +111,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
       </set>
     </attachedChunks>
   </component>
@@ -131,6 +132,9 @@
       <workItem from="1729583266895" duration="4948000" />
       <workItem from="1729672078335" duration="34000" />
       <workItem from="1729672122324" duration="608000" />
+      <workItem from="1729859044375" duration="786000" />
+      <workItem from="1730103803678" duration="8000" />
+      <workItem from="1730194775148" duration="1623000" />
     </task>
     <task id="LOCAL-00001" summary="22/10/2024, Realización ConversorMoneda">
       <option name="closed" value="true" />

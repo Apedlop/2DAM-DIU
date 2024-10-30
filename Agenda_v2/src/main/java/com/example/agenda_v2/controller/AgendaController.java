@@ -2,9 +2,11 @@ package com.example.agenda_v2.controller;
 
 import com.example.agenda_v2.modelo.AgendaModelo;
 import com.example.agenda_v2.modelo.ExceptionPersona;
+import com.example.agenda_v2.modelo.Person;
 import com.example.agenda_v2.modelo.PersonVO;
 import com.example.agenda_v2.modelo.repository.PersonRepository;
 import com.example.agenda_v2.modelo.repository.impl.PersonRepositoryImpl;
+import com.example.agenda_v2.modelo.util.PersonUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -43,6 +45,8 @@ public class AgendaController {
     @FXML
     private Button deletePersonButton;
 
+    private PersonUtil personUtil = new PersonUtil();
+
     private PersonRepository personRepository;
     private ObservableList<PersonVO> personList;
     private AgendaModelo agendaModelo; // Cambia a AgendaModelo
@@ -51,6 +55,10 @@ public class AgendaController {
         this.personRepository = new PersonRepositoryImpl(); // Inicializa el repositorio
         this.agendaModelo = new AgendaModelo(personRepository); // Pasa el repositorio a AgendaModelo
         this.personList = FXCollections.observableArrayList();
+    }
+
+    public ObservableList<Person> recuperarPersona() {
+        return agendaModelo.recuperarPersonas();
     }
 
     @FXML
@@ -68,7 +76,7 @@ public class AgendaController {
 
     private void loadPersonData() {
         try {
-            ArrayList<PersonVO> personas = agendaModelo.obtenerTodasLasPersonas(); // Usa el método del modelo
+            ArrayList<Person> personas = (ArrayList<Person>) agendaModelo.recuperarPersonas(); // Usa el método del modelo
             personList.setAll(personas);
             personTable.setItems(personList);
         } catch (ExceptionPersona e) {
@@ -106,7 +114,7 @@ public class AgendaController {
 
     @FXML
     private void handleEditPerson() {
-        // Lógica para editar la persona seleccionada
+
     }
 
     @FXML
@@ -117,20 +125,18 @@ public class AgendaController {
         // Verificar si hay una persona seleccionada
         if (selectedPerson != null) {
             int codigo = selectedPerson.getCodigo(); // Obtiene el código de la persona seleccionada
-
             try {
                 agendaModelo.eliminarPersona(codigo); // Elimina la persona usando el código
                 loadPersonData(); // Recargar la lista después de la eliminación
             } catch (ExceptionPersona e) {
-                // Manejo de errores
                 e.printStackTrace();
             }
-        } else {
-            // Mostrar mensaje de advertencia si no se seleccionó ninguna persona
-            System.out.println("Por favor, selecciona una persona para eliminar.");
         }
     }
 
+    public void PersonAPersonVO(Person person) {
+
+    }
 
     public int getCodigo() {
         PersonVO selectedPerson = personTable.getSelectionModel().getSelectedItem();

@@ -26,19 +26,18 @@ public class Person {
     @FXML
     private final ObjectProperty<LocalDate> birthday;
 
-    public Person(String nombre, String apellido, String calle, String ciudad, Integer codigo, LocalDate fechaNacimiento) {
-        this(null, null);
+    // Constructor por defecto
+    public Person() {
+        this(null, null, null, null, null, null);
     }
 
-    public Person(String firstName, String lastName) {
+    public Person(String firstName, String lastName, String street, String city, Integer postalCode, LocalDate birthday) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
-
-        // Some initial dummy data, just for convenient testing.
-        this.street = new SimpleStringProperty("some street");
-        this.postalCode = new SimpleIntegerProperty(12345);
-        this.city = new SimpleStringProperty("some city");
-        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
+        this.street = new SimpleStringProperty(street);
+        this.postalCode = new SimpleIntegerProperty(postalCode);
+        this.city = new SimpleStringProperty(city);
+        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(birthday.getYear(), birthday.getMonthValue(), birthday.getDayOfMonth()));
     }
 
     public void setIdentificador(Integer identificador) {

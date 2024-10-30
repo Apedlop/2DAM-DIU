@@ -1,26 +1,41 @@
 package com.example.agenda_v2.modelo;
 
-import com.example.agenda_v2.modelo.repository.PersonRepository; // Cambiado a la interfaz
-import com.example.agenda_v2.modelo.repository.impl.PersonRepositoryImpl;
+import com.example.agenda_v2.modelo.repository.PersonRepository;
+import com.example.agenda_v2.modelo.util.PersonUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AgendaModelo {
 
     private PersonRepository personRepository; // Cambiado a la interfaz
+    private PersonUtil personUtil;
 
     // Constructor que acepta un PersonRepository
     public AgendaModelo(PersonRepository personRepository) {
         this.personRepository = personRepository; // Inicializa el repositorio
     }
 
-    public PersonVO recuperarPersonaCodigo(int codigo) {
-        for (PersonVO personVO : this.personRepository.ObtenerListaPersonas()) {
-            if (personVO.getCodigo() == codigo) { // Usa '==' para comparación de primitivos
-                return personVO; // Retorna la persona encontrada
-            }
+    // Método para recuperar personas de la base de datos y convertirlas a ObservableList<Person>
+    public ObservableList<Person> recuperarPersonas() throws ExceptionPersona {
+        ArrayList<PersonVO> personVOList = this.personRepository.ObtenerListaPersonas();
+        ObservableList<Person> personList = FXCollections.observableArrayList();
+        Iterator<PersonVO> itPersonVO = personVOList.iterator();
+        while (itPersonVO.hasNext()) {
+            PersonVO personVO = itPersonVO.next();
+            Person person = new Person(
+                    personVO.getNombre(),
+                    personVO.getApellido(),
+                    personVO.getCalle(),
+                    personVO.getCiudad(),
+                    personVO.getCodPostal(),
+                    personVO.getFechaNacimiento()
+            );
+            personList.add(person);
         }
-        return null; // Retorna null si no se encuentra la persona
+        return personList;
     }
 
     public void agregarPersona(PersonVO nuevaPersona) {

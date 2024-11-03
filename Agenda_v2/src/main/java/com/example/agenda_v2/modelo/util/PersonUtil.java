@@ -8,21 +8,52 @@ import java.util.List;
 
 public class PersonUtil {
 
-    // Convierte una lista de PersonVO a una lista de Person
-    public List<Person> convierteVOaPerson(List<PersonVO> personVOList) {
-        List<Person> personList = new ArrayList<>();
-        for (PersonVO personVO : personVOList) {
-            personList.add(new Person(personVO.getNombre(), personVO.getApellido(), personVO.getCalle(), personVO.getCiudad(), personVO.getCodPostal(), personVO.getFechaNacimiento()));
-        }
-        return personList;
+
+     // Convertir PersonVO a Person
+    public Person convertirPersona(PersonVO personVO){
+        Person person = new Person();
+        person.setIdentificador(personVO.getCodigo());
+        person.setFirstName(personVO.getNombre());
+        person.setLastName(personVO.getApellido());
+        person.setStreet(personVO.getCalle());
+        person.setPostalCode(personVO.getCodPostal());
+        person.setCity(personVO.getCiudad());
+        person.setBirthday(personVO.getFechaNacimiento());
+        return person;
     }
 
-    // Convierte una lista de Person a una lista de PersonVO
-    public List<PersonVO> convierteAPersonVO(List<Person> personList) {
-        List<PersonVO> personVOList = new ArrayList<>();
-        for (Person person : personList) {
-            personVOList.add(new PersonVO(person.getFirstName(), person.getLastName(), person.getStreet(), person.getCity(), person.getPostalCode(), person.getBirthday()));
+    // ArrayList de PersonVO y devuelve un ArrayList de Person.
+    public ArrayList<Person> lista(ArrayList<PersonVO> listaPersonVO){
+        ArrayList<Person> listaPerson = new ArrayList<Person>();
+        Person person = new Person();
+        for(int i=0;i<listaPersonVO.size();i++){
+            person=convertirPersona(listaPersonVO.get(i));
+            listaPerson.add(i,person);
         }
-        return personVOList;
+        return listaPerson;
+    }
+
+    // Convierte un Person a PersonVO
+    public PersonVO convertirPersonaVO(Person person){
+        PersonVO personVO = new PersonVO();
+        personVO.setCodigo(person.getIdentificador());
+        personVO.setNombre(person.getFirstName());
+        personVO.setApellido(person.getLastName());
+        personVO.setCalle(person.getStreet());
+        personVO.setCodPostal(person.getPostalCode());
+        personVO.setCiudad(person.getCity());
+        personVO.setFechaNacimiento(person.getBirthday());
+        return personVO;
+    }
+
+    // Convierte una lista de Person a una lista de PersonVO.
+    public ArrayList<PersonVO> listaPerson(ArrayList<Person> listaPerson){
+        ArrayList<PersonVO> listaPersonVO = new ArrayList<PersonVO>();
+        PersonVO personVO = new PersonVO();
+        for(int i=0;i<listaPerson.size();i++){
+            personVO=convertirPersonaVO(listaPerson.get(i));
+            listaPersonVO.add(i,personVO);
+        }
+        return listaPersonVO;
     }
 }

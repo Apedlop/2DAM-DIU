@@ -1,31 +1,27 @@
 package com.example.agenda_v2.controller;
 
+import com.example.agenda_v2.Main;
 import com.example.agenda_v2.modelo.AgendaModelo;
 import com.example.agenda_v2.modelo.ExceptionPersona;
 import com.example.agenda_v2.modelo.Person;
 import com.example.agenda_v2.modelo.PersonVO;
-import com.example.agenda_v2.modelo.repository.PersonRepository;
-import com.example.agenda_v2.modelo.repository.impl.PersonRepositoryImpl;
+import com.example.agenda_v2.modelo.util.DateUtil;
 import com.example.agenda_v2.modelo.util.PersonUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 
 public class AgendaController {
 
     @FXML
-    private TableView<PersonVO> personTable;
+    private TableView<Person> personTable;
     @FXML
-    private TableColumn<PersonVO, String> firstNameColumn;
+    private TableColumn<Person, String> firstNameColumn;
     @FXML
-    private TableColumn<PersonVO, String> lastNameColumn;
+    private TableColumn<Person, String> lastNameColumn;
     @FXML
     private Label firstNameLabel;
     @FXML
@@ -38,108 +34,160 @@ public class AgendaController {
     private Label postalCodeLabel;
     @FXML
     private Label birthdayLabel;
-    @FXML
-    private Button newPersonButton;
-    @FXML
-    private Button editPersonButton;
-    @FXML
-    private Button deletePersonButton;
 
+    private Main main;
+    private AgendaModelo agendaModelo;
     private PersonUtil personUtil = new PersonUtil();
+    private ObservableList<Person> personData = FXCollections.observableArrayList();
 
-    private PersonRepository personRepository;
-    private ObservableList<PersonVO> personList;
-    private AgendaModelo agendaModelo; // Cambia a AgendaModelo
-
-    public AgendaController() {
-        this.personRepository = new PersonRepositoryImpl(); // Inicializa el repositorio
-        this.agendaModelo = new AgendaModelo(personRepository); // Pasa el repositorio a AgendaModelo
-        this.personList = FXCollections.observableArrayList();
-    }
-
-    public ObservableList<Person> recuperarPersona() {
-        return agendaModelo.recuperarPersonas();
+    // Método para recibir el modelo y configurar los datos
+    public void setAgendaModelo(AgendaModelo agendaModelo) throws ExceptionPersona {
+        this.agendaModelo = agendaModelo;
     }
 
     @FXML
-    public void initialize() {
-        // Configurar las columnas de la tabla
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+    private void initialize() {
+        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
 
-        // Cargar la lista de personas
-        loadPersonData();
-
-        // Configurar el evento de selección de la tabla
-        personTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showPersonDetails(newValue));
+        // Escucha cambios de selección en la tabla de personas
+        personTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> mostrarDetallesPersona(newValue));
     }
 
-    private void loadPersonData() {
-        try {
-            ArrayList<Person> personas = (ArrayList<Person>) agendaModelo.recuperarPersonas(); // Usa el método del modelo
-            personList.setAll(personas);
-            personTable.setItems(personList);
-        } catch (ExceptionPersona e) {
-            // Manejo de errores
-            e.printStackTrace();
-        }
-    }
-
-    private void showPersonDetails(PersonVO person) {
+    // Muestra detalles de una persona
+    private void mostrarDetallesPersona(Person person) {
         if (person != null) {
-            firstNameLabel.setText(person.getNombre());
-            lastNameLabel.setText(person.getApellido());
-            streetLabel.setText(person.getCalle());
-            cityLabel.setText(person.getCiudad());
-            postalCodeLabel.setText(String.valueOf(person.getCodPostal()));
-            birthdayLabel.setText(person.getFechaNacimiento().toString());
+            firstNameLabel.setText(person.getFirstName());
+            lastNameLabel.setText(person.getLastName());
+            streetLabel.setText(person.getStreet());
+            postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
+            cityLabel.setText(person.getCity());
+            birthdayLabel.setText(DateUtil.format(person.getBirthday()));
         } else {
-            clearPersonDetails(); // Limpia los detalles si no hay selección
+            firstNameLabel.setText("");
+            lastNameLabel.setText("");
+            streetLabel.setText("");
+            postalCodeLabel.setText("");
+            cityLabel.setText("");
+            birthdayLabel.setText("");
         }
     }
 
-    private void clearPersonDetails() {
-        firstNameLabel.setText("");
-        lastNameLabel.setText("");
-        streetLabel.setText("");
-        cityLabel.setText("");
-        postalCodeLabel.setText("");
-        birthdayLabel.setText("");
+    // Agrega una nueva persona al modelo y a la tabla
+    public void agregarPersona(Person person) throws ExceptionPersona {
+        PersonVO personVO = personUtil.convertirPersonaVO(person);
+        agendaModelo.agregarPersona(personVO);
+        personData.add(person);
+    }
+
+    // Actualiza los datos de una persona en el modelo
+    public void actualizarPersona(Person person) throws ExceptionPersona {
+        PersonVO personVO = personUtil.convertirPersonaVO(person);
+        agendaModelo.actualizarPersona(personVO);
+    }
+
+    /*
+     * Acciones de los botones
+     */
+
+    @FXML
+    private void handleDeletePerson(){
+        int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            personUtil = new PersonUtil();
+            try {
+                agendaModelo.eliminarPersona(personUtil.convertirPersonaVO(personTable.getItems().get(selectedIndex)));
+                agendaModelo.decrementarContadorPersonas();
+            }catch (ExceptionPersona e){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Error al eliminar la persona");
+                alert.setTitle("Error con la base de datos");
+                alert.setContentText("No se puede conectar con la base de datos para eliminar la persona");
+                alert.showAndWait();
+            }
+            personTable.getItems().remove(selectedIndex);
+        } else {
+            // Nothing selected.
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("No Selection");
+            alerta.setHeaderText("No Person Selected");
+            alerta.setContentText("Please select a person in the table.");
+            alerta.showAndWait();
+        }
     }
 
     @FXML
-    private void handleNewPerson() {
-        // Lógica para añadir una nueva persona
+    private void handleNewPerson() throws ExceptionPersona {
+        Person tempPerson = new Person();
+        boolean okClicked = main.showPersonEditDialog(tempPerson);
+        if (okClicked) {
+            try{
+                tempPerson.setIdentificador(agendaModelo.obtenerNuevoCodigoPersona() + 1);
+                CrearPersonAPersonVO(tempPerson);
+                main.getPersonData().add(tempPerson);
+
+            }catch(ExceptionPersona e){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Error al añadir la persona");
+                alert.setTitle("Error con la base de datos");
+                alert.setContentText("No se puede conectar con la base de datos para añadir la persona");
+                alert.showAndWait();
+            }
+        }
+
+    }
+
+    public void CrearPersonAPersonVO(Person person) throws ExceptionPersona {
+        personUtil = new PersonUtil();
+        PersonVO personVO = new PersonVO();
+        personVO =  personUtil.convertirPersonaVO(person);
+        agendaModelo.agregarPersona(personVO);
+        agendaModelo.incrementarContadorPersonas();
     }
 
     @FXML
     private void handleEditPerson() {
-
-    }
-
-    @FXML
-    private void handleDeletePerson() {
-        // Obtener el objeto PersonVO seleccionado en la tabla
-        PersonVO selectedPerson = personTable.getSelectionModel().getSelectedItem();
-
-        // Verificar si hay una persona seleccionada
+        Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
-            int codigo = selectedPerson.getCodigo(); // Obtiene el código de la persona seleccionada
-            try {
-                agendaModelo.eliminarPersona(codigo); // Elimina la persona usando el código
-                loadPersonData(); // Recargar la lista después de la eliminación
-            } catch (ExceptionPersona e) {
-                e.printStackTrace();
+            if (showPersonEditDialog(selectedPerson)) {
+                try {
+                    actualizarPersona(selectedPerson);
+                    mostrarDetallesPersona(selectedPerson);
+                } catch (ExceptionPersona e) {
+                    mostrarError("Error al editar la persona", "No se puede conectar con la base de datos para editar la persona.");
+                }
             }
+        } else {
+            mostrarInfo("No Selection", "No Person Selected", "Please select a person in the table.");
         }
     }
 
-    public void PersonAPersonVO(Person person) {
-
+    // Método auxiliar para mostrar errores
+    private void mostrarError(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
-    public int getCodigo() {
-        PersonVO selectedPerson = personTable.getSelectionModel().getSelectedItem();
-        return selectedPerson != null ? selectedPerson.getCodigo() : -1; // Retorna el código o -1 si no hay selección
+    // Método auxiliar para mostrar información
+    private void mostrarInfo(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
+
+    // Placeholder para abrir diálogo de edición (implementar en Main)
+    private boolean showPersonEditDialog(Person person) {
+        return false; // Implementación pendiente
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
+        personTable.setItems(main.getPersonData());
+    }
+
 }

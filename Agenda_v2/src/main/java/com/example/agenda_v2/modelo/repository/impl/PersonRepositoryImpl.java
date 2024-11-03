@@ -3,10 +3,8 @@ package com.example.agenda_v2.modelo.repository.impl;
 import com.example.agenda_v2.modelo.ExceptionPersona;
 import com.example.agenda_v2.modelo.PersonVO;
 import com.example.agenda_v2.modelo.repository.PersonRepository;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +20,14 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     public PersonRepositoryImpl() {}
 
-    @Override
-    public ArrayList<PersonVO> ObtenerListaPersonas() throws ExceptionPersona {
-        try {
+    public ArrayList<PersonVO> ObtenerListaPersonas() throws ExceptionPersona, SQLException {
+
             Connection conn = this.conexion.conectarBD();
             this.personas = new ArrayList<>();
             this.statement = conn.createStatement();
             this.sentencia = "SELECT * FROM persona";
             ResultSet rs = this.statement.executeQuery(this.sentencia);
-
+            System.out.println("QUE TAL");
             while (rs.next()) {
                 Integer codigo = rs.getInt("codigo");
                 String nombre = rs.getString("nombre");
@@ -42,17 +39,16 @@ public class PersonRepositoryImpl implements PersonRepository {
                 this.persona = new PersonVO(codigo, nombre, apellido, calle, ciudad, codPostal, fechaNacimiento);
                 this.persona.setCodigo(codigo);
                 this.personas.add(this.persona);
+                System.out.println("hecho");
             }
-
+            System.out.println("hola");
             this.conexion.desconectarBD(conn);
             return this.personas;
-        } catch (SQLException e) {
-            throw new ExceptionPersona("No se ha podido realizar la operación");
-        }
+
     }
 
     @Override
-    public void guardarPersona(PersonVO p) throws ExceptionPersona {
+    public void addPerson(PersonVO p) throws ExceptionPersona {
         try {
             Connection conn = this.conexion.conectarBD();
             this.statement = conn.createStatement();
@@ -66,7 +62,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     @Override
-    public void eliminarPersona(Integer idPersona) throws ExceptionPersona {
+    public void deletePerson(Integer idPersona) throws ExceptionPersona {
         try {
             Connection conn = this.conexion.conectarBD();
             this.statement = conn.createStatement();
@@ -80,7 +76,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     @Override
-    public void actualizarPersona(PersonVO var1) {
+    public void editPerson(PersonVO var1) {
         try {
             Connection conn = this.conexion.conectarBD();
             this.statement = conn.createStatement();

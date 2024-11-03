@@ -10,7 +10,6 @@ module com.example.agenda_v2 {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
-    requires AccesoBBDDMoneda;
     requires java.desktop;
     requires java.sql;
 
@@ -20,4 +19,6 @@ module com.example.agenda_v2 {
     opens com.example.agenda_v2.controller to javafx.fxml;
     exports com.example.agenda_v2.modelo;
     opens com.example.agenda_v2.modelo to javafx.fxml;
+    opens com.example.agenda_v2.modelo.util to javafx.fxml;
+    exports com.example.agenda_v2.modelo.util;
 }

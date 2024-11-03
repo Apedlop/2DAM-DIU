@@ -1,6 +1,5 @@
 package com.example.agenda_v2.modelo;
 
-
 import java.time.LocalDate;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -10,8 +9,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 
+/**
+ * Model class for a Person.
+ *
+ * @author Marco Jakob
+ */
 public class Person {
-
     public  Integer Identificador;
     @FXML
     private final StringProperty firstName;
@@ -26,18 +29,27 @@ public class Person {
     @FXML
     private final ObjectProperty<LocalDate> birthday;
 
-    // Constructor por defecto
+    /**
+     * Default constructor.
+     */
     public Person() {
-        this(null, null, null, null, null, null);
+        this(null, null);
     }
 
-    public Person(String firstName, String lastName, String street, String city, Integer postalCode, LocalDate birthday) {
+    /**
+     * Contructor solo escribes el nombre y apellido
+     * @param firstName
+     * @param lastName
+     */
+    public Person(String firstName, String lastName) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
-        this.street = new SimpleStringProperty(street);
-        this.postalCode = new SimpleIntegerProperty(postalCode);
-        this.city = new SimpleStringProperty(city);
-        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(birthday.getYear(), birthday.getMonthValue(), birthday.getDayOfMonth()));
+
+        // Some initial dummy data, just for convenient testing.
+        this.street = new SimpleStringProperty("some street");
+        this.postalCode = new SimpleIntegerProperty(12345);
+        this.city = new SimpleStringProperty("some city");
+        this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
     }
 
     public void setIdentificador(Integer identificador) {

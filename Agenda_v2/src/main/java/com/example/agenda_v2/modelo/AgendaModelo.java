@@ -1,56 +1,69 @@
 package com.example.agenda_v2.modelo;
 
 import com.example.agenda_v2.modelo.repository.PersonRepository;
+import com.example.agenda_v2.modelo.repository.impl.PersonRepositoryImpl;
 import com.example.agenda_v2.modelo.util.PersonUtil;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class AgendaModelo {
 
-    private PersonRepository personRepository; // Cambiado a la interfaz
-    private PersonUtil personUtil;
+    private PersonRepositoryImpl personRepository;
+    private IntegerProperty numPersonas = new SimpleIntegerProperty();
+    private PersonUtil personUtil = new PersonUtil();
 
-    // Constructor que acepta un PersonRepository
-    public AgendaModelo(PersonRepository personRepository) {
-        this.personRepository = personRepository; // Inicializa el repositorio
+    // Inyección mediante un set de PersonRepositoryImpl
+    public void setPersonRepository (PersonRepositoryImpl personRepository) {
+        this.personRepository = personRepository;
     }
 
-    // Método para recuperar personas de la base de datos y convertirlas a ObservableList<Person>
-    public ObservableList<Person> recuperarPersonas() throws ExceptionPersona {
-        ArrayList<PersonVO> personVOList = this.personRepository.ObtenerListaPersonas();
-        ObservableList<Person> personList = FXCollections.observableArrayList();
-        Iterator<PersonVO> itPersonVO = personVOList.iterator();
-        while (itPersonVO.hasNext()) {
-            PersonVO personVO = itPersonVO.next();
-            Person person = new Person(
-                    personVO.getNombre(),
-                    personVO.getApellido(),
-                    personVO.getCalle(),
-                    personVO.getCiudad(),
-                    personVO.getCodPostal(),
-                    personVO.getFechaNacimiento()
-            );
-            personList.add(person);
-        }
-        return personList;
+    // Constructor vacio
+    public AgendaModelo() {
+
     }
 
-    public void agregarPersona(PersonVO nuevaPersona) {
-        personRepository.guardarPersona(nuevaPersona);
+    // Método para obtener la lista de personas desde la BD y convertirla en una lista de Person
+    public ArrayList<PersonVO> listarPersonas() throws ExceptionPersona, SQLException {
+        return personRepository.ObtenerListaPersonas();
     }
 
-    public void eliminarPersona(int codigo) {
-        personRepository.eliminarPersona(codigo);
+
+    // Métodos para añadir, editar y eliminar personas en la BD
+    public void agregarPersona(PersonVO personVO) throws ExceptionPersona {
+        personRepository.addPerson(personVO);
+        incrementarContadorPersonas();
     }
 
-    public void actualizarPersona(PersonVO personaActualizada) {
-        personRepository.actualizarPersona(personaActualizada);
+    public void actualizarPersona(PersonVO personVO) throws ExceptionPersona {
+        personRepository.editPerson(personVO);
     }
 
-    public ArrayList<PersonVO> obtenerTodasLasPersonas() {
-        return this.personRepository.ObtenerListaPersonas();
+    public void eliminarPersona(PersonVO personVO) throws ExceptionPersona {
+        personRepository.deletePerson(personVO.getCodigo());
+        decrementarContadorPersonas();
+    }
+
+    public int obtenerNuevoCodigoPersona() throws ExceptionPersona {
+        return personRepository.codigoPersona();
+    }
+
+    // Métodos para modificar y obtener el número de personas en la BD
+    public void setNumPersonas(int numPers) {
+        this.numPersonas.set(numPers);
+    }
+
+    public void decrementarContadorPersonas() {
+        this.numPersonas.set(numPersonas.get() - 1);
+    }
+
+    public void incrementarContadorPersonas() {
+        this.numPersonas.set(numPersonas.get() + 1);
+    }
+
+    public IntegerProperty getNumPersonas() {
+        return numPersonas;
     }
 }

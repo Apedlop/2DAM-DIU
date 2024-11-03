@@ -10,13 +10,9 @@ public class PersonVO {
     int codPostal;
     LocalDate fechaNacimiento;
 
-    public PersonVO(String nombre, String apellido, String calle, String ciudad, int codPostal, LocalDate fechaNacimiento) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.calle = calle;
-        this.ciudad = ciudad;
-        this.codPostal = codPostal;
-        this.fechaNacimiento = fechaNacimiento; // Usa el formateador aquí
+    // Constructor vacío
+    public PersonVO() {
+
     }
 
     public PersonVO(Integer codigo, String nombre, String apellido, String calle, String ciudad, int codPostal, LocalDate fechaNacimiento) {

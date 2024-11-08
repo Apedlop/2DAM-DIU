@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.agendav2.controller.ConversorController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="44.0" prefWidth="579.0" text="CONVERSOR MONEDAS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="383.0" layoutY="84.0" prefHeight="36.0" prefWidth="89.0" text="DÓLARES">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="cantidad" layoutX="77.0" layoutY="137.0" onAction="#cambioM" />
+      <Label layoutX="120.0" layoutY="80.0" prefHeight="44.0" prefWidth="76.0" text="EUROS">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="cambio" editable="false" layoutX="354.0" layoutY="137.0" />
+      <!-- Añadimos un botón para realizar la conversión -->
+      <!--<Button layoutX="220.0" layoutY="200.0" text="Convertir" onAction="#cambio"/>-->
+   </children>
+</AnchorPane>

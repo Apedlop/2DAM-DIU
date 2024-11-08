@@ -29,7 +29,7 @@ public class EditarPersonaController {
     @FXML
     private TextField birthdayField;
     @FXML
-    private ProgressBar barraProgress;
+    private ProgressBar progressBar;
     @FXML
     private Label progreso;
 
@@ -49,12 +49,12 @@ public class EditarPersonaController {
 
     public void setBarrita(){
         this.numPerson.bind(agendaModelo.getNumPersonas());
-        this.barraProgress.setProgress((double) numPerson.get() / 50);
+        this.progressBar.setProgress((double) numPerson.get() / 50);
         this.progreso.setText(String.valueOf(numPerson.get() * 100 / 50 + "%"));
         numPerson.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                barraProgress.setProgress((double) numPerson.get() / 50);
+                progressBar.setProgress((double) numPerson.get() / 50);
                 progreso.setText(String.valueOf( numPerson.get() * 100 / 50 + "%"));
             }
         });

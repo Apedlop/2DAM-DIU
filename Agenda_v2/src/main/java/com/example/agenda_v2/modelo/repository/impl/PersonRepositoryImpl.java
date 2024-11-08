@@ -4,11 +4,12 @@ import com.example.agenda_v2.modelo.ExceptionPersona;
 import com.example.agenda_v2.modelo.PersonVO;
 import com.example.agenda_v2.modelo.repository.PersonRepository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.time.format.DateTimeFormatter;
 
 public class PersonRepositoryImpl implements PersonRepository {
 
@@ -76,15 +77,18 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     @Override
-    public void editPerson(PersonVO var1) {
+    public void editPerson(PersonVO p) throws ExceptionPersona {
         try {
             Connection conn = this.conexion.conectarBD();
             this.statement = conn.createStatement();
-            String sql = String.format("UPDATE persona SET nombre = '%s', apellido = '%s', calle = '%s', ciudad");
-        } catch (SQLException e) {
-            throw new ExceptionPersona("No se ha podido actualizar la persona");
+            String sql = String.format("UPDATE Persona SET nombre = '%s', apellido = '%s', calle = '%s',  ciudad = '%s', cod_postal = '%s', fech_nac = '%s' WHERE codigo = %d", p.getNombre() + "','" + p.getApellido() + "','" + p.getCalle() + "','" + p.getCiudad() + "','" + p.getCodPostal() + "','" + p.getFechaNacimiento());
+            this.statement.executeUpdate(sql);
+            this.statement.close();
+        } catch (Exception var4) {
+            throw new ExceptionPersona("No se ha podido relaizar la edición");
         }
     }
+
 
     @Override
     public int codigoPersona() {

@@ -10,9 +10,10 @@ import com.example.agenda_v2.modelo.util.PersonUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-import java.util.ArrayList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class AgendaController {
 
@@ -126,7 +127,6 @@ public class AgendaController {
                 tempPerson.setIdentificador(agendaModelo.obtenerNuevoCodigoPersona() + 1);
                 CrearPersonAPersonVO(tempPerson);
                 main.getPersonData().add(tempPerson);
-
             }catch(ExceptionPersona e){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Error al añadir la persona");
@@ -135,7 +135,6 @@ public class AgendaController {
                 alert.showAndWait();
             }
         }
-
     }
 
     public void CrearPersonAPersonVO(Person person) throws ExceptionPersona {
@@ -146,20 +145,38 @@ public class AgendaController {
         agendaModelo.incrementarContadorPersonas();
     }
 
+    public void editarPersonAPersonVO(Person person) throws ExceptionPersona {
+        personUtil = new PersonUtil();
+        PersonVO personVO=new PersonVO();
+        personVO = personUtil.convertirPersonaVO(person);
+        agendaModelo.actualizarPersona(personVO);
+    }
+
     @FXML
     private void handleEditPerson() {
         Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
-            if (showPersonEditDialog(selectedPerson)) {
-                try {
-                    actualizarPersona(selectedPerson);
+            boolean okClicked = main.showPersonEditDialog(selectedPerson);
+            if (okClicked) {
+                try{
+                    editarPersonAPersonVO(selectedPerson);
                     mostrarDetallesPersona(selectedPerson);
-                } catch (ExceptionPersona e) {
-                    mostrarError("Error al editar la persona", "No se puede conectar con la base de datos para editar la persona.");
+                }catch(ExceptionPersona e){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Error al editar la persona");
+                    alert.setTitle("Error con la base de datos");
+                    alert.setContentText("No se puede conectar con la base de datos para editar la persona");
+                    alert.showAndWait();
                 }
             }
+
         } else {
-            mostrarInfo("No Selection", "No Person Selected", "Please select a person in the table.");
+            // Nothing selected.
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("No Selection");
+            alerta.setHeaderText("No Person Selected");
+            alerta.setContentText("Please select a person in the table.");
+            alerta.showAndWait();
         }
     }
 
@@ -178,11 +195,6 @@ public class AgendaController {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
-    }
-
-    // Placeholder para abrir diálogo de edición (implementar en Main)
-    private boolean showPersonEditDialog(Person person) {
-        return false; // Implementación pendiente
     }
 
     public void setMain(Main main) {

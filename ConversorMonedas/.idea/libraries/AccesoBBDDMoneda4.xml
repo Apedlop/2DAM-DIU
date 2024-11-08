@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="AccesoBBDDMoneda4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Descargas/AccesoBBDDMoneda.jar!/" />
+      <root url="jar://$USER_HOME$/Descargas/mysql-connector-java-8.0.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

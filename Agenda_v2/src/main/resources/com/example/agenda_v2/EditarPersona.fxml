@@ -50,5 +50,7 @@
                </HBox.margin>
             </Button>
          </children></HBox>
+      <ProgressBar fx:id="progressBar" layoutX="20.0" layoutY="362.0" prefHeight="20.0" prefWidth="218.0" progress="0.0" />
+      <Label fx:id="progreso" layoutX="21.0" layoutY="363.0" text="Label" />
    </children>
 </AnchorPane>

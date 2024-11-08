@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="AccesoBBDDMoneda">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AccesoBBDDMoneda.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AccesoBBDDMoneda.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/AccesoBBDDMoneda.jar!/" />
+      <root url="jar://$PROJECT_DIR$/AccesoBBDDMoneda.jar!/" />
+      <root url="file://$PROJECT_DIR$/src/main/java" />
+    </SOURCES>
+  </library>
+</component>

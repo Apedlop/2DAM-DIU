@@ -1,7 +1,17 @@
 package com.example.gestionhotel.modelo;
 
 public class ExeptionHotel extends RuntimeException {
-    public ExeptionHotel(String message) {
-        super(message);
+
+    public String mensaje;
+
+    public ExeptionHotel() {}
+
+    public ExeptionHotel(String mensaje) {
+        this.mensaje = mensaje;
     }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
 }

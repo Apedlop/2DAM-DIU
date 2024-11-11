@@ -1,13 +1,9 @@
 package com.example.agenda_v2.modelo;
 
-import java.time.LocalDate;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
+
+import java.time.LocalDate;
 
 /**
  * Model class for a Person.
@@ -29,7 +25,7 @@ public class Person {
     @FXML
     private final ObjectProperty<LocalDate> birthday;
 
-    /**
+    /**d
      * Default constructor.
      */
     public Person() {

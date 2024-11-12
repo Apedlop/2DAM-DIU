@@ -16,7 +16,7 @@
             <items>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                     <children>
-                        <TableView fx:id="personTable" layoutY="35.0" prefHeight="225.0" prefWidth="227.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                        <TableView fx:id="tablaClientes" layoutY="35.0" prefHeight="225.0" prefWidth="227.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
                             <columns>
                                 <TableColumn fx:id="columnaNombre" prefWidth="143.0" text="Nombre" />
                                 <TableColumn fx:id="columnaApellido" prefWidth="151.0" text="Apellido" />
@@ -50,14 +50,14 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="id" minHeight="23.0" onAction="#busquedaID" prefHeight="0.0" prefWidth="157.0" />
+                        <TextField minHeight="23.0" onAction="#busquedaID" prefHeight="0.0" prefWidth="157.0" />
                      </children>
                   </HBox>
                     </children>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@styles/DarkTheme.css">
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="">
                     <children>
-                        <Label layoutX="61.0" layoutY="8.0" styleClass="label-header" stylesheets="@styles/DarkTheme.css" text="Detalles Personales" AnchorPane.leftAnchor="61.0" AnchorPane.topAnchor="8.0">
+                        <Label layoutX="61.0" layoutY="8.0" styleClass="label-header" text="Detalles Personales" AnchorPane.leftAnchor="61.0" AnchorPane.topAnchor="8.0">
                             <font>
                                 <Font name="System Bold" size="25.0" />
                             </font></Label>
@@ -67,6 +67,7 @@
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             </columnConstraints>
                             <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -74,16 +75,18 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label text="Direccion" GridPane.rowIndex="2" />
-                                <Label fx:id="localidad" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <Label fx:id="direccion" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label text="Provincia" GridPane.rowIndex="4" />
-                                <Label text="Localidad" GridPane.rowIndex="3" />
-                                <Label fx:id="apellido" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label fx:id="nombre" text="Label" GridPane.columnIndex="1" />
-                                <Label text="Apellido" GridPane.rowIndex="1" />
-                                <Label text="Nombre" />
-                                <Label fx:id="Provincia" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Label text="Direccion" GridPane.rowIndex="3" />
+                                <Label fx:id="localidad" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Label fx:id="direccion" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Label text="Provincia" GridPane.rowIndex="5" />
+                                <Label text="Localidad" GridPane.rowIndex="4" />
+                                <Label fx:id="apellido" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label fx:id="nombre" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label text="Apellido" GridPane.rowIndex="2" />
+                                <Label text="Nombre" GridPane.rowIndex="1" />
+                                <Label fx:id="provincia" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="DNI" />
+                        <Label fx:id="dni" text="Label" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
                         <Button layoutX="267.0" layoutY="261.0" mnemonicParsing="false" onAction="#botonVerReserva" text="Ver Reserva" />

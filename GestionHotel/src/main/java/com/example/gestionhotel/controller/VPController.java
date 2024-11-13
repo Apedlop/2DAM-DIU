@@ -45,8 +45,13 @@ public class VPController {
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
 
     // Método para recibir el modelo y configurar los datos
-    public void setHotelModelo(HotelModelo hotelModelo) throws Exception {
+    public void setHotelModelo(HotelModelo hotelModelo) throws ExeptionHotel {
         this.hotelModelo = hotelModelo;
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
+        tablaClientes.setItems(main.getClienteData());
     }
 
     // Método para mostrar los datos de un Cliente

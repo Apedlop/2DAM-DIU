@@ -14,7 +14,7 @@ public class RootLayoutController {
 
     // Se ejecuta cuando se pulsa el botón "Ver estadísticas"
     @FXML
-    private void handleShowBirthdayStatistics() {
+    private void botonVerEstadisticas() {
         main.verEstadisticas();
     }
 

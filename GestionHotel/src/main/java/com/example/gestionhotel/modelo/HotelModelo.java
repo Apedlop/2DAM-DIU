@@ -56,4 +56,11 @@ public class HotelModelo {
         return clienteRepository.buscarPorDNI(dni);
     }
 
+    public String obtenerIdCliente() throws ExeptionHotel {
+        if (clienteRepository == null) {
+            throw new ExeptionHotel("Error: clienteRepository no está inicializado.");
+        }
+        return clienteRepository.dniCliente();
+    }
+
 }

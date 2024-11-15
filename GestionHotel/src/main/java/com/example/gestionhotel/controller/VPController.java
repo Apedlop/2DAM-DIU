@@ -10,11 +10,7 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class VPController {
@@ -106,6 +102,81 @@ public class VPController {
     @FXML
     private void botonNuevoCliente() {
         Cliente cliente = new Cliente();
-        boolean okClicked = main.;
+        boolean okClicked = main.pantallaEditar(cliente);
+        if (okClicked) {
+            try {
+                clienteAClienteVO(cliente);
+                main.getClienteData().add(cliente);
+            } catch (ExeptionHotel e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Error al añadir la persona");
+                alert.setTitle("Error con la base de datos");
+                alert.setContentText("No se puede conectar con la base de datos para añadir la persona");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    private void botonEditarCliente() {
+        Cliente clienteSelecc = tablaClientes.getSelectionModel().getSelectedItem();
+        if (clienteSelecc != null) {
+            boolean okClicked = main.pantallaEditar(clienteSelecc);
+            if (okClicked) {
+                try {
+                    editarClienteAClienteVO(clienteSelecc);
+                    mostrarDatosCliente(clienteSelecc);
+                } catch (ExeptionHotel e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Error al editar al cliente");
+                    alert.setTitle("Error con la base de datos");
+                    alert.setContentText("No se puede conectar con la base de datos para editar la persona");
+                    alert.showAndWait();
+                }
+            }
+
+        } else {
+            // Nada seleccionado
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Nada seleccionado");
+            alerta.setHeaderText("No se ha seleccionado ningún cliente");
+            alerta.setContentText("Porfavor, seleccione a un cliente.");
+            alerta.showAndWait();
+        }
+    }
+
+    @FXML
+    private void botonEliminarCliente() {
+        int selectIndex = tablaClientes.getSelectionModel().getSelectedIndex();
+        if (selectIndex >= 0) {
+            clienteUtil = new ClienteUtil();
+            try {
+                hotelModelo.eliminarCliente(clienteUtil.convertirClienteVO(tablaClientes.getItems().get(selectIndex)));
+            } catch (ExeptionHotel e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Error al eliminar al cliente");
+                alert.setTitle("Error con la base de datos");
+                alert.setContentText("No se puede conectar con la base de datos para eliminar la persona");
+                alert.showAndWait();
+            }
+            tablaClientes.getItems().remove(selectIndex);
+        } else {
+            // Nada seleccionado
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("No Selection");
+            alerta.setHeaderText("No Person Selected");
+            alerta.setContentText("Please select a person in the table.");
+            alerta.showAndWait();
+        }
+    }
+
+    @FXML
+    private void busquedaID() {
+
+    }
+
+    @FXML
+    private void botonVerReserva() {
+
     }
 }

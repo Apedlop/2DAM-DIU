@@ -23,6 +23,9 @@ public interface ClienteRepository {
     // Método para buscar un Cliente por DNI
     ClienteVO buscarPorDNI(String dni) throws ExeptionHotel;
 
+    // Método para conseguir el DNI de un Cliente
+    String dniCliente();
+
     // Método para ver las Reservas del Cliente
 
 

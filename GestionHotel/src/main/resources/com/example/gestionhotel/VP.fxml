@@ -85,7 +85,7 @@
                                 <Label text="Apellido" GridPane.rowIndex="2" />
                                 <Label text="Nombre" GridPane.rowIndex="1" />
                                 <Label fx:id="provincia" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label text="DNI" />
+                                <Label text="DNI" />
                         <Label fx:id="dni" text="Label" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>

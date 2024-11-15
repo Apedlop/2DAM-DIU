@@ -32,13 +32,15 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         while (rs.next()) {
             String dni = rs.getString("dni");
             String nombre = rs.getString("nombre");
-            String apellido = rs.getString("apellido");
+            String apellido = rs.getString("apellidos");
             String direccion = rs.getString("direccion");
             String localidad = rs.getString("localidad");
             String provincia = rs.getString("provincia");
             this.cliente = new ClienteVO(dni, nombre, apellido, direccion, localidad, provincia);
             this.cliente.setDni(dni);
+            System.out.println(this.cliente);
             this.clientes.add(this.cliente);
+            System.out.println(provincia);
         }
         this.conexion.desconectarBD(conn);
         return this.clientes;
@@ -49,10 +51,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         try {
             Connection conn = this.conexion.conectarBD();
             this.statement = conn.createStatement();
-            this.sentencia = "INSERT INTO clientes (dni, nombre, apellido, direccion, localidad, provincia) VALUES ('" + clienteVO.getDni() + "','" + clienteVO.getNombre() + "','" + clienteVO.getApellido() + "','" + clienteVO.getDireccion() + "','" + clienteVO.getLocalidad() + "','" + clienteVO.getProvincia() + "')";
+            this.sentencia = "INSERT INTO clientes (dni, nombre, apellidos, direccion, localidad, provincia) VALUES ('" + clienteVO.getDni() + "','" + clienteVO.getNombre() + "','" + clienteVO.getApellido() + "','" + clienteVO.getDireccion() + "','" + clienteVO.getLocalidad() + "','" + clienteVO.getProvincia() + "')";
             this.statement.executeUpdate(this.sentencia);
             this.statement.close();
             this.conexion.desconectarBD(conn);
+            System.out.println("echo");
         } catch (SQLException e) {
             throw new ExeptionHotel("Error al insertar el cliente");
         }
@@ -109,6 +112,28 @@ public class ClienteRepositoryImpl implements ClienteRepository {
             throw new ExeptionHotel("Error al buscar el cliente por DNI");
         }
         return cliente;
+    }
+
+    @Override
+    public String dniCliente() {
+        String dni = "";
+
+        String sql = "SELECT dni FROM cliente ORDER BY dni DESC LIMIT 1";
+        try (Connection conn = this.conexion.conectarBD();
+             Statement comando = conn.createStatement();
+             ResultSet registro = comando.executeQuery(sql)) {
+
+            if (registro.next()) {
+                dni = registro.getString("dni");
+            } else {
+                throw new ExeptionHotel("No se encontró ningún cliente en la base de datos.");
+            }
+
+        } catch (SQLException e) {
+            throw new ExeptionHotel("Error al buscar el último DNI del cliente: " + e.getMessage());
+        }
+
+        return dni;
     }
 
 }

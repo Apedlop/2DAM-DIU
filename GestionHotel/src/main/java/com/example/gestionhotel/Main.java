@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -71,7 +72,7 @@ public class Main extends Application {
       try {
           FXMLLoader loader = new FXMLLoader();
           loader.setLocation(Main.class.getResource("/com/example/gestionhotel/RootLayout.fxml"));
-          rootLayout = loader.load();
+          rootLayout = (BorderPane) loader.load();
           Scene scene = new Scene(rootLayout);
           primaryStage.setScene(scene);
           primaryStage.setTitle("Gestion Hotel");
@@ -79,7 +80,7 @@ public class Main extends Application {
           RootLayoutController controller = loader.getController();
           controller.setMain(this);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -88,7 +89,7 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/com/example/gestionhotel/VP.fxml"));
-            AnchorPane pane = loader.load();
+            AnchorPane pane = (AnchorPane) loader.load();
             rootLayout.setCenter(pane);
             VPController controller = loader.getController();
             controller.setHotelModelo(hotelModelo);
@@ -102,19 +103,29 @@ public class Main extends Application {
 
     // Método para mostrar editarCliente o añadirCliente
     public boolean pantallaEditar(Cliente cliente) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EditarCliente.fxml"));
-        AnchorPane pane = loader.load();
-        Stage stage = new Stage();
-        stage.setTitle("Editar Cliente");
-        stage.initModality(Modality.NONE);
-        stage.initOwner(primaryStage);
-        Scene scene = new Scene(pane);
-        stage.setScene(scene);
-        EditarClienteController controller = loader.getController();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EditarCliente.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
 
+            Stage stage = new Stage();
+            stage.setTitle("Editar Cliente");
+            stage.initModality(Modality.NONE);
+            stage.initOwner(primaryStage);
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            EditarClienteController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setHotelModelo(hotelModelo);
+            controller.setCliente(cliente);
+            stage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-
 
     // Método para mostrar las estadísticas de las reservas de los Clientes
     public void verEstadisticas() {
@@ -136,8 +147,12 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
-
+    public void start(Stage stage) {
+        this.primaryStage = stage;
+        this.primaryStage.setTitle("Gestión Hotel");
+        this.primaryStage.getIcons().add(new Image("file:resources/image/iconoHotel.png"));
+        initRootLayout();
+        pantallaPrincipal();
     }
 
     // Método auxiliar para mostrar alertas de error

@@ -50,7 +50,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField minHeight="23.0" onAction="#busquedaID" prefHeight="0.0" prefWidth="157.0" />
+                        <TextField fx:id="buscarDni" minHeight="23.0" onAction="#busquedaDni" prefHeight="0.0" prefWidth="157.0" />
                      </children>
                   </HBox>
                     </children>

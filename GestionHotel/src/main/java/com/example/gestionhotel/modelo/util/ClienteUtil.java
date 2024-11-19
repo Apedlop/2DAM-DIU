@@ -15,7 +15,7 @@ public class ClienteUtil {
         cliente.setApellido(clienteVO.getApellido());
         cliente.setDireccion(clienteVO.getDireccion());
         cliente.setLocalidad(clienteVO.getLocalidad());
-        cliente.setLocalidad(clienteVO.getLocalidad());
+        cliente.setProvincia(clienteVO.getProvincia());
         return cliente;
     }
 
@@ -38,7 +38,7 @@ public class ClienteUtil {
         clienteVO.setApellido(cliente.getApellido());
         clienteVO.setDireccion(cliente.getDireccion());
         clienteVO.setLocalidad(cliente.getLocalidad());
-        clienteVO.setLocalidad(cliente.getLocalidad());
+        clienteVO.setProvincia(cliente.getProvincia());
         return clienteVO;
     }
 

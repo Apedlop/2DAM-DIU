@@ -1,12 +1,10 @@
 package com.example.gestionhotel.modelo.repository.impl;
 
-import com.almasb.fxgl.scene3d.Cone;
 import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.repository.ClienteRepository;
 import com.example.gestionhotel.modelo.tablas.ClienteVO;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ClienteRepositoryImpl implements ClienteRepository {
@@ -38,9 +36,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
             String provincia = rs.getString("provincia");
             this.cliente = new ClienteVO(dni, nombre, apellido, direccion, localidad, provincia);
             this.cliente.setDni(dni);
-            System.out.println(this.cliente);
             this.clientes.add(this.cliente);
-            System.out.println(provincia);
         }
         this.conexion.desconectarBD(conn);
         return this.clientes;
@@ -78,13 +74,30 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     public void editCliente(ClienteVO clienteVO) throws ExeptionHotel {
         try {
+            // Conectar a la base de datos
             Connection conn = this.conexion.conectarBD();
-            this.statement = conn.createStatement();
-            String sql = String.format("UPDATE clientes SET nombre = '%s', apellido = '%s', direccion = '%s', localidad = '%s', provincia = '%s' WHERE dni = %d", clienteVO.getDni() + "','" + clienteVO.getNombre() + "','" + clienteVO.getApellido() + "','" + clienteVO.getDireccion() + "','" + clienteVO.getLocalidad() + "','" + clienteVO.getProvincia());
-            this.statement.executeUpdate(sql);
-            this.statement.close();
+
+            // Crear un PreparedStatement para la consulta parametrizada
+            String sql = "UPDATE clientes SET nombre = ?, apellidos = ?, direccion = ?, localidad = ?, provincia = ? WHERE dni = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            // Asignar valores a los parámetros
+            stmt.setString(1, clienteVO.getNombre());
+            stmt.setString(2, clienteVO.getApellido());
+            stmt.setString(3, clienteVO.getDireccion());
+            stmt.setString(4, clienteVO.getLocalidad());
+            stmt.setString(5, clienteVO.getProvincia());
+            stmt.setString(6, clienteVO.getDni());
+
+            // Ejecutar la consulta
+            stmt.executeUpdate();
+
+            // Cerrar los recursos
+            stmt.close();
+            conn.close();
         } catch (SQLException e) {
-            throw new ExeptionHotel("Error al editar el cliente");
+            // Propagar la excepción personalizada con el mensaje
+            throw new ExeptionHotel("Error al editar el cliente: " + e.getMessage());
         }
     }
 
@@ -113,6 +126,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         }
         return cliente;
     }
+
 
     @Override
     public String dniCliente() {

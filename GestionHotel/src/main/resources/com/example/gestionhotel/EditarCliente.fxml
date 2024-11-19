@@ -26,7 +26,7 @@
                 <Label text="Provincia" GridPane.rowIndex="5" />
                 <Label text="Localidad" GridPane.rowIndex="4" />
                 <Label text="Direccion" GridPane.rowIndex="3" />
-                <Label text="Apellido" GridPane.rowIndex="2" />
+                <Label text="Apellidos" GridPane.rowIndex="2" />
                 <Label text="Nombre" GridPane.rowIndex="1" />
                 <Label text="DNI" />
                 <TextField fx:id="ponerDni" GridPane.columnIndex="1" />

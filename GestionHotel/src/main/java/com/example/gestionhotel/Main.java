@@ -33,11 +33,17 @@ public class Main extends Application {
     private HotelModelo hotelModelo;
     private ClienteUtil clienteUtil;
     private ClienteRepositoryImpl clienteRepository;
+    VPController controllerVP;
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
 
-    // Constructor donde ejecutamos el metodo addlist para que agrege la lista de clientes de la BD
-    public Main() {
-        clienteData.addAll(addList());
+    @Override
+    public void start(Stage stage) throws SQLException {
+        this.primaryStage = stage;
+        this.primaryStage.setTitle("Gestión Hotel");
+        this.primaryStage.getIcons().add(new Image("file:resources/image/iconoHotel.png"));
+        clienteData.addAll(addList()); // Añadimos el ArrayList a un ObservableList para convertirlo
+        initRootLayout();
+        pantallaPrincipal();
     }
 
     // Método que devuelve una lista de Cliente
@@ -45,26 +51,9 @@ public class Main extends Application {
         return clienteData;
     }
 
-    public ArrayList<Cliente> addList() {
-        clienteUtil = new ClienteUtil();
-        clienteRepository = new ClienteRepositoryImpl();
-        hotelModelo = new HotelModelo();
-        hotelModelo.setClienteRepository(clienteRepository);
-
-        ArrayList<Cliente> listaCliente = new ArrayList<>();
-        ArrayList<ClienteVO> listaClienteVO = new ArrayList<>();
-
-        try {
-            listaClienteVO = hotelModelo.listarClientes();
-        } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Error al listar las personas.");
-            alert.setTitle("Error con la base de datos");
-            alert.setContentText("No se puede conectar con la base de datos");
-            alert.showAndWait();
-            return listaCliente;
-        }
-        return clienteUtil.listaClientes(listaClienteVO);
+    public ArrayList<Cliente> addList() throws ExeptionHotel, SQLException {
+        controllerVP = new VPController();
+        return controllerVP.tablaClientes();
     }
 
     // Método para mostrar el RootLayout
@@ -144,15 +133,6 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void start(Stage stage) {
-        this.primaryStage = stage;
-        this.primaryStage.setTitle("Gestión Hotel");
-        this.primaryStage.getIcons().add(new Image("file:resources/image/iconoHotel.png"));
-        initRootLayout();
-        pantallaPrincipal();
     }
 
     // Método auxiliar para mostrar alertas de error

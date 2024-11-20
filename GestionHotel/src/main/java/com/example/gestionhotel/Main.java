@@ -86,12 +86,12 @@ public class Main extends Application {
             controller.setMain(this);
 
             clienteData.addAll(controller.tablaClientes()); // Añadimos el ArrayList a un ObservableList para convertirlo
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (ExeptionHotel e) {
             mostrarAlertaError("Error al cargar la pantalla principal", e.getMensaje());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            mostrarAlertaError("Error al añadir a la lista", e.getMessage());
+        } catch (IOException e) {
+         mostrarAlertaError("Ha ocurrido un erorr", e.getMessage());
         }
     }
 

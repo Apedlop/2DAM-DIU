@@ -25,7 +25,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         Connection conn = this.conexion.conectarBD();
         this.clientes = new ArrayList<>();
         this.statement = conn.createStatement();
-        this.sentencia = "SELECT * FROM clientes";
+        this.sentencia = "SELECT * FROM clientes ORDER BY apellidos ASC";
         ResultSet rs = this.statement.executeQuery(this.sentencia);
         while (rs.next()) {
             String dni = rs.getString("dni");
@@ -104,7 +104,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     public ClienteVO buscarPorDNI(String dni) throws ExeptionHotel {
         ClienteVO cliente = null;
-        String sentencia = "SELECT * FROM cliente WHERE dni = ?";
+        String sentencia = "SELECT * FROM clientes WHERE dni = ?";
         try {
             Connection conn = this.conexion.conectarBD();
             PreparedStatement pstmt = conn.prepareStatement(sentencia);
@@ -114,7 +114,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
                 cliente = new ClienteVO(
                         rs.getString("dni"),
                         rs.getString("nombre"),
-                        rs.getString("apellido"),
+                        rs.getString("apellidos"),
                         rs.getString("direccion"),
                         rs.getString("localidad"),
                         rs.getString("provincia")

@@ -6,6 +6,7 @@ import com.example.gestionhotel.controller.RootLayoutController;
 import com.example.gestionhotel.controller.VPController;
 import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.HotelModelo;
+import com.example.gestionhotel.modelo.repository.ClienteRepository;
 import com.example.gestionhotel.modelo.repository.impl.ClienteRepositoryImpl;
 import com.example.gestionhotel.modelo.tablas.Cliente;
 import com.example.gestionhotel.modelo.tablas.ClienteVO;
@@ -32,7 +33,7 @@ public class Main extends Application {
     private BorderPane rootLayout;
     private HotelModelo hotelModelo;
     private ClienteUtil clienteUtil;
-    private ClienteRepositoryImpl clienteRepository;
+    private ClienteRepository clienteRepository;
     VPController controllerVP;
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
 
@@ -41,7 +42,6 @@ public class Main extends Application {
         this.primaryStage = stage;
         this.primaryStage.setTitle("Gestión Hotel");
         this.primaryStage.getIcons().add(new Image("file:resources/image/iconoHotel.png"));
-        clienteData.addAll(addList()); // Añadimos el ArrayList a un ObservableList para convertirlo
         initRootLayout();
         pantallaPrincipal();
     }
@@ -49,11 +49,6 @@ public class Main extends Application {
     // Método que devuelve una lista de Cliente
     public ObservableList<Cliente> getClienteData() {
         return clienteData;
-    }
-
-    public ArrayList<Cliente> addList() throws ExeptionHotel, SQLException {
-        controllerVP = new VPController();
-        return controllerVP.tablaClientes();
     }
 
     // Método para mostrar el RootLayout
@@ -80,13 +75,23 @@ public class Main extends Application {
             loader.setLocation(Main.class.getResource("/com/example/gestionhotel/VP.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
             rootLayout.setCenter(pane);
+
             VPController controller = loader.getController();
+            hotelModelo = new HotelModelo();
+            clienteRepository = new ClienteRepositoryImpl();
+
+            hotelModelo.setClienteRepository(clienteRepository);
+            
             controller.setHotelModelo(hotelModelo);
             controller.setMain(this);
+
+            clienteData.addAll(controller.tablaClientes()); // Añadimos el ArrayList a un ObservableList para convertirlo
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ExeptionHotel e) {
             mostrarAlertaError("Error al cargar la pantalla principal", e.getMensaje());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

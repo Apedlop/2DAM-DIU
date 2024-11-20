@@ -41,7 +41,7 @@ public class VPController {
 
     private Main main;
     private HotelModelo hotelModelo;
-    private ClienteUtil clienteUtil;
+    private ClienteUtil clienteUtil = new ClienteUtil();
     private ArrayList<Cliente> clientes;
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
 
@@ -87,24 +87,7 @@ public class VPController {
     }
 
     public ArrayList<Cliente> tablaClientes() throws ExeptionHotel, SQLException {
-        hotelModelo = new HotelModelo();
         return hotelModelo.obtenerListaClientes();
-    }
-
-    // Método para cambiar Cliente a ClienteVO a través del Util y crearla en la BS
-    public void clienteAClienteVO(Cliente cliente) throws ExeptionHotel {
-        clienteUtil = new ClienteUtil();
-        hotelModelo = new HotelModelo();
-        ClienteVO clienteVO = clienteUtil.convertirClienteVO(cliente);
-        hotelModelo.añadirCliente(clienteVO);
-    }
-
-    // Método para editar el cliente de Cliente a ClienteVO
-    public void editarClienteAClienteVO(Cliente cliente) throws ExeptionHotel {
-        hotelModelo = new HotelModelo();
-        clienteUtil = new ClienteUtil();
-        ClienteVO clienteVO = clienteUtil.convertirClienteVO(cliente);
-        hotelModelo.editarCliente(clienteVO);
     }
 
     // Método para cargar y ordenar los clientes en la interfaz
@@ -136,13 +119,14 @@ public class VPController {
         alert.showAndWait();
     }
 
-    private void mostrarInformacionCliente(ClienteVO cliente) {
+    private void mostrarInformacionCliente(Cliente cliente) {
         if (cliente == null) {
             mostrarAlerta("Cliente no encontrado", "No se encontró un cliente con el DNI proporcionado.");
             return;
         }
 
         // Supongamos que tienes estos elementos en tu interfaz
+        dni.setText(cliente.getDni());
         nombre.setText(cliente.getNombre());
         apellido.setText(cliente.getApellido());
         direccion.setText(cliente.getDireccion());
@@ -160,7 +144,7 @@ public class VPController {
         boolean okClicked = main.pantallaEditar(cliente);
         if (okClicked) {
             try {
-                clienteAClienteVO(cliente);
+                hotelModelo.anadirCliente(cliente);
                 main.getClienteData().add(cliente);
                 cargarDatosClientes();
             } catch (ExeptionHotel | SQLException e) {
@@ -180,7 +164,7 @@ public class VPController {
             boolean okClicked = main.pantallaEditar(clienteSelecc);
             if (okClicked) {
                 try {
-                    editarClienteAClienteVO(clienteSelecc);
+                    hotelModelo.editarCliente(clienteSelecc);
                     mostrarDatosCliente(clienteSelecc);
                     cargarDatosClientes();
                 } catch (ExeptionHotel | SQLException e) {
@@ -206,9 +190,8 @@ public class VPController {
     private void botonEliminarCliente() {
         int selectIndex = tablaClientes.getSelectionModel().getSelectedIndex();
         if (selectIndex >= 0) {
-            clienteUtil = new ClienteUtil();
             try {
-                hotelModelo.eliminarCliente(clienteUtil.convertirClienteVO(tablaClientes.getItems().get(selectIndex)));
+                hotelModelo.eliminarCliente(tablaClientes.getItems().get(selectIndex));
                 cargarDatosClientes();
             } catch (ExeptionHotel | SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -232,24 +215,17 @@ public class VPController {
     private void busquedaDni() {
         try {
             String dniBuscado = buscarDni.getText().trim();
-            System.out.println("DNI buscado: " + dniBuscado);
-
             if (dniBuscado.isEmpty()) {
                 mostrarAlerta("Búsqueda vacía", "Por favor, ingresa un DNI para buscar.");
                 return;
             }
-            hotelModelo = new HotelModelo(); // Verifica si esto es necesario cada vez
-            ClienteVO cliente = hotelModelo.buscarDNI(dniBuscado);
+            Cliente cliente = hotelModelo.buscarDNI(dniBuscado);
             mostrarInformacionCliente(cliente);
         } catch (ExeptionHotel e) {
             System.out.println("Excepción capturada: " + e.getMessage());
             mostrarAlerta("Error", e.getMessage());
         }
     }
-
-
-
-
 
     @FXML
     private void botonVerReserva() {

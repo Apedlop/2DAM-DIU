@@ -62,6 +62,10 @@ public class EditarClienteController {
     private boolean isValido() {
         String mensajeError = "";
 
+        String dniTexto = ponerDni.getText().trim();
+        if (dniTexto == null || dniTexto.length() == 0 || !dniTexto.matches("\\d{8}[A-Za-z]")) {
+            mensajeError += "DNI no válido. Debe tener 8 dígitos seguidos de una letra.\n";
+        }
         if (ponerDni.getText() == null || ponerDni.getText().length() == 0) {
             mensajeError += "DNI no válido\n";
         }

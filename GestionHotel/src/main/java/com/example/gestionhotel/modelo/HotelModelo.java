@@ -22,7 +22,7 @@ public class HotelModelo {
 
     private ClienteRepository clienteRepository;
     private ReservaRepository reservaRepository;
-    private static ClienteUtil clienteUtil = new ClienteUtil();
+    private ClienteUtil clienteUtil = new ClienteUtil();
     private ReservaUtil reservaUtil = new ReservaUtil();
 
     // Constructo por defecto vacío

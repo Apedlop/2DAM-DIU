@@ -51,7 +51,6 @@ public class ClienteRepositoryImpl implements ClienteRepository {
             this.statement.executeUpdate(this.sentencia);
             this.statement.close();
             this.conexion.desconectarBD(conn);
-            System.out.println("echo");
         } catch (SQLException e) {
             throw new ExeptionHotel("Error al insertar el cliente");
         }

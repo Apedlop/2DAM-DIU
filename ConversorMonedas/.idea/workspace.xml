@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="091edcd4-9b3e-4027-b9c9-030c8842ecf5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/AccesoBBDDMoneda6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/AccesoBBDDMoneda7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Agenda_v2/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Agenda_v2/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Agenda_v2/src/main/java/com/example/agenda_v2/modelo/repository/impl/PersonRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Agenda_v2/src/main/java/com/example/agenda_v2/modelo/repository/impl/PersonRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/agendav2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/agendav2/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/agendav2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/agendav2/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/agendav2/modelo/ConversorModelo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/agendav2/modelo/ConversorModelo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/conversorMonedas/ConversorView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/conversorMonedas/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/conversorMonedas/controller/ConversorController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/conversorMonedas/modelo/ConversorModelo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Pruebas/Ejemplo_Ex1Ev1/src/main/java/com/example/ejemplo_ex1ev1/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Pruebas/Ejemplo_Ex1Ev1/src/main/java/com/example/ejemplo_ex1ev1/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Pruebas/Ejemplo_Ex1Ev1/src/main/java/com/example/ejemplo_ex1ev1/controller/CatalogoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Pruebas/Ejemplo_Ex1Ev1/src/main/java/com/example/ejemplo_ex1ev1/controller/CatalogoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Pruebas/Ejemplo_Ex1Ev1/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Pruebas/Ejemplo_Ex1Ev1/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,17 +53,20 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/usuario/Documentos/2DAM-DIU/ConversorMonedas&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/usuario/Documentos/2DAM-DIU/GestionHotel&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.15127702&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -56,8 +74,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
@@ -73,6 +91,8 @@
       <workItem from="1731064691913" duration="405000" />
       <workItem from="1731072079881" duration="616000" />
       <workItem from="1731313292564" duration="71000" />
+      <workItem from="1732273125533" duration="9067000" />
+      <workItem from="1732528035345" duration="883000" />
     </task>
     <servers />
   </component>

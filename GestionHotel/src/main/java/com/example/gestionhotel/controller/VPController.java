@@ -125,7 +125,6 @@ public class VPController {
             return;
         }
 
-        // Supongamos que tienes estos elementos en tu interfaz
         dni.setText(cliente.getDni());
         nombre.setText(cliente.getNombre());
         apellido.setText(cliente.getApellido());

@@ -32,6 +32,7 @@ public class Main extends Application {
         conversorModelo.setMonedaRepository(monedaRepository);
         controlador.setConversorModelo(conversorModelo);
         controlador.getMultiplicador();
+        System.out.println(controlador.getMultiplicador());
 
 
 //        controlador.getMultiplicador(mult);

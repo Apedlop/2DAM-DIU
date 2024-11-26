@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" stylesheets="@BlueTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.examen_ex1ev1.controller.VPController">
+    <children>
+        <SplitPane dividerPositions="0.32098765432098764" layoutX="40.0" layoutY="-181.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <TableView fx:id="tablaMonedas" layoutX="-12.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TableColumn fx:id="columnaNombreMoneda" prefWidth="75.0" text="Nombre de Moneda" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <Label layoutX="81.0" layoutY="14.0" styleClass="label-header" text="Lista de Monedas" AnchorPane.leftAnchor="81.0" AnchorPane.topAnchor="14.0">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                        <HBox layoutX="73.0" layoutY="260.0" spacing="5.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="228.0" />
+                        <TextField fx:id="euros" layoutX="44.0" layoutY="143.0" onAction="#convertirEuros" prefHeight="30.0" prefWidth="100.0" />
+                        <Label layoutX="77.0" layoutY="110.0" text="Euros" />
+                        <TextField fx:id="moneda" layoutX="187.0" layoutY="143.0" onAction="#convertirMoneda" prefHeight="30.0" prefWidth="100.0" />
+                        <Label fx:id="monedaSeleccionada" layoutX="197.0" layoutY="110.0" text="Seleccionado" />
+                        <Button layoutX="109.0" layoutY="197.0" mnemonicParsing="false" onAction="#botonConversor" text="Conversor" />
+                        <Button layoutX="226.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonEliminar" text="Eliminar" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>

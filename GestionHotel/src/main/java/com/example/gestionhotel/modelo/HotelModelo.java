@@ -4,9 +4,8 @@ import com.example.gestionhotel.modelo.repository.ClienteRepository;
 import com.example.gestionhotel.modelo.repository.ReservaRepository;
 import com.example.gestionhotel.modelo.repository.impl.ClienteRepositoryImpl;
 import com.example.gestionhotel.modelo.repository.impl.ReservaRepositoryImpl;
+import com.example.gestionhotel.modelo.tablas.*;
 import com.example.gestionhotel.modelo.tablas.Cliente;
-import com.example.gestionhotel.modelo.tablas.Cliente;
-import com.example.gestionhotel.modelo.tablas.ClienteVO;
 import com.example.gestionhotel.modelo.util.ClienteUtil;
 import com.example.gestionhotel.modelo.util.ReservaUtil;
 import javafx.collections.FXCollections;
@@ -91,6 +90,55 @@ public class HotelModelo {
             throw new ExeptionHotel("Error: clienteRepository no está inicializado.");
         }
         return clienteRepository.dniCliente();
+    }
+
+    /*
+    * RESERVAS
+    */
+
+    public ArrayList<Reserva> obtenerListaReservas() throws ExeptionHotel, SQLException {
+        try {
+            // Obtener la lista de ReservaVO desde el repositorio
+            ArrayList<ReservaVO> listaReservaVO = reservaRepository.obtenerListaReservas();
+
+            // Convertimos la lista de ReservaVO a Reserva usando ReservaUtil
+            ArrayList<Reserva> listaReservas = reservaUtil.listaReservas(listaReservaVO);
+
+            // Retornamos la lista de Reserva
+            return listaReservas;
+        } catch (SQLException e) {
+            // Manejo de error
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error al listar las reservas.");
+            alert.setTitle("Error con la base de datos");
+            alert.setContentText("No se puede conectar con la base de datos");
+            alert.showAndWait();
+            throw new SQLException("No se pudo obtener la lista de reservas", e);
+        }
+    }
+
+    // Método para añadir Clientes en la BD
+    public void anadirReserva(Reserva reserva) throws ExeptionHotel {
+        ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
+        reservaRepository.addReserva(reservaVO);
+    }
+
+    // Método para editar personas de la BD
+    public void editarReserva(Reserva reserva) throws ExeptionHotel {
+        ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
+        reservaRepository.editReserva(reservaVO);
+    }
+
+    // Método para eliminar Cliente de la BD
+    public void eliminarReserva(Reserva reserva) throws ExeptionHotel {
+        ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
+        reservaRepository.deleteReserva(reservaVO);
+    }
+
+    // Método para buscar un cliente por DNI
+    public Reserva buscarReserva(String dni) throws ExeptionHotel {
+        ReservaVO reservaVO = reservaRepository.buscarReserva(dni);
+        return reservaUtil.convertirReserva(reservaVO);
     }
 
 }

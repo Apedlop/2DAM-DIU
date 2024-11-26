@@ -14,4 +14,9 @@ module com.example.ejemplo_ex1ev1 {
 
     opens com.example.ejemplo_ex1ev1 to javafx.fxml;
     exports com.example.ejemplo_ex1ev1;
+    opens com.example.ejemplo_ex1ev1.controller to javafx.fxml;  // Permite acceso al paquete controller
+    exports com.example.ejemplo_ex1ev1.controller;
+    exports com.example.ejemplo_ex1ev1.modelo.repository;
+    exports com.example.ejemplo_ex1ev1.modelo.repository.impl;
+    opens com.example.ejemplo_ex1ev1.modelo to javafx.fxml;
 }

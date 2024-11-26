@@ -16,7 +16,7 @@
             <items>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                     <children>
-                        <TableView fx:id="personTable" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="tablaReservas" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="columnaCodigo" prefWidth="143.0" text="Codigo" />
                                 <TableColumn fx:id="columnaFechaEntrada" prefWidth="151.0" text="Fecha Entrada" />
@@ -27,9 +27,9 @@
                         </TableView>
                     </children>
                 </AnchorPane>
-                <AnchorPane prefHeight="323.0" prefWidth="397.0" styleClass="background" stylesheets="@styles/DarkTheme.css">
+                <AnchorPane prefHeight="323.0" prefWidth="397.0" styleClass="background">
                     <children>
-                        <Label layoutX="82.0" layoutY="14.0" styleClass="label-header" stylesheets="@styles/DarkTheme.css" text="Detalles Reserva" AnchorPane.leftAnchor="82.0" AnchorPane.topAnchor="14.0">
+                        <Label layoutX="82.0" layoutY="14.0" styleClass="label-header" text="Detalles Reserva" AnchorPane.leftAnchor="82.0" AnchorPane.topAnchor="14.0">
                             <font>
                                 <Font name="System Bold" size="25.0" />
                             </font></Label>
@@ -40,12 +40,12 @@
                                         <Insets right="5.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button layoutX="222.0" layoutY="255.0" mnemonicParsing="false" onAction="#BotonEditarReserva" prefHeight="29.0" prefWidth="63.0" text="Editar">
+                                <Button layoutX="222.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonEditarReserva" prefHeight="29.0" prefWidth="63.0" text="Editar">
                                     <HBox.margin>
                                         <Insets right="5.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button layoutX="289.0" layoutY="255.0" mnemonicParsing="false" onAction="#BotonEliminarReserva" text="Eliminar" />
+                                <Button layoutX="289.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonEliminarReserva" text="Eliminar" />
                             </children>
                         </HBox>
                   <DatePicker fx:id="fechaLlegada" layoutX="23.0" layoutY="77.0" onAction="#seleccionarLlegada" prefHeight="29.0" prefWidth="136.0" />
@@ -78,7 +78,7 @@
                         </RadioButton>
                      </children>
                   </VBox>
-                  <SplitMenuButton layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="0">
+                  <SplitMenuButton fx:id="numHabitaciones" layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="0">
                     <items>
                       <MenuItem mnemonicParsing="false" text="1" />
                     </items>

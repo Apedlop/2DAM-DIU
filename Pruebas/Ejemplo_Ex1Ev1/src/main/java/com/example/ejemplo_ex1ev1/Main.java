@@ -28,7 +28,6 @@ import java.sql.SQLException;
 public class Main extends Application {
 
     private Stage primaryStage;
-    private BorderPane rootLayout;
     private CatalogoModelo catalogoModelo;
     private CatalogoUtil catalogoUtil;
     private CatalogoRepository catalogoRepository;
@@ -38,8 +37,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws SQLException {
         this.primaryStage = stage;
-        this.primaryStage.setTitle("Gestión Hotel");
-        this.primaryStage.getIcons().add(new Image("file:resources/image/iconoHotel.png"));
+        this.primaryStage.setTitle("Catálogo de Artículos");
+
+
         pantallaPrincipal();
     }
 
@@ -54,7 +54,10 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/com/example/ejemplo_ex1ev1/Catalogo.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
-            rootLayout.setCenter(pane);
+
+            Scene scene = new Scene(pane);
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
             CatalogoController catalogoController = loader.getController();
             catalogoModelo = new CatalogoModelo();
@@ -68,11 +71,14 @@ public class Main extends Application {
             articuloData.addAll(catalogoController.tablaArticulos());
 
         } catch (ExceptionCatalogo e) {
-            mostrarAlertaError("Error al cargar la pantalla principal", e.getMensaje());
+//            mostrarAlertaError("Error al cargar la pantalla principal", e.getMensaje());
+            e.printStackTrace();
         } catch (SQLException e) {
-            mostrarAlertaError("Error al añadir a la lista", e.getMessage());
+//            mostrarAlertaError("Error al añadir a la lista", e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
-            mostrarAlertaError("Ha ocurrido un erorr", e.getMessage());
+//            mostrarAlertaError("Ha ocurrido un erorr", e.getMessage());
+            e.printStackTrace();
         }
    }
 

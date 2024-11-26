@@ -54,8 +54,8 @@ public class CatalogoController {
     }
 
     public void setMain(Main main) {
-        articuloTable.setItems(main.getArticuloData());
         this.main = main;
+        articuloTable.setItems(main.getArticuloData());
     }
 
     @FXML

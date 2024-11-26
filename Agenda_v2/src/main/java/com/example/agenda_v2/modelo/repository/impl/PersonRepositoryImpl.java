@@ -24,7 +24,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     public ArrayList<PersonVO> ObtenerListaPersonas() throws ExceptionPersona, SQLException {
 
             Connection conn = this.conexion.conectarBD();
-            this.personas = new ArrayList<>();
+            this.personas = new ArrayList<PersonVO>();
             this.statement = conn.createStatement();
             this.sentencia = "SELECT * FROM persona";
             ResultSet rs = this.statement.executeQuery(this.sentencia);

@@ -1,15 +1,14 @@
 package com.example.gestionhotel;
 
-import com.example.gestionhotel.controller.EditarClienteController;
-import com.example.gestionhotel.controller.EstadisticasReservasController;
-import com.example.gestionhotel.controller.RootLayoutController;
-import com.example.gestionhotel.controller.VPController;
+import com.example.gestionhotel.controller.*;
 import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.HotelModelo;
 import com.example.gestionhotel.modelo.repository.ClienteRepository;
 import com.example.gestionhotel.modelo.repository.impl.ClienteRepositoryImpl;
 import com.example.gestionhotel.modelo.tablas.Cliente;
 import com.example.gestionhotel.modelo.tablas.ClienteVO;
+import com.example.gestionhotel.modelo.tablas.Reserva;
+import com.example.gestionhotel.modelo.tablas.ReservaVO;
 import com.example.gestionhotel.modelo.util.ClienteUtil;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -36,6 +35,7 @@ public class Main extends Application {
     private ClienteRepository clienteRepository;
     VPController controllerVP;
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
+    private ObservableList<Reserva> reservaData = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage stage) throws SQLException {
@@ -49,6 +49,11 @@ public class Main extends Application {
     // Método que devuelve una lista de Cliente
     public ObservableList<Cliente> getClienteData() {
         return clienteData;
+    }
+
+    // Método que devuelve una lista de Reservas
+    public ObservableList<Reserva> getReservaData() {
+        return reservaData;
     }
 
     // Método para mostrar el RootLayout
@@ -135,6 +140,27 @@ public class Main extends Application {
             stage.setScene(scene);
             EstadisticasReservasController controller = loader.getController();
 //            controller.set
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para abrir la ventana de reservas
+    public void abrirVentanaReservas() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/example/gestionhotel/view/VRView.fxml"));
+            AnchorPane reservaView = (AnchorPane) loader.load();
+
+            Scene reservaScene = new Scene(reservaView);
+            Stage reservaStage = new Stage();
+            reservaStage.setTitle("Gestión de Reservas");
+            reservaStage.setScene(reservaScene);
+            reservaStage.show();
+
+            VRController controller = loader.getController();
+            controller.setMain(this); // Pasar la instancia del Main al controlador de la vista de reservas
+
         } catch (IOException e) {
             e.printStackTrace();
         }

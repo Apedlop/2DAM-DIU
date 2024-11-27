@@ -10,11 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VPController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VPController">
     <children>
-        <SplitPane dividerPositions="0.3862876254180602" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <!-- SplitPane para dividir en dos paneles -->
+        <SplitPane dividerPositions="0.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                <!-- Panel de la tabla de clientes -->
+                <AnchorPane>
                     <children>
                         <TableView fx:id="tablaClientes" layoutY="35.0" prefHeight="225.0" prefWidth="227.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
                             <columns>
@@ -25,54 +27,55 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                         </TableView>
-                        <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+
+                        <!-- Botones de acción (Nuevo, Editar, Eliminar) -->
+                        <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" spacing="10" alignment="CENTER_RIGHT">
                             <children>
-                                <Button layoutX="13.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonNuevoCliente" prefHeight="29.0" prefWidth="68.0" text="Nuevo">
-                                    <HBox.margin>
-                                        <Insets right="5.0" />
-                                    </HBox.margin>
-                                </Button>
-                                <Button layoutX="222.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonEditarCliente" prefHeight="29.0" prefWidth="71.0" text="Editar">
-                                    <HBox.margin>
-                                        <Insets right="5.0" />
-                                    </HBox.margin>
-                                </Button>
-                                <Button layoutX="289.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonEliminarCliente" text="Eliminar" />
+                                <Button mnemonicParsing="false" onAction="#botonNuevoCliente" prefHeight="29.0" prefWidth="68.0" text="Nuevo" />
+                                <Button mnemonicParsing="false" onAction="#botonEditarCliente" prefHeight="29.0" prefWidth="71.0" text="Editar" />
+                                <Button mnemonicParsing="false" onAction="#botonEliminarCliente" text="Eliminar" />
                             </children>
                         </HBox>
-                  <HBox prefHeight="29.0" prefWidth="217.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                     <children>
-                        <Label text="ID:">
-                           <HBox.margin>
-                              <Insets left="10.0" right="5.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="buscarDni" minHeight="23.0" onAction="#busquedaDni" prefHeight="0.0" prefWidth="157.0" />
-                     </children>
-                  </HBox>
+
+                        <!-- Barra de búsqueda por DNI -->
+                        <HBox prefHeight="29.0" prefWidth="217.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                            <children>
+                                <Label text="ID:">
+                                    <HBox.margin>
+                                        <Insets left="10.0" right="5.0" />
+                                    </HBox.margin>
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="buscarDni" minHeight="23.0" onAction="#busquedaDni" prefHeight="0.0" prefWidth="157.0" />
+                            </children>
+                        </HBox>
                     </children>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="">
+
+                <!-- Panel de detalles del cliente -->
+                <AnchorPane>
                     <children>
                         <Label layoutX="61.0" layoutY="8.0" styleClass="label-header" text="Detalles Personales" AnchorPane.leftAnchor="61.0" AnchorPane.topAnchor="8.0">
                             <font>
                                 <Font name="System Bold" size="25.0" />
-                            </font></Label>
+                            </font>
+                        </Label>
+
+                        <!-- Grid para detalles -->
                         <GridPane layoutX="9.0" layoutY="59.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="59.0">
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                             </columnConstraints>
                             <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                             </rowConstraints>
                             <children>
                                 <Label text="Direccion" GridPane.rowIndex="3" />
@@ -86,9 +89,11 @@
                                 <Label text="Nombre" GridPane.rowIndex="1" />
                                 <Label fx:id="provincia" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                 <Label text="DNI" />
-                        <Label fx:id="dni" text="Label" GridPane.columnIndex="1" />
+                                <Label fx:id="dni" text="Label" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
+
+                        <!-- Botón para ver reserva -->
                         <Button layoutX="267.0" layoutY="261.0" mnemonicParsing="false" onAction="#botonVerReserva" text="Ver Reserva" />
                     </children>
                 </AnchorPane>

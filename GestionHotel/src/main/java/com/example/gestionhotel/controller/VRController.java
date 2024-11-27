@@ -120,7 +120,7 @@ public class VRController {
     @FXML
     public void botonNuevaReserva() {
         Reserva reserva = new Reserva();
-        boolean okClicked = main.
+        boolean okClicked ;
     }
 
     @FXML

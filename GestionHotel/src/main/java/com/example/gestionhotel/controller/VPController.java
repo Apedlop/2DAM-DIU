@@ -5,6 +5,7 @@ import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.HotelModelo;
 import com.example.gestionhotel.modelo.tablas.Cliente;
 import com.example.gestionhotel.modelo.tablas.ClienteVO;
+import com.example.gestionhotel.modelo.tablas.Reserva;
 import com.example.gestionhotel.modelo.util.ClienteUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -214,13 +215,27 @@ public class VPController {
     private void busquedaDni() {
         try {
             String dniBuscado = buscarDni.getText().trim();
+
+            // Comprobar si el campo de búsqueda está vacío
             if (dniBuscado.isEmpty()) {
                 mostrarAlerta("Búsqueda vacía", "Por favor, ingresa un DNI para buscar.");
                 return;
             }
+
+            // Buscar el cliente por DNI
             Cliente cliente = hotelModelo.buscarDNI(dniBuscado);
+
+            // Comprobar si el cliente no fue encontrado (es null)
+            if (cliente == null) {
+                mostrarAlerta("Cliente no encontrado", "No se encontró ningún cliente con el DNI proporcionado.");
+                return;
+            }
+
+            // Si el cliente es encontrado, mostrar la información
             mostrarInformacionCliente(cliente);
+
         } catch (ExeptionHotel e) {
+            // Manejo de cualquier excepción
             System.out.println("Excepción capturada: " + e.getMessage());
             mostrarAlerta("Error", e.getMessage());
         }
@@ -228,6 +243,6 @@ public class VPController {
 
     @FXML
     private void botonVerReserva() {
-
+        main.abrirVentanaReservas();
     }
 }

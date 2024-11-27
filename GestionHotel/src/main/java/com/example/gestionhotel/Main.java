@@ -149,7 +149,7 @@ public class Main extends Application {
     public void abrirVentanaReservas() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/example/gestionhotel/view/VRView.fxml"));
+            loader.setLocation(getClass().getResource("/com/example/gestionhotel/VR.fxml"));
             AnchorPane reservaView = (AnchorPane) loader.load();
 
             Scene reservaScene = new Scene(reservaView);
@@ -160,9 +160,33 @@ public class Main extends Application {
 
             VRController controller = loader.getController();
             controller.setMain(this); // Pasar la instancia del Main al controlador de la vista de reservas
-
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean pantallaEditarReserva(Reserva reserva) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EditarReserva.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Editar Cliente");
+            stage.initModality(Modality.NONE);
+            stage.initOwner(primaryStage);
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            EditarReservaController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setHotelModelo(hotelModelo);
+            controller.setReserva(reserva);
+            stage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

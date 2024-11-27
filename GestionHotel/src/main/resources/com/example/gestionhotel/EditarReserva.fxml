@@ -10,59 +10,59 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VRController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.EditarReservaController">
     <children>
-          <AnchorPane minWidth="300.0" prefHeight="323.0" prefWidth="450.0" styleClass="background" stylesheets="@styles/DarkTheme.css">
-              <children>
-                  <Label layoutX="121.0" layoutY="14.0" styleClass="label-header" stylesheets="@styles/DarkTheme.css" text="Detalles Reserva" AnchorPane.leftAnchor="121.0" AnchorPane.topAnchor="14.0">
-                      <font>
-                          <Font name="System Bold" size="25.0" />
-                      </font>
-            </Label>
-                  <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                  <DatePicker fx:id="fechaLlegada" layoutX="23.0" layoutY="77.0" onAction="#seleccionarLlegada" prefHeight="29.0" prefWidth="136.0" />
-                  <Label layoutX="23.0" layoutY="58.0" text="Fecha Llegada" />
-                  <Label layoutX="205.0" layoutY="58.0" text="Fecha Salida" />
-                  <DatePicker fx:id="fechaSalida" layoutX="205.0" layoutY="77.0" onAction="#seleccionarSalida" prefHeight="29.0" prefWidth="136.0" />
-                  <Label layoutX="23.0" layoutY="115.0" text="Tipo de Habitacion" />
-                  <SplitMenuButton fx:id="tipoHabitacion" layoutX="149.0" layoutY="112.0" minHeight="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0" text="-- Seleccionar --">
-                      <items>
-                          <MenuItem mnemonicParsing="false" text="Doble de uso invididual" />
-                          <MenuItem mnemonicParsing="false" text="Doble" />
-                          <MenuItem mnemonicParsing="false" text="Junior Suite" />
-                          <MenuItem mnemonicParsing="false" text="Suite" />
-                      </items>
-                  </SplitMenuButton>
-                  <CheckBox fx:id="fumador" layoutX="256.0" layoutY="152.0" mnemonicParsing="false" onAction="#seleccionarFumador" text="Fumador" />
-                  <Label layoutX="23.0" layoutY="184.0" text="Regimen de alojamiento:" />
-                  <VBox layoutX="38.0" layoutY="209.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="209.0">
-                      <children>
-                          <RadioButton fx:id="alojamientoDesayuno" mnemonicParsing="false" text="Alojamiento y desayuno" />
-                          <RadioButton fx:id="mediaPension" mnemonicParsing="false" text="Media pension">
-                              <padding>
-                                  <Insets top="5.0" />
-                              </padding>
-                          </RadioButton>
-                          <RadioButton fx:id="pensionCompleta" mnemonicParsing="false" text="Pension completa">
-                              <padding>
-                                  <Insets top="5.0" />
-                              </padding>
-                          </RadioButton>
-                      </children>
-                  </VBox>
-                  <SplitMenuButton layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="0">
-                      <items>
-                          <MenuItem mnemonicParsing="false" text="1" />
-                      </items>
-                  </SplitMenuButton>
-                  <Label layoutX="24.0" layoutY="152.0" text="Numero de habitaciones" />
-                  <Label layoutX="221.0" layoutY="194.0" prefHeight="19.0" prefWidth="192.0" text="En virtud de la ley de sanidad" />
-                  <Label layoutX="221.0" layoutY="213.0" text="se informa a los clientes de que" />
-                  <Label layoutX="221.0" layoutY="232.0" text="solo podrán fumar en las " />
-                  <Label layoutX="220.0" layoutY="251.0" text="habitacionesreservadas para tal fin." />
-                    <Button layoutX="296.0" layoutY="288.0" mnemonicParsing="false" onAction="#BotonAceptar" text="Aceptar" />
-                    <Button layoutX="366.0" layoutY="288.0" mnemonicParsing="false" onAction="#BotonEliminarReserva" text="Cancelar" />
-              </children>
-          </AnchorPane>
+        <AnchorPane minWidth="300.0" prefHeight="323.0" prefWidth="450.0" styleClass="background">
+            <children>
+                <Label layoutX="121.0" layoutY="14.0" styleClass="label-header" text="Detalles Reserva" AnchorPane.leftAnchor="121.0" AnchorPane.topAnchor="14.0">
+                    <font>
+                        <Font name="System Bold" size="25.0" />
+                    </font>
+                </Label>
+                <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                <DatePicker fx:id="fechaLlegada" layoutX="23.0" layoutY="77.0" onAction="#seleccionarLlegada" prefHeight="29.0" prefWidth="136.0" />
+                <Label layoutX="23.0" layoutY="58.0" text="Fecha Llegada" />
+                <Label layoutX="205.0" layoutY="58.0" text="Fecha Salida" />
+                <DatePicker fx:id="fechaSalida" layoutX="205.0" layoutY="77.0" onAction="#seleccionarSalida" prefHeight="29.0" prefWidth="136.0" />
+                <Label layoutX="23.0" layoutY="115.0" text="Tipo de Habitacion" />
+                <SplitMenuButton fx:id="tipoHabitacion" layoutX="149.0" layoutY="112.0" minHeight="20.0" mnemonicParsing="false" onAction="#seleccionarTipoHabitacion" prefHeight="25.0" prefWidth="192.0" text="-- Seleccionar --">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#seleccionarTipoHabitacion" text="Doble de uso invididual" />
+                        <MenuItem mnemonicParsing="false" onAction="#seleccionarTipoHabitacion" text="Doble" />
+                        <MenuItem mnemonicParsing="false" onAction="#seleccionarTipoHabitacion" text="Junior Suite" />
+                        <MenuItem mnemonicParsing="false" onAction="#seleccionarTipoHabitacion" text="Suite" />
+                    </items>
+                </SplitMenuButton>
+                <CheckBox fx:id="fumador" layoutX="256.0" layoutY="152.0" mnemonicParsing="false" onAction="#seleccionarFumador" text="Fumador" />
+                <Label layoutX="23.0" layoutY="184.0" text="Regimen de alojamiento:" />
+                <VBox layoutX="38.0" layoutY="209.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="209.0">
+                    <children>
+                        <RadioButton fx:id="alojamientoDesayuno" mnemonicParsing="false" onAction="#seleccionarRegimenAlojamiento" text="Alojamiento y desayuno" />
+                        <RadioButton fx:id="mediaPension" mnemonicParsing="false" onAction="#seleccionarRegimenAlojamiento" text="Media pension">
+                            <padding>
+                                <Insets top="5.0" />
+                            </padding>
+                        </RadioButton>
+                        <RadioButton fx:id="pensionCompleta" mnemonicParsing="false" onAction="#seleccionarRegimenAlojamiento" text="Pension completa">
+                            <padding>
+                                <Insets top="5.0" />
+                            </padding>
+                        </RadioButton>
+                    </children>
+                </VBox>
+                <SplitMenuButton fx:id="numHabitaciones" layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" onAction="#seleccionarNumHabitaciones" prefHeight="25.0" text="0">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#seleccionarNumHabitaciones" text="1" />
+                    </items>
+                </SplitMenuButton>
+                <Label layoutX="24.0" layoutY="152.0" text="Numero de habitaciones" />
+                <Label layoutX="221.0" layoutY="194.0" prefHeight="19.0" prefWidth="192.0" text="En virtud de la ley de sanidad" />
+                <Label layoutX="221.0" layoutY="213.0" text="se informa a los clientes de que" />
+                <Label layoutX="221.0" layoutY="232.0" text="solo podrán fumar en las " />
+                <Label layoutX="220.0" layoutY="251.0" text="habitaciones reservadas para tal fin." />
+                <Button layoutX="296.0" layoutY="288.0" mnemonicParsing="false" onAction="#BotonAceptar" text="Aceptar" />
+                <Button layoutX="366.0" layoutY="288.0" mnemonicParsing="false" onAction="#botonCancelar" text="Cancelar" />
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>

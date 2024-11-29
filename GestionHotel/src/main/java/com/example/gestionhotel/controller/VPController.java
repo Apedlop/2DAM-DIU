@@ -243,6 +243,20 @@ public class VPController {
 
     @FXML
     private void botonVerReserva() {
-        main.abrirVentanaReservas();
+        int selectCliente = tablaClientes.getSelectionModel().getSelectedIndex();
+        if (selectCliente >= 0) {
+            Cliente clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem(); // Obtener el cliente seleccionado
+            String dniCliente = clienteSeleccionado.getDni(); // Obtener el DNI del cliente
+            main.abrirVentanaReservas(dniCliente); // Pasar el DNI al método de Main
+        } else {
+            // Nada seleccionado
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Nada seleccionado");
+            alerta.setHeaderText("Cliente no seleccionado");
+            alerta.setContentText("Por favor, seleccione un cliente de la tabla");
+            alerta.showAndWait();
+        }
     }
+
+
 }

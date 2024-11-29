@@ -51,6 +51,7 @@ public class VRController {
     private ReservaUtil reservaUtil = new ReservaUtil();
     private ArrayList<Reserva> reservas;
     private ObservableList<Reserva> reservaData = FXCollections.observableArrayList();
+    private String dniClienteSelecc;
 
     // Método para recibir el modelo y configurar los datos
     public void setHotelModelo(HotelModelo hotelModelo) throws ExeptionHotel {
@@ -91,13 +92,13 @@ public class VRController {
             // Establecer el régimen de alojamiento
             if (reserva.getRegimenAlojamiento() != null) {
                 switch (reserva.getRegimenAlojamiento()) {
-                    case ALOJAMIENTO_DESAYUNO:
+                    case desayuno:
                         alojamientoDesayuno.setSelected(true);
                         break;
-                    case MEDIA_PENSION:
+                    case mediaPension:
                         mediaPension.setSelected(true);
                         break;
-                    case PENSION_COMPLETA:
+                    case pensionCompleta:
                         pensionCompleta.setSelected(true);
                         break;
                 }
@@ -107,6 +108,33 @@ public class VRController {
             numHabitaciones.setText(String.valueOf(reserva.getNumeroHabitaciones()));
         }
     }
+
+    // Método para establecer el DNI del cliente
+    public void setDniClienteSeleccionado(String dniCliente) {
+        this.dniClienteSelecc = dniCliente;
+        cargarReservasPorCliente(dniCliente);
+        System.out.println("holaaa");
+    }
+
+    private void cargarReservasPorCliente(String dniCliente) {
+        try {
+            Reserva reservaCliente = hotelModelo.buscarReserva(dniCliente);  // Método que devuelve una única reserva
+            System.out.println(dniCliente);
+            // Limpiar la lista de datos en la interfaz
+            reservaData.clear();
+
+            // Convertir la reserva única en una lista y añadirla
+            reservaData.add(reservaCliente);
+
+            // Actualizar la tabla con la nueva reserva
+            tablaReservas.setItems(reservaData);
+
+        } catch (ExeptionHotel e) {
+//            mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     // Método auxiliar para mostrar alertas
     private void mostrarAlerta(String titulo, String mensaje) {

@@ -4,7 +4,9 @@ import com.example.gestionhotel.controller.*;
 import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.HotelModelo;
 import com.example.gestionhotel.modelo.repository.ClienteRepository;
+import com.example.gestionhotel.modelo.repository.ReservaRepository;
 import com.example.gestionhotel.modelo.repository.impl.ClienteRepositoryImpl;
+import com.example.gestionhotel.modelo.repository.impl.ReservaRepositoryImpl;
 import com.example.gestionhotel.modelo.tablas.Cliente;
 import com.example.gestionhotel.modelo.tablas.ClienteVO;
 import com.example.gestionhotel.modelo.tablas.Reserva;
@@ -33,6 +35,7 @@ public class Main extends Application {
     private HotelModelo hotelModelo;
     private ClienteUtil clienteUtil;
     private ClienteRepository clienteRepository;
+    private ReservaRepository reservaRepository;
     VPController controllerVP;
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
     private ObservableList<Reserva> reservaData = FXCollections.observableArrayList();
@@ -146,7 +149,7 @@ public class Main extends Application {
     }
 
     // Método para abrir la ventana de reservas
-    public void abrirVentanaReservas() {
+    public void abrirVentanaReservas(String dni) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/example/gestionhotel/VR.fxml"));
@@ -158,8 +161,16 @@ public class Main extends Application {
             reservaStage.setScene(reservaScene);
             reservaStage.show();
 
+            // Obtener el controlador de la ventana de reservas
             VRController controller = loader.getController();
+            hotelModelo = new HotelModelo();
+            reservaRepository = new ReservaRepositoryImpl();
+
+            hotelModelo.setReservaRepository(reservaRepository);
+            controller.setHotelModelo(hotelModelo);
+
             controller.setMain(this); // Pasar la instancia del Main al controlador de la vista de reservas
+            controller.setDniClienteSeleccionado(dni); // Pasar el DNI al controlador de VR
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -158,11 +158,11 @@ public class EditarReservaController {
 
         // Asignar el régimen de alojamiento seleccionado
         if (alojamientoDesayuno.isSelected()) {
-            reserva.setRegimenAlojamiento(RegimenAlojamiento.ALOJAMIENTO_DESAYUNO);
+            reserva.setRegimenAlojamiento(RegimenAlojamiento.desayuno);
         } else if (mediaPension.isSelected()) {
-            reserva.setRegimenAlojamiento(RegimenAlojamiento.MEDIA_PENSION);
+            reserva.setRegimenAlojamiento(RegimenAlojamiento.mediaPension);
         } else if (pensionCompleta.isSelected()) {
-            reserva.setRegimenAlojamiento(RegimenAlojamiento.PENSION_COMPLETA);
+            reserva.setRegimenAlojamiento(RegimenAlojamiento.pensionCompleta);
         }
 
         // Asignar la opción de fumador

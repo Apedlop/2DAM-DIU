@@ -17,7 +17,7 @@ public class ReservaVO {
 
     }
 
-    public ReservaVO(Integer id_reserva, String dni_cliente, LocalDate fecha_llegada, LocalDate fecha_salida, int numero_habitaciones, TipoHabitacion tipo_habitacion, boolean fumador, RegimenAlojamiento regimen_alojamiento) {
+    public ReservaVO(Integer id_reserva, LocalDate fecha_llegada, LocalDate fecha_salida, int numero_habitaciones, TipoHabitacion tipo_habitacion, boolean fumador, RegimenAlojamiento regimen_alojamiento, String dni_cliente) {
         this.id_reserva = id_reserva;
         this.dni_cliente = dni_cliente;
         this.fecha_llegada = fecha_llegada;

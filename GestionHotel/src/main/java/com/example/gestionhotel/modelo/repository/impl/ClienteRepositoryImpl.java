@@ -25,7 +25,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         Connection conn = this.conexion.conectarBD();
         this.clientes = new ArrayList<>();
         this.statement = conn.createStatement();
-        this.sentencia = "SELECT * FROM clientes ORDER BY apellidos ASC";
+        this.sentencia = "SELECT * FROM cliente ORDER BY apellidos ASC";
         ResultSet rs = this.statement.executeQuery(this.sentencia);
         while (rs.next()) {
             String dni = rs.getString("dni");
@@ -47,7 +47,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
         try {
             Connection conn = this.conexion.conectarBD();
             this.statement = conn.createStatement();
-            this.sentencia = "INSERT INTO clientes (dni, nombre, apellidos, direccion, localidad, provincia) VALUES ('" + clienteVO.getDni() + "','" + clienteVO.getNombre() + "','" + clienteVO.getApellido() + "','" + clienteVO.getDireccion() + "','" + clienteVO.getLocalidad() + "','" + clienteVO.getProvincia() + "')";
+            this.sentencia = "INSERT INTO cliente (dni, nombre, apellidos, direccion, localidad, provincia) VALUES ('" + clienteVO.getDni() + "','" + clienteVO.getNombre() + "','" + clienteVO.getApellido() + "','" + clienteVO.getDireccion() + "','" + clienteVO.getLocalidad() + "','" + clienteVO.getProvincia() + "')";
             this.statement.executeUpdate(this.sentencia);
             this.statement.close();
             this.conexion.desconectarBD(conn);
@@ -62,7 +62,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
             Connection conn = this.conexion.conectarBD();
             this.statement = conn.createStatement();
             Statement comando = conn.createStatement();
-            String sql = String.format("DELETE FROM clientes WHERE dni = '%s'", clienteVO.getDni());
+            String sql = String.format("DELETE FROM cliente WHERE dni = '%s'", clienteVO.getDni());
             comando.executeUpdate(sql);
             this.statement.close();
         } catch (SQLException e) {
@@ -77,7 +77,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
             Connection conn = this.conexion.conectarBD();
 
             // Crear un PreparedStatement para la consulta parametrizada
-            String sql = "UPDATE clientes SET nombre = ?, apellidos = ?, direccion = ?, localidad = ?, provincia = ? WHERE dni = ?";
+            String sql = "UPDATE cliente SET nombre = ?, apellidos = ?, direccion = ?, localidad = ?, provincia = ? WHERE dni = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             // Asignar valores a los parámetros
@@ -103,7 +103,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     public ClienteVO buscarPorDNI(String dni) throws ExeptionHotel {
         ClienteVO cliente = null;
-        String sentencia = "SELECT * FROM clientes WHERE dni = ?";
+        String sentencia = "SELECT * FROM cliente WHERE dni = ?";
         try {
             Connection conn = this.conexion.conectarBD();
             PreparedStatement pstmt = conn.prepareStatement(sentencia);

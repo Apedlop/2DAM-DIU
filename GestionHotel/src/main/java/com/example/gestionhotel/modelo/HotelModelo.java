@@ -120,19 +120,21 @@ public class HotelModelo {
     // Método para añadir Clientes en la BD
     public void anadirReserva(Reserva reserva) throws ExeptionHotel {
         ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
-        reservaRepository.addReserva(reservaVO);
+        reservaRepository.crearRerserva(reservaVO);
     }
 
     // Método para editar personas de la BD
     public void editarReserva(Reserva reserva) throws ExeptionHotel {
         ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
-        reservaRepository.editReserva(reservaVO);
+        reservaRepository.editarReserva(reservaVO);
     }
 
     // Método para eliminar Cliente de la BD
     public void eliminarReserva(Reserva reserva) throws ExeptionHotel {
         ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
-        reservaRepository.deleteReserva(reservaVO);
+        reservaRepository.eliminarReserva(reservaVO);
+        ClienteVO clienteVO = clienteRepository.buscarPorDNI(dni);
+        return clienteUtil.convertirCliente(clienteVO);
     }
 
     // Método para buscar un cliente por DNI

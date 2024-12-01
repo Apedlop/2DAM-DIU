@@ -4,10 +4,12 @@ public class ExeptionHotel extends RuntimeException {
 
     public String mensaje;
 
-    public ExeptionHotel() {}
+    public ExeptionHotel() {
+        super();
+    }
 
     public ExeptionHotel(String mensaje) {
-        this.mensaje = mensaje;
+        super(mensaje);
     }
 
     public String getMensaje() {

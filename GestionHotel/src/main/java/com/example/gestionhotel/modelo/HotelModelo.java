@@ -2,20 +2,15 @@ package com.example.gestionhotel.modelo;
 
 import com.example.gestionhotel.modelo.repository.ClienteRepository;
 import com.example.gestionhotel.modelo.repository.ReservaRepository;
-import com.example.gestionhotel.modelo.repository.impl.ClienteRepositoryImpl;
 import com.example.gestionhotel.modelo.repository.impl.ReservaRepositoryImpl;
 import com.example.gestionhotel.modelo.tablas.*;
 import com.example.gestionhotel.modelo.tablas.Cliente;
 import com.example.gestionhotel.modelo.util.ClienteUtil;
 import com.example.gestionhotel.modelo.util.ReservaUtil;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class HotelModelo {
 
@@ -93,8 +88,8 @@ public class HotelModelo {
     }
 
     /*
-    * RESERVAS
-    */
+     * RESERVAS
+     */
 
     public ArrayList<Reserva> obtenerListaReservas() throws ExeptionHotel, SQLException {
         try {
@@ -129,18 +124,21 @@ public class HotelModelo {
         reservaRepository.editarReserva(reservaVO);
     }
 
-    // Método para eliminar Cliente de la BD
-    public void eliminarReserva(Reserva reserva) throws ExeptionHotel {
-        ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
-        reservaRepository.eliminarReserva(reservaVO);
-        ClienteVO clienteVO = clienteRepository.buscarPorDNI(dni);
-        return clienteUtil.convertirCliente(clienteVO);
+    // Método para eliminar Reserva de la BD
+    public void eliminarReserva(Integer idReserva) throws ExeptionHotel {
+        reservaRepository.eliminarReserva(idReserva);
     }
 
     // Método para buscar un cliente por DNI
-    public Reserva buscarReserva(String dni) throws ExeptionHotel {
-        ReservaVO reservaVO = reservaRepository.buscarReserva(dni);
-        return reservaUtil.convertirReserva(reservaVO);
+    public ArrayList<Reserva> buscarReserva(String dni) throws ExeptionHotel {
+        ArrayList<ReservaVO> reservaVO = reservaRepository.obtenerReservasCliente(dni);
+        return reservaUtil.listaReservas(reservaVO);
+    }
+
+    // Método para obtener la cantidad de habitaciones ocupadas según el tipo
+    public int habitacionesOcupadas(TipoHabitacion tipoHabitacion) throws ExeptionHotel {
+        reservaRepository = new ReservaRepositoryImpl();
+        return reservaRepository.contarReservasPorTipoHabitacion(tipoHabitacion);
     }
 
 }

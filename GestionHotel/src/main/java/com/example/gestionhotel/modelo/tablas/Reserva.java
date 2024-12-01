@@ -32,7 +32,7 @@ public class Reserva {
     }
 
     // Getters y Setters para id_reserva
-    public int getIdReserva() {
+    public Integer getIdReserva() {
         return id_reserva.get();
     }
 

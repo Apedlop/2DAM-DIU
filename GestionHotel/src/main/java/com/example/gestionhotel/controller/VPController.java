@@ -141,7 +141,7 @@ public class VPController {
     @FXML
     private void botonNuevoCliente() {
         Cliente cliente = new Cliente();
-        boolean okClicked = main.pantallaEditar(cliente);
+        boolean okClicked = main.pantallaCrear(cliente);
         if (okClicked) {
             try {
                 hotelModelo.anadirCliente(cliente);

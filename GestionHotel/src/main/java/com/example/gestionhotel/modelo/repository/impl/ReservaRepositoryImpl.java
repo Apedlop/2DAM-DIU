@@ -23,14 +23,15 @@ public class ReservaRepositoryImpl implements ReservaRepository {
     public ReservaRepositoryImpl() {
 
     }
+
     // Obtener lista de reservas
     @Override
     public ArrayList<ReservaVO> obtenerListaReservas() throws ExeptionHotel {
         this.listaReservas = new ArrayList<>();
         String query = "SELECT * FROM reserva ORDER BY fechaLlegada ASC";
-        try(Connection conn = this.conexion.conectarBD();
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = this.conexion.conectarBD();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Integer idReserva = rs.getInt("id");
@@ -61,6 +62,8 @@ public class ReservaRepositoryImpl implements ReservaRepository {
             throw new ExeptionHotel("No se ha podido realizar la operación de obtener reservas");
         }
     }
+
+    @Override
     public int contarReservasPorTipoHabitacion(TipoHabitacion tipoHabitacion) throws ExeptionHotel {
         String query = "SELECT COUNT(*) AS total FROM reserva WHERE tipoHabitacion = ?";
         try (Connection conn = this.conexion.conectarBD();
@@ -78,35 +81,30 @@ public class ReservaRepositoryImpl implements ReservaRepository {
         return 0;
     }
 
-
-
     // Crear una nueva reserva
     @Override
     public void crearRerserva(ReservaVO reservaVO) throws ExeptionHotel {
-        // Consulta SQL con todos los campos
-        String query = "INSERT INTO reserva (fechaLlegada, fechaSalida, nHabitaciones, tipoHabitacion, fumador, regimenAlojamiento) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?);";
-
-        try (Connection conn = this.conexion.conectarBD();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try {
+            Connection conn = this.conexion.conectarBD();
+            String query = "INSERT INTO reserva (fechaLlegada, fechaSalida, nHabitaciones, tipoHabitacion, fumador, regimenAlojamiento, dni) VALUES (?, ?, ?, ?, ?, ?, ?);";
+            PreparedStatement stmt = conn.prepareStatement(query);
 
             // Establecer los parámetros de la consulta
-
             stmt.setDate(1, java.sql.Date.valueOf(reservaVO.getFecha_llegada())); // fecha_llegada
             stmt.setDate(2, java.sql.Date.valueOf(reservaVO.getFecha_salida())); // fecha_salida
             stmt.setInt(3, reservaVO.getNumero_habitaciones()); // numero_habitaciones
             stmt.setString(4, reservaVO.getTipo_habitacion().toString()); // tipo_habitacion (Enum -> String)
             stmt.setBoolean(5, reservaVO.isFumador()); // fumador
             stmt.setString(6, reservaVO.getRegimen_alojamiento().toString()); // regimen_alojamiento (Enum -> String)
-            stmt.setString(7, reservaVO.getDni_cliente());  // dni_cliente
+            stmt.setString(7, reservaVO.getDni_cliente()); // dni_cliente
 
             // Ejecutar la actualización
             stmt.executeUpdate();
         } catch (SQLException e) {
             // Lanzar una excepción personalizada con detalles
+//            e.printStackTrace();  // Imprimir el stack trace para depurar
             throw new ExeptionHotel("No se ha podido realizar la operación de crear reserva. Detalles: " + e.getMessage());
         }
-
     }
 
     // Eliminar una reserva
@@ -141,9 +139,8 @@ public class ReservaRepositoryImpl implements ReservaRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // Establecer los parámetros de la consulta
-
             stmt.setDate(1, java.sql.Date.valueOf(reservaVO.getFecha_llegada())); // fecha_llegada
-            stmt.setDate(2,java.sql.Date.valueOf(reservaVO.getFecha_salida())); // fecha_salida
+            stmt.setDate(2, java.sql.Date.valueOf(reservaVO.getFecha_salida())); // fecha_salida
             stmt.setInt(3, reservaVO.getNumero_habitaciones()); // numero_habitaciones
             stmt.setString(4, reservaVO.getTipo_habitacion().toString()); // tipo_habitacion (enum a String)
             stmt.setBoolean(5, reservaVO.isFumador()); // fumador

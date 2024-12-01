@@ -1,14 +1,14 @@
 package com.example.gestionhotel.controller;
 
 import com.example.gestionhotel.modelo.HotelModelo;
-import com.example.gestionhotel.modelo.tablas.RegimenAlojamiento;
 import com.example.gestionhotel.modelo.tablas.Reserva;
 import com.example.gestionhotel.modelo.tablas.TipoHabitacion;
+import com.example.gestionhotel.modelo.tablas.RegimenAlojamiento;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.DatePicker;
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+
+import java.time.LocalDate;
 
 public class EditarReservaController {
 
@@ -19,6 +19,8 @@ public class EditarReservaController {
     @FXML
     private SplitMenuButton tipoHabitacion;
     @FXML
+    private SplitMenuButton numHabitaciones;
+    @FXML
     private CheckBox fumador;
     @FXML
     private RadioButton alojamientoDesayuno;
@@ -26,15 +28,14 @@ public class EditarReservaController {
     private RadioButton mediaPension;
     @FXML
     private RadioButton pensionCompleta;
-    @FXML
-    private SplitMenuButton numHabitaciones;
 
     private Stage stage;
+    private String dniClienteSeleccionado;  // DNI del cliente previamente seleccionado
     private HotelModelo hotelModelo;
     private Reserva reserva;
     private boolean okClicked = false;
 
-    // Constructor vacío por defecto
+    // Construtor vacío por defecto
     public EditarReservaController() {
 
     }
@@ -47,138 +48,169 @@ public class EditarReservaController {
         this.stage = stage;
     }
 
-    // Método para añadir la reserva y añadir a los campos
-    public void setReserva(Reserva reserva) {
-        this.reserva = reserva;
+    // Método para establecer el DNI del cliente seleccionado
+    public void setDniClienteSeleccionado(String dni) {
+        this.dniClienteSeleccionado = dni;
+        System.out.println("buenass" + dni);
+        // Aquí puedes usar el DNI para realizar alguna acción o actualizar la interfaz
+        System.out.println("DNI Cliente: " + dniClienteSeleccionado);
+    }
 
-        // Establecer las fechas de llegada y salida
-        fechaLlegada.setValue(reserva.getFechaLlegada());
-        fechaSalida.setValue(reserva.getFechaSalida());
+    public String getDniClienteSeleccionado() {
+        return dniClienteSeleccionado;
+    }
 
-        // Establecer el tipo de habitación
-        // Asumiendo que el método getTipoHabitacion() devuelve un string con el tipo de habitación
-        String tipoHabitacionSeleccionado = String.valueOf(reserva.getTipoHabitacion());
-        for (MenuItem item : tipoHabitacion.getItems()) {
-            if (item.getText().equals(tipoHabitacionSeleccionado)) {
-                tipoHabitacion.setText(tipoHabitacionSeleccionado);
-                break;
+    @FXML
+    private void initialize() {
+        // Configuración de RadioButton para el régimen
+        ToggleGroup grupoRegimen = new ToggleGroup();
+        alojamientoDesayuno.setToggleGroup(grupoRegimen);
+        mediaPension.setToggleGroup(grupoRegimen);
+        pensionCompleta.setToggleGroup(grupoRegimen);
+
+        // Configuración de tipos de habitación
+        for (TipoHabitacion tipo : TipoHabitacion.values()) {
+            MenuItem item = new MenuItem(tipo.toString());
+            item.setOnAction(event -> tipoHabitacion.setText(item.getText()));
+            tipoHabitacion.getItems().add(item);
+        }
+
+        // Solo una habitación permitida
+        MenuItem item = new MenuItem("1");
+        item.setOnAction(event -> numHabitaciones.setText(item.getText()));
+        numHabitaciones.getItems().add(item);
+        numHabitaciones.setText("1");
+        numHabitaciones.setDisable(true);  // Bloqueado en una habitación
+
+        // Configuración de fechas válidas
+        fechaLlegada.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(empty || item.isBefore(LocalDate.now()));
             }
-        }
-
-        // Establecer si es fumador o no
-        fumador.setSelected(reserva.isFumador());
-
-        // Establecer el régimen de alojamiento
-        // Asumiendo que getRegimenAlojamiento() devuelve un string con el régimen
-        String regimen = String.valueOf(reserva.getRegimenAlojamiento());
-        if ("Alojamiento y desayuno".equals(regimen)) {
-            alojamientoDesayuno.setSelected(true);
-        } else if ("Media pensión".equals(regimen)) {
-            mediaPension.setSelected(true);
-        } else if ("Pensión completa".equals(regimen)) {
-            pensionCompleta.setSelected(true);
-        }
-
-        // Asumiendo que el número de habitaciones es un valor dentro de los items del SplitMenuButton
-        String numHabitacionesSeleccionadas = "1"; // Valor predeterminado o de la reserva
-        for (MenuItem item : numHabitaciones.getItems()) {
-            if (item.getText().equals(numHabitacionesSeleccionadas)) {
-                numHabitaciones.setText(numHabitacionesSeleccionadas);
-                break;
+        });
+        fechaSalida.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(empty || item.isBefore(LocalDate.now()));
             }
-        }
+        });
     }
 
-    // Retorna "true" si el usuario hace click en ACEPTAR
-    public boolean isOkClicked() {
-        return okClicked;
-    }
-
-    // Método que se llama cuando se selecciona la fecha de llegada
-    @FXML
-    private void seleccionarLlegada() {
-        // Lógica para manejar la fecha de llegada
-        System.out.println("Fecha de llegada seleccionada: " + fechaLlegada.getValue());
-    }
-
-    // Método que se llama cuando se selecciona la fecha de salida
-    @FXML
-    private void seleccionarSalida() {
-        // Lógica para manejar la fecha de salida
-        System.out.println("Fecha de salida seleccionada: " + fechaSalida.getValue());
-    }
-
-    // Método que se llama cuando se selecciona el tipo de habitación
-    @FXML
-    private void seleccionarTipoHabitacion() {
-        // Lógica para manejar la selección de tipo de habitación
-        String selectedType = tipoHabitacion.getText();
-        System.out.println("Tipo de habitación seleccionado: " + selectedType);
-    }
-
-    // Método que se llama cuando se selecciona la opción "Fumador"
-    @FXML
-    private void seleccionarFumador() {
-        // Lógica para manejar la selección de fumador
-        boolean isFumador = fumador.isSelected();
-        System.out.println("¿Fumador?: " + isFumador);
-    }
-
-    // Método que se llama cuando se selecciona el régimen de alojamiento
-    @FXML
-    private void seleccionarRegimenAlojamiento() {
-        // Lógica para manejar la selección del régimen de alojamiento
-        if (alojamientoDesayuno.isSelected()) {
-            System.out.println("Régimen seleccionado: Alojamiento y desayuno");
-        } else if (mediaPension.isSelected()) {
-            System.out.println("Régimen seleccionado: Media pensión");
-        } else if (pensionCompleta.isSelected()) {
-            System.out.println("Régimen seleccionado: Pensión completa");
-        }
-    }
-
-    // Método que se llama cuando se presiona el botón "Aceptar"
+    // Método para guardar la reserva
     @FXML
     private void BotonAceptar() {
-        // Actualiza la fecha de llegada y salida en la reserva
-        reserva.setFechaLlegada(fechaLlegada.getValue());
-        reserva.setFechaSalida(fechaSalida.getValue());
-
-        // Obtener el tipo de habitación seleccionado desde el SplitMenuButton
-        String tipoHabitacionSeleccionado = tipoHabitacion.getText();
-
-        // Verificar si el tipo de habitación seleccionado coincide con alguna de las opciones
-        for (MenuItem item : tipoHabitacion.getItems()) {
-            if (item.getText().equals(tipoHabitacionSeleccionado)) {
-                // Asignar el tipo de habitación seleccionado a la reserva
-                reserva.setTipoHabitacion(TipoHabitacion.valueOf(tipoHabitacionSeleccionado));
-                break;
-            }
+        // Validación de fechas
+        LocalDate llegada = fechaLlegada.getValue();
+        LocalDate salida = fechaSalida.getValue();
+        if (llegada == null || salida == null) {
+            mostrarAlerta("Error", "Las fechas de llegada y salida son obligatorias.");
+            return;
+        }
+        if (llegada.isAfter(salida)) {
+            mostrarAlerta("Error", "La fecha de salida no puede ser anterior a la de llegada.");
+            return;
         }
 
-        // Asignar el régimen de alojamiento seleccionado
-        if (alojamientoDesayuno.isSelected()) {
-            reserva.setRegimenAlojamiento(RegimenAlojamiento.desayuno);
-        } else if (mediaPension.isSelected()) {
-            reserva.setRegimenAlojamiento(RegimenAlojamiento.mediaPension);
-        } else if (pensionCompleta.isSelected()) {
-            reserva.setRegimenAlojamiento(RegimenAlojamiento.pensionCompleta);
+        // Validación del régimen de alojamiento
+        RegimenAlojamiento regimen = obtenerRegimenSeleccionado();
+        if (regimen == null) {
+            mostrarAlerta("Error", "Debe seleccionar un régimen de alojamiento.");
+            return;
         }
 
-        // Asignar la opción de fumador
-        reserva.setFumador(fumador.isSelected());
+        try {
+            // Tipo de habitación
+            TipoHabitacion tipoHab = TipoHabitacion.valueOf(tipoHabitacion.getText());
 
-        // Asignar el número de habitaciones seleccionado
-        int numHabitacionesSeleccionadas = Integer.parseInt(numHabitaciones.getText());
-        reserva.setNumeroHabitaciones(numHabitacionesSeleccionadas);
+            // Crear la reserva
+            Reserva nuevaReserva = new Reserva(
+                    0, dniClienteSeleccionado, llegada, salida, 1, tipoHab, fumador.isSelected(), regimen
+            );
 
-        // Aquí puedes agregar más lógica según sea necesario, como cerrar la ventana o actualizar la UI
-        System.out.println("Reserva actualizada con éxito.");
+            // Guardar en la base de datos
+            hotelModelo.anadirReserva(nuevaReserva);
+
+            okClicked = true;
+            stage.close();
+        } catch (IllegalArgumentException e) {
+            mostrarAlerta("Error", "Tipo de habitación no válido.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo crear la reserva: " + e.getMessage());
+        }
     }
 
     @FXML
     private void botonCancelar() {
         stage.close();
     }
-}
 
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private RegimenAlojamiento obtenerRegimenSeleccionado() {
+        if (alojamientoDesayuno.isSelected()) return RegimenAlojamiento.desayuno;
+        if (mediaPension.isSelected()) return RegimenAlojamiento.mediaPension;
+        if (pensionCompleta.isSelected()) return RegimenAlojamiento.pensionCompleta;
+        return null;
+    }
+
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+
+        // Establecer fechas
+        fechaLlegada.setValue(reserva.getFechaLlegada());
+        fechaSalida.setValue(reserva.getFechaSalida());
+
+        // Verificar y establecer tipo de habitación
+        TipoHabitacion tipoHab = reserva.getTipoHabitacion();
+        if (tipoHab != null) {
+            tipoHabitacion.setText(tipoHab.toString());
+        } else {
+            tipoHabitacion.setText("No especificado");
+        }
+
+        // Número de habitaciones
+        numHabitaciones.setText(String.valueOf(reserva.getNumeroHabitaciones()));
+
+        // Fumador
+        fumador.setSelected(reserva.isFumador());
+
+        // Verificar y establecer régimen de alojamiento
+        RegimenAlojamiento regimen = reserva.getRegimenAlojamiento();
+        if (regimen != null) {
+            switch (regimen) {
+                case desayuno:
+                    alojamientoDesayuno.setSelected(true);
+                    break;
+                case mediaPension:
+                    mediaPension.setSelected(true);
+                    break;
+                case pensionCompleta:
+                    pensionCompleta.setSelected(true);
+                    break;
+                default:
+                    // No hacer nada si no es ninguno de estos
+                    break;
+            }
+        } else {
+            // Aquí puedes manejar el caso de régimen no especificado si es necesario
+            alojamientoDesayuno.setSelected(false);
+            mediaPension.setSelected(false);
+            pensionCompleta.setSelected(false);
+        }
+    }
+
+}

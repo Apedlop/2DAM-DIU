@@ -34,13 +34,13 @@ public class ReservaUtil {
     public ReservaVO convertirReservaVO(Reserva reserva) {
         ReservaVO reservaVO = new ReservaVO(
                 reserva.getIdReserva(),
-                reserva.getDniCliente(),
                 reserva.getFechaLlegada(),
                 reserva.getFechaSalida(),
                 reserva.getNumeroHabitaciones(),
                 reserva.getTipoHabitacion(),
                 reserva.isFumador(),
-                reserva.getRegimenAlojamiento()
+                reserva.getRegimenAlojamiento(),
+                reserva.getDniCliente()
         );
         return reservaVO;
     }

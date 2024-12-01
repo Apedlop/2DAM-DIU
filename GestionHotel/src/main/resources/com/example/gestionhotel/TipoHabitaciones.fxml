@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.TipoHabitacionesController">
+   <children>
+      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Doble de uso invididual">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="imagenDobleInvididual" fitHeight="187.0" fitWidth="292.0" layoutX="154.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
+                        <ProgressIndicator fx:id="progressDobleInvididual" layoutX="288.0" layoutY="291.0" progress="0.0" />
+                        <ImageView fx:id="flechaDerechaDobleInvididual" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaDerecha.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="flechaIzquierdaDobleInvididual" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaIzquierda.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Doble">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="imagenDoble" fitHeight="187.0" fitWidth="292.0" layoutX="154.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
+                        <ProgressIndicator fx:id="progressDoble" layoutX="288.0" layoutY="291.0" progress="0.0" />
+                        <ImageView fx:id="flachaDerechaDoble" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaDerecha.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="flechaIzquierdaDoble" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaIzquierda.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Junior Suite">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="imagenJuniorSuite" fitHeight="187.0" fitWidth="292.0" layoutX="154.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
+                        <ProgressIndicator fx:id="progressJuniorSuite" layoutX="288.0" layoutY="291.0" progress="0.0" />
+                        <ImageView fx:id="fechaDerechaJuniorSuite" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaDerecha.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="flechaIzquierdaJuniorSuite" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaIzquierda.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Suite">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="imagenSuite" fitHeight="187.0" fitWidth="292.0" layoutX="154.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
+                        <ProgressIndicator fx:id="progressSuite" layoutX="288.0" layoutY="291.0" progress="0.0" />
+                        <ImageView fx:id="flehcaDerechaSuite" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaDerecha.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="flechaIzquierdaSuite" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDobleIndividual">
+                           <image>
+                              <Image url="@images/flechaIzquierda.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

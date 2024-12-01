@@ -3,23 +3,17 @@ package com.example.gestionhotel.controller;
 import com.example.gestionhotel.Main;
 import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.HotelModelo;
-import com.example.gestionhotel.modelo.tablas.Cliente;
-import com.example.gestionhotel.modelo.tablas.Reserva;
-import com.example.gestionhotel.modelo.tablas.ReservaVO;
-import com.example.gestionhotel.modelo.util.ClienteUtil;
-import com.example.gestionhotel.modelo.util.ReservaUtil;
+import com.example.gestionhotel.modelo.tablas.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class VRController {
 
@@ -48,95 +42,132 @@ public class VRController {
 
     private Main main;
     private HotelModelo hotelModelo;
-    private ReservaUtil reservaUtil = new ReservaUtil();
-    private ArrayList<Reserva> reservas;
     private ObservableList<Reserva> reservaData = FXCollections.observableArrayList();
     private String dniClienteSelecc;
+    private Stage stage;
 
-    // Método para recibir el modelo y configurar los datos
     public void setHotelModelo(HotelModelo hotelModelo) throws ExeptionHotel {
         this.hotelModelo = hotelModelo;
+        cargarDatosReservas();
     }
 
     public void setMain(Main main) {
-        tablaReservas.setItems(main.getReservaData()); // Enlaza datos con la tabla
         this.main = main;
-    }
-
-    public ArrayList<Cliente> tablaReservas() throws ExeptionHotel, SQLException {
-        return hotelModelo.obtenerListaClientes();
     }
 
     @FXML
     public void initialize() {
         columnaCodigo.setCellValueFactory(cellData -> cellData.getValue().dniClienteProperty());
-        columnaCodigo.setCellValueFactory(cellData -> cellData.getValue().fechaLlegadaProperty().asString());
+        columnaFechaEntrada.setCellValueFactory(cellData -> cellData.getValue().fechaLlegadaProperty().asString());
+        tablaReservas.setItems(reservaData);
+
         tablaReservas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             mostrarDatosReserva(newValue);
         });
     }
 
-    // Método para mostrar los datos de las reservas
     private void mostrarDatosReserva(Reserva reserva) {
         if (reserva != null) {
-            // Establecer las fechas de llegada y salida
             fechaLlegada.setValue(reserva.getFechaLlegada());
             fechaSalida.setValue(reserva.getFechaSalida());
-
-            // Establecer el tipo de habitación desde el SplitMenuButton
-            tipoHabitacion.setText(reserva.getTipoHabitacion().toString()); // Asumiendo que TipoHabitacion tiene un método toString
-
-            // Establecer si es fumador
+            tipoHabitacion.setText(reserva.getTipoHabitacion().toString());
             fumador.setSelected(reserva.isFumador());
 
-            // Establecer el régimen de alojamiento
-            if (reserva.getRegimenAlojamiento() != null) {
-                switch (reserva.getRegimenAlojamiento()) {
-                    case desayuno:
-                        alojamientoDesayuno.setSelected(true);
-                        break;
-                    case mediaPension:
-                        mediaPension.setSelected(true);
-                        break;
-                    case pensionCompleta:
-                        pensionCompleta.setSelected(true);
-                        break;
-                }
+            switch (reserva.getRegimenAlojamiento()) {
+                case desayuno -> alojamientoDesayuno.setSelected(true);
+                case mediaPension -> mediaPension.setSelected(true);
+                case pensionCompleta -> pensionCompleta.setSelected(true);
             }
 
-            // Establecer el número de habitaciones (si está disponible en la reserva)
             numHabitaciones.setText(String.valueOf(reserva.getNumeroHabitaciones()));
         }
     }
 
-    // Método para establecer el DNI del cliente
     public void setDniClienteSeleccionado(String dniCliente) {
         this.dniClienteSelecc = dniCliente;
         cargarReservasPorCliente(dniCliente);
-        System.out.println("holaaa");
+    }
+
+    // Método para obtener el DNI
+    public String getDniClienteSeleccionado() {
+        return dniClienteSelecc;
     }
 
     private void cargarReservasPorCliente(String dniCliente) {
         try {
-            Reserva reservaCliente = hotelModelo.buscarReserva(dniCliente);  // Método que devuelve una única reserva
-            System.out.println(dniCliente);
-            // Limpiar la lista de datos en la interfaz
-            reservaData.clear();
-
-            // Convertir la reserva única en una lista y añadirla
-            reservaData.add(reservaCliente);
-
-            // Actualizar la tabla con la nueva reserva
-            tablaReservas.setItems(reservaData);
-
+            ArrayList<Reserva> listaReservasCliente = hotelModelo.buscarReserva(dniCliente);
+            reservaData.setAll(listaReservasCliente);
         } catch (ExeptionHotel e) {
-//            mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
-            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
         }
     }
 
+    private void cargarDatosReservas() {
+        try {
+            ArrayList<Reserva> listaReservas = hotelModelo.obtenerListaReservas();
+            reservaData.setAll(listaReservas);
+            reservaData.sort(Comparator.comparing(Reserva::getFechaLlegada));
+        } catch (ExeptionHotel | SQLException e) {
+            mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
+        }
+    }
 
-    // Método auxiliar para mostrar alertas
+    @FXML
+    public void botonNuevaReserva() {
+        Reserva nuevaReserva = new Reserva();
+        boolean okClicked = main.pantallaCrearReserva(nuevaReserva);
+        if (okClicked) {
+            try {
+                hotelModelo.anadirReserva(nuevaReserva);
+                main.getReservaData().add(nuevaReserva);
+                cargarDatosReservas();
+            } catch (ExeptionHotel e) {
+                mostrarAlerta("Error", "No se pudo añadir la reserva: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    public void botonEditarReserva() {
+        Reserva seleccionada = tablaReservas.getSelectionModel().getSelectedItem();
+        if (seleccionada != null) {
+            boolean okClicked = main.pantallaEditarReserva(seleccionada);
+            if (okClicked) {
+                try {
+                    hotelModelo.editarReserva(seleccionada);
+                    mostrarDatosReserva(seleccionada);
+                    cargarDatosReservas();
+                } catch (ExeptionHotel e) {
+                    mostrarAlerta("Error", "No se pudo actualizar la reserva: " + e.getMessage());
+                }
+            }
+        } else {
+            mostrarAlerta("Error", "Seleccione una reserva para editar.");
+        }
+    }
+
+    @FXML
+    public void botonEliminarReserva() {
+        Reserva seleccionada = tablaReservas.getSelectionModel().getSelectedItem();
+        if (seleccionada != null) {
+            try {
+                hotelModelo.eliminarReserva(seleccionada.getIdReserva()); // Llamada segura
+                reservaData.remove(seleccionada); // Actualiza la tabla
+            } catch (ExeptionHotel e) {
+                mostrarAlerta("Error", "No se pudo eliminar la reserva: " + e.getMessage());
+            }
+        } else {
+            mostrarAlerta("Error", "Seleccione una reserva para eliminar.");
+        }
+    }
+
+    private RegimenAlojamiento obtenerRegimenSeleccionado() {
+        if (alojamientoDesayuno.isSelected()) return RegimenAlojamiento.desayuno;
+        if (mediaPension.isSelected()) return RegimenAlojamiento.mediaPension;
+        if (pensionCompleta.isSelected()) return RegimenAlojamiento.pensionCompleta;
+        return null;
+    }
+
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -144,35 +175,4 @@ public class VRController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-
-    @FXML
-    public void botonNuevaReserva() {
-        Reserva reserva = new Reserva();
-        boolean okClicked ;
-    }
-
-    @FXML
-    public void botonEditarReserva() {
-
-    }
-
-    @FXML
-    public void botonEliminarReserva() {
-
-    }
-
-    @FXML
-    private void seleccionarLlegada() {
-
-    }
-
-    @FXML
-    public void seleccionarSalida() {
-
-    }
-
-    public boolean seleccionarFumador() {
-        return false;
-    }
-
 }

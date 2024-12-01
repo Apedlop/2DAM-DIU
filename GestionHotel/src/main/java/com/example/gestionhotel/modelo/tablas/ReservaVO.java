@@ -19,13 +19,13 @@ public class ReservaVO {
 
     public ReservaVO(Integer id_reserva, LocalDate fecha_llegada, LocalDate fecha_salida, int numero_habitaciones, TipoHabitacion tipo_habitacion, boolean fumador, RegimenAlojamiento regimen_alojamiento, String dni_cliente) {
         this.id_reserva = id_reserva;
-        this.dni_cliente = dni_cliente;
         this.fecha_llegada = fecha_llegada;
         this.fecha_salida = fecha_salida;
         this.numero_habitaciones = numero_habitaciones;
         this.tipo_habitacion = tipo_habitacion;
         this.fumador = fumador;
         this.regimen_alojamiento = regimen_alojamiento;
+        this.dni_cliente = dni_cliente;
     }
 
     public Integer getId_reserva() {

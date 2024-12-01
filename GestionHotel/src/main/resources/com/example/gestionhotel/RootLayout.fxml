@@ -18,6 +18,7 @@
                 <Menu mnemonicParsing="false" text="Estadisticas">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#botonVerEstadisticas" text="Ver Estadisticas" />
+                  <MenuItem mnemonicParsing="false" onAction="#botonTiposHbitacion" text="Tipos Habitación" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

@@ -18,4 +18,9 @@ public class RootLayoutController {
         main.verEstadisticas();
     }
 
+    @FXML
+    private void botonTiposHbitacion() {
+        main.verTiposHabitaciones();
+    }
+
 }

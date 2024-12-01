@@ -158,6 +158,36 @@ public class TipoHabitacionesController {
         cambiarImagenIzquierda(imagenDobleInvididual, imagenesDobleInvididual, indiceDobleInvididual);
     }
 
+    @FXML
+    private void handleNextDoble() {
+        cambiarImagenDerecha(imagenDoble, imagenesDoble, ++indiceDoble);
+    }
+    @FXML
+    private void handlePrevDoble() {
+        indiceDoble = (indiceDoble - 1 + imagenesDoble.size()) % imagenesDoble.size();
+        cambiarImagenIzquierda(imagenDoble, imagenesDoble, indiceDoble);
+    }
+
+    @FXML
+    private void handleNextJuniorSuite() {
+        cambiarImagenDerecha(imagenJuniorSuite, imagenesJuniorSuite, ++indiceJuniorSuite);
+    }
+    @FXML
+    private void handlePrevJuniorSuite() {
+        indiceJuniorSuite = (indiceJuniorSuite - 1 + imagenesJuniorSuite.size()) % imagenesJuniorSuite.size();
+        cambiarImagenIzquierda(imagenJuniorSuite, imagenesJuniorSuite, indiceJuniorSuite);
+    }
+
+    @FXML
+    private void handleNextSuite() {
+        cambiarImagenDerecha(imagenSuite, imagenesSuite, ++indiceSuite);
+    }
+    @FXML
+    private void handlePrevSuite() {
+        indiceSuite = (indiceSuite - 1 + imagenesSuite.size()) % imagenesSuite.size();
+        cambiarImagenIzquierda(imagenSuite, imagenesSuite, indiceSuite);
+    }
+
     private void cambiarImagenDerecha(ImageView imageView, List<Image> imagenes, int indice) {
         indice = (indice + 1) % imagenes.size();
         actualizarImagen(imageView, imagenes, indice);

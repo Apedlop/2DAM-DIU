@@ -37,12 +37,12 @@
                      <children>
                         <ImageView fx:id="imagenDoble" fitHeight="187.0" fitWidth="292.0" layoutX="154.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
                         <ProgressIndicator fx:id="progressDoble" layoutX="288.0" layoutY="291.0" progress="0.0" />
-                        <ImageView fx:id="flachaDerechaDoble" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDobleIndividual">
+                        <ImageView fx:id="flachaDerechaDoble" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDoble">
                            <image>
                               <Image url="@images/flechaDerecha.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="flechaIzquierdaDoble" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDobleIndividual">
+                        <ImageView fx:id="flechaIzquierdaDoble" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDoble">
                            <image>
                               <Image url="@images/flechaIzquierda.png" />
                            </image>
@@ -57,12 +57,12 @@
                      <children>
                         <ImageView fx:id="imagenJuniorSuite" fitHeight="187.0" fitWidth="292.0" layoutX="154.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
                         <ProgressIndicator fx:id="progressJuniorSuite" layoutX="288.0" layoutY="291.0" progress="0.0" />
-                        <ImageView fx:id="fechaDerechaJuniorSuite" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDobleIndividual">
+                        <ImageView fx:id="fechaDerechaJuniorSuite" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextJuniorSuite">
                            <image>
                               <Image url="@images/flechaDerecha.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="flechaIzquierdaJuniorSuite" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDobleIndividual">
+                        <ImageView fx:id="flechaIzquierdaJuniorSuite" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevJuniorSuite">
                            <image>
                               <Image url="@images/flechaIzquierda.png" />
                            </image>
@@ -77,12 +77,12 @@
                      <children>
                         <ImageView fx:id="imagenSuite" fitHeight="187.0" fitWidth="292.0" layoutX="154.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
                         <ProgressIndicator fx:id="progressSuite" layoutX="288.0" layoutY="291.0" progress="0.0" />
-                        <ImageView fx:id="flehcaDerechaSuite" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextDobleIndividual">
+                        <ImageView fx:id="flehcaDerechaSuite" fitHeight="30.0" fitWidth="30.0" layoutX="519.0" layoutY="136.0" onMouseClicked="#handleNextSuite">
                            <image>
                               <Image url="@images/flechaDerecha.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="flechaIzquierdaSuite" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevDobleIndividual">
+                        <ImageView fx:id="flechaIzquierdaSuite" fitHeight="30.0" fitWidth="30.0" layoutX="45.0" layoutY="136.0" onMouseClicked="#handlePrevSuite">
                            <image>
                               <Image url="@images/flechaIzquierda.png" />
                            </image>

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 public class EditarReservaController {
 
+    // FXML Components
     @FXML
     private DatePicker fechaLlegada;
     @FXML
@@ -29,16 +30,17 @@ public class EditarReservaController {
     @FXML
     private RadioButton pensionCompleta;
 
+    // Atributos de la clase
     private Stage stage;
     private String dniClienteSeleccionado;  // DNI del cliente previamente seleccionado
     private HotelModelo hotelModelo;
     private Reserva reserva;
     private boolean okClicked = false;
 
-    // Construtor vacío por defecto
-    public EditarReservaController() {
+    // Constructor vacío por defecto
+    public EditarReservaController() {}
 
-    }
+    // Métodos de configuración
 
     public void setHotelModelo(HotelModelo hotelModelo) {
         this.hotelModelo = hotelModelo;
@@ -48,11 +50,9 @@ public class EditarReservaController {
         this.stage = stage;
     }
 
-    // Método para establecer el DNI del cliente seleccionado
+    // Establecer el DNI del cliente seleccionado
     public void setDniClienteSeleccionado(String dni) {
         this.dniClienteSeleccionado = dni;
-        System.out.println("buenass" + dni);
-        // Aquí puedes usar el DNI para realizar alguna acción o actualizar la interfaz
         System.out.println("DNI Cliente: " + dniClienteSeleccionado);
     }
 
@@ -60,29 +60,43 @@ public class EditarReservaController {
         return dniClienteSeleccionado;
     }
 
+    // Método de inicialización
     @FXML
     private void initialize() {
-        // Configuración de RadioButton para el régimen
+        configurarRegimen();
+        configurarTipoHabitacion();
+        configurarNumeroHabitaciones();
+        configurarFechas();
+    }
+
+    // Configura los RadioButtons para el régimen de alojamiento
+    private void configurarRegimen() {
         ToggleGroup grupoRegimen = new ToggleGroup();
         alojamientoDesayuno.setToggleGroup(grupoRegimen);
         mediaPension.setToggleGroup(grupoRegimen);
         pensionCompleta.setToggleGroup(grupoRegimen);
+    }
 
-        // Configuración de tipos de habitación
+    // Configura el tipo de habitación (ComboBox)
+    private void configurarTipoHabitacion() {
         for (TipoHabitacion tipo : TipoHabitacion.values()) {
             MenuItem item = new MenuItem(tipo.toString());
             item.setOnAction(event -> tipoHabitacion.setText(item.getText()));
             tipoHabitacion.getItems().add(item);
         }
+    }
 
-        // Solo una habitación permitida
+    // Configura el número de habitaciones (Solo una)
+    private void configurarNumeroHabitaciones() {
         MenuItem item = new MenuItem("1");
         item.setOnAction(event -> numHabitaciones.setText(item.getText()));
         numHabitaciones.getItems().add(item);
         numHabitaciones.setText("1");
         numHabitaciones.setDisable(true);  // Bloqueado en una habitación
+    }
 
-        // Configuración de fechas válidas
+    // Configura las fechas válidas para la llegada y salida
+    private void configurarFechas() {
         fechaLlegada.setDayCellFactory(picker -> new DateCell() {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
@@ -126,9 +140,7 @@ public class EditarReservaController {
             TipoHabitacion tipoHab = TipoHabitacion.valueOf(tipoHabitacion.getText());
 
             // Crear la reserva
-            Reserva nuevaReserva = new Reserva(
-                    0, dniClienteSeleccionado, llegada, salida, 1, tipoHab, fumador.isSelected(), regimen
-            );
+            Reserva nuevaReserva = new Reserva(0, dniClienteSeleccionado, llegada, salida, 1, tipoHab, fumador.isSelected(), regimen);
 
             // Guardar en la base de datos
             hotelModelo.anadirReserva(nuevaReserva);
@@ -143,11 +155,13 @@ public class EditarReservaController {
         }
     }
 
+    // Método para cancelar la operación
     @FXML
     private void botonCancelar() {
         stage.close();
     }
 
+    // Mostrar alertas de error
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);
@@ -156,6 +170,7 @@ public class EditarReservaController {
         alert.showAndWait();
     }
 
+    // Obtener el régimen de alojamiento seleccionado
     private RegimenAlojamiento obtenerRegimenSeleccionado() {
         if (alojamientoDesayuno.isSelected()) return RegimenAlojamiento.desayuno;
         if (mediaPension.isSelected()) return RegimenAlojamiento.mediaPension;
@@ -163,10 +178,12 @@ public class EditarReservaController {
         return null;
     }
 
+    // Verificar si la reserva fue confirmada
     public boolean isOkClicked() {
         return okClicked;
     }
 
+    // Establecer los valores de la reserva a editar
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
 
@@ -202,15 +219,12 @@ public class EditarReservaController {
                     pensionCompleta.setSelected(true);
                     break;
                 default:
-                    // No hacer nada si no es ninguno de estos
                     break;
             }
         } else {
-            // Aquí puedes manejar el caso de régimen no especificado si es necesario
             alojamientoDesayuno.setSelected(false);
             mediaPension.setSelected(false);
             pensionCompleta.setSelected(false);
         }
     }
-
 }

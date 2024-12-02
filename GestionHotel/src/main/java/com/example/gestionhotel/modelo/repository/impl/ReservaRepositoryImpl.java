@@ -2,10 +2,7 @@ package com.example.gestionhotel.modelo.repository.impl;
 
 import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.repository.ReservaRepository;
-import com.example.gestionhotel.modelo.tablas.ClienteVO;
-import com.example.gestionhotel.modelo.tablas.RegimenAlojamiento;
-import com.example.gestionhotel.modelo.tablas.ReservaVO;
-import com.example.gestionhotel.modelo.tablas.TipoHabitacion;
+import com.example.gestionhotel.modelo.tablas.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -88,7 +85,7 @@ public class ReservaRepositoryImpl implements ReservaRepository {
             Connection conn = this.conexion.conectarBD();
             String query = "INSERT INTO reserva (fechaLlegada, fechaSalida, nHabitaciones, tipoHabitacion, fumador, regimenAlojamiento, dni) VALUES (?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement stmt = conn.prepareStatement(query);
-
+            System.out.println("EStoy en crear reseva del IMpl");
             // Establecer los parámetros de la consulta
             stmt.setDate(1, java.sql.Date.valueOf(reservaVO.getFecha_llegada())); // fecha_llegada
             stmt.setDate(2, java.sql.Date.valueOf(reservaVO.getFecha_salida())); // fecha_salida
@@ -130,13 +127,11 @@ public class ReservaRepositoryImpl implements ReservaRepository {
     // Editar una reserva
     @Override
     public void editarReserva(ReservaVO reservaVO) throws ExeptionHotel {
-        String sql = "UPDATE reserva SET " +
-                "fechaLlegada = ?, fechaSalida = ?, nHabitaciones = ?, " +
-                "tipoHabitacion = ?, fumador = ?, regimenAlojamiento = ?, dni = ? " +
-                "WHERE id = ?";
+        try {
+            String sql = "UPDATE reserva SET " + "fechaLlegada = ?, fechaSalida = ?, nHabitaciones = ?, " + "tipoHabitacion = ?, fumador = ?, regimenAlojamiento = ?, dni = ? " + "WHERE id = ?";
 
-        try (Connection conn = this.conexion.conectarBD();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            Connection conn = this.conexion.conectarBD();
+            PreparedStatement stmt = conn.prepareStatement(sql);
 
             // Establecer los parámetros de la consulta
             stmt.setDate(1, java.sql.Date.valueOf(reservaVO.getFecha_llegada())); // fecha_llegada
@@ -150,7 +145,6 @@ public class ReservaRepositoryImpl implements ReservaRepository {
 
             // Ejecutar la actualización
             stmt.executeUpdate();
-
         } catch (SQLException e) {
             // Lanzar una excepción personalizada con detalles
             throw new ExeptionHotel("No se ha podido realizar la edición de reserva. Detalles: " + e.getMessage());

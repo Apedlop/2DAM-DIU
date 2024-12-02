@@ -24,6 +24,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -33,9 +35,10 @@ public class Main extends Application {
     private ClienteUtil clienteUtil;
     private ClienteRepository clienteRepository;
     private ReservaRepository reservaRepository;
-    private  String dniSeleccionado;
+    private String dniSeleccionado;
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
     private ObservableList<Reserva> reservaData = FXCollections.observableArrayList();
+    private List<Reserva> reservasList = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws SQLException {
@@ -51,9 +54,22 @@ public class Main extends Application {
         return clienteData;
     }
 
-    // Método que devuelve una lista de Reservas
+    // Método para actualizar la lista de reservas desde VRController
+    public void setReservaData(ObservableList<Reserva> reservaData) {
+        this.reservaData = reservaData;
+    }
+
+    // Método para obtener la lista de reservas (si lo necesitas en otros controladores)
     public ObservableList<Reserva> getReservaData() {
         return reservaData;
+    }
+
+    public void setClienteSeleccionado(String dniSeleccionado) {
+        this.dniSeleccionado = dniSeleccionado;
+    }
+
+    public String getClienteSeleccionado() {
+        return dniSeleccionado;
     }
 
     // Método para mostrar el RootLayout
@@ -91,6 +107,7 @@ public class Main extends Application {
 
             controller.setHotelModelo(hotelModelo);
             controller.setMain(this);
+            reservaData = controller.getReservaData();
 
             clienteData.addAll(controller.tablaClientes()); // Añadimos el ArrayList a un ObservableList para convertirlo
         } catch (ExeptionHotel e) {
@@ -189,108 +206,8 @@ public class Main extends Application {
         }
     }
 
-    public boolean pantallaCrearReserva(Reserva reserva) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EditarReserva.fxml"));
-            AnchorPane pane = (AnchorPane) loader.load();
-
-            // Crear el nuevo Stage
-            Stage stage = new Stage();
-            stage.setTitle("Crear Reserva");
-
-            // Asegúrate de usar Modality.APPLICATION_MODAL para que sea modal
-            stage.initModality(Modality.APPLICATION_MODAL); // Cambiar a modalidad modal
-            stage.initOwner(primaryStage);  // Asegúrate de que primaryStage esté inicializado
-
-            // Crear la escena y configurarla en el Stage
-            Scene scene = new Scene(pane);
-            stage.setScene(scene);
-
-            // Obtener el controlador y pasarle los datos
-            EditarReservaController controller = loader.getController();
-            controller.setStage(stage);
-
-            controller.setDniClienteSeleccionado(dniSeleccionado);
-            System.out.println("hola " + dniSeleccionado);
-
-            hotelModelo = new HotelModelo();
-            reservaRepository = new ReservaRepositoryImpl();
-
-            controller.setHotelModelo(hotelModelo);
-
-            hotelModelo.setReservaRepository(reservaRepository);
-
-            controller.setReserva(reserva);
-            controller.setDniClienteSeleccionado(reserva.getDniCliente());
-            stage.showAndWait();
-
-            return controller.isOkClicked();
-        } catch (IOException e) {
-            // Imprimir cualquier excepción de IO para ver el problema
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // Método para mostrar las estadísticas de las reservas de los Clientes
-    public void verEstadisticas() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EstadisticasReservas.fxml"));
-            AnchorPane estadisticasCliente = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Estadísticas de reservas");
-            // stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(primaryStage);
-            Scene scene = new Scene(estadisticasCliente);
-            stage.setScene(scene);
-
-            EstadisticasReservasController controller = loader.getController();
-            controller.setReservasMeses(reservaData);
-            System.out.println("ReservaData: " + reservaData);
-            System.out.println();
-            stage.show();  // Asegúrate de llamar a stage.show() para mostrar la ventana
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void verTiposHabitaciones() {
-        try {
-            // Cargar el archivo FXML
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/TipoHabitaciones.fxml"));
-            AnchorPane pane = loader.load();
-
-            // Crear un nuevo escenario (ventana) para mostrar la información
-            Stage stage = new Stage();
-            stage.setTitle("Tipos de Habitaciones");
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(primaryStage); // Asegúrate de que primaryStage esté definido en tu clase Main.
-            Scene scene = new Scene(pane);
-            stage.setScene(scene);
-
-            // Obtener el controlador del FXML cargado
-            TipoHabitacionesController controller = loader.getController();
-
-            HotelModelo hotelModelo = new HotelModelo();
-            controller.setHotelModelo(hotelModelo);
-
-            // Mostrar la ventana
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Método para abrir la ventana de reservas
     public void abrirVentanaReservas(String dni) {
-        if (dni == null || dni.isEmpty()) {
-            mostrarAlertaError("Error", "No se ha seleccionado un cliente.");
-            return;
-        }
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/example/gestionhotel/VR.fxml"));
@@ -310,6 +227,9 @@ public class Main extends Application {
             hotelModelo.setReservaRepository(reservaRepository);
             controller.setHotelModelo(hotelModelo);
 
+            // Obtener la lista de reservas
+//            reservaData = controller.cargarDatosReservas();  // Cargar las reservas en la lista
+
             controller.setMain(this); // Pasar la instancia del Main al controlador de la vista de reservas
             controller.setDniClienteSeleccionado(dni); // Pasar el DNI al controlador de VR
             System.out.println(dni);
@@ -328,7 +248,7 @@ public class Main extends Application {
 
             // Crear el nuevo Stage
             Stage stage = new Stage();
-            stage.setTitle("Editar Cliente");
+            stage.setTitle("Editar Reserva");
 
             // Asegúrate de usar Modality.APPLICATION_MODAL para que sea modal
             stage.initModality(Modality.APPLICATION_MODAL); // Cambiar a modalidad modal
@@ -352,6 +272,9 @@ public class Main extends Application {
 
             controller.setReserva(reserva);
 
+            // Aquí pasamos el DNI del cliente asociado con la reserva
+            controller.setDniClienteSeleccionado(reserva.getDniCliente());  // Pasamos el DNI del cliente
+
             // Mostrar la ventana modal y esperar su cierre
             stage.showAndWait();
 
@@ -361,6 +284,95 @@ public class Main extends Application {
             // Imprimir cualquier excepción de IO para ver el problema
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public boolean pantallaCrearReserva(Reserva reserva) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EditarReserva.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
+
+            // Crear el nuevo Stage
+            Stage stage = new Stage();
+            stage.setTitle("Crear Reserva");
+
+            stage.initModality(Modality.APPLICATION_MODAL); // Cambiar a modalidad modal
+            stage.initOwner(primaryStage);
+
+            // Crear la escena y configurarla en el Stage
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            // Obtener el controlador y pasarle los datos
+            EditarReservaController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setDniClienteSeleccionado(dniSeleccionado);  // Establecer correctamente el DNI
+
+            hotelModelo = new HotelModelo();
+            reservaRepository = new ReservaRepositoryImpl();
+
+            controller.setHotelModelo(hotelModelo);
+            hotelModelo.setReservaRepository(reservaRepository);
+
+            controller.setReserva(reserva);
+            stage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Método para mostrar las estadísticas de las reservas de los Clientes
+    public void verEstadisticas() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EstadisticasReservas.fxml"));
+            AnchorPane estadisticasCliente = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Estadísticas de reservas");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(primaryStage);
+            Scene scene = new Scene(estadisticasCliente);
+            stage.setScene(scene);
+
+            EstadisticasReservasController controller = loader.getController();
+            controller.setReservaData(reservaData);
+            System.out.println();
+            stage.show();  // Asegúrate de llamar a stage.show() para mostrar la ventana
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void verTiposHabitaciones() {
+        try {
+            // Cargar el archivo FXML
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/TipoHabitaciones.fxml"));
+            AnchorPane pane = loader.load();
+
+            // Crear un nuevo escenario (ventana) para mostrar la información
+            Stage stage = new Stage();
+            stage.setTitle("Tipos de Habitaciones");
+//            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(primaryStage); // Asegúrate de que primaryStage esté definido en tu clase Main.
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            // Obtener el controlador del FXML cargado
+            TipoHabitacionesController controller = loader.getController();
+
+            HotelModelo hotelModelo = new HotelModelo();
+            controller.setHotelModelo(hotelModelo);
+
+            // Mostrar la ventana
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

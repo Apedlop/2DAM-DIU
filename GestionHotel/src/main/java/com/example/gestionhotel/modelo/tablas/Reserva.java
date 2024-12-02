@@ -134,4 +134,18 @@ public class Reserva {
     public ObjectProperty<RegimenAlojamiento> regimenAlojamientoProperty() {
         return regimen_alojamiento;
     }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "id_reserva=" + id_reserva +
+                ", dni_cliente=" + dni_cliente +
+                ", fecha_llegada=" + fecha_llegada +
+                ", fecha_salida=" + fecha_salida +
+                ", numero_habitaciones=" + numero_habitaciones +
+                ", tipo_habitacion=" + tipo_habitacion +
+                ", fumador=" + fumador +
+                ", regimen_alojamiento=" + regimen_alojamiento +
+                '}';
+    }
 }

@@ -102,23 +102,28 @@ public class VRController {
         }
     }
 
-    private void cargarDatosReservas() {
+    // Este método debe devolver la lista de reservas
+    public ObservableList<Reserva> cargarDatosReservas() {
         try {
             ArrayList<Reserva> listaReservas = hotelModelo.obtenerListaReservas();
-            reservaData.setAll(listaReservas);
-            reservaData.sort(Comparator.comparing(Reserva::getFechaLlegada));
+            reservaData.setAll(listaReservas);  // Cargar las reservas en la lista observable
+            return reservaData;  // Devolver la lista de reservas
         } catch (ExeptionHotel | SQLException e) {
             mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
+            return FXCollections.observableArrayList();  // Retorna una lista vacía en caso de error
         }
     }
 
     @FXML
     public void botonNuevaReserva() {
+        System.out.println("");
         Reserva nuevaReserva = new Reserva();
         boolean okClicked = main.pantallaCrearReserva(nuevaReserva);
         if (okClicked) {
             try {
+                System.out.println("bioton nueva reserva");
                 hotelModelo.anadirReserva(nuevaReserva);
+                System.out.println("Añadida a la base de datos");
                 main.getReservaData().add(nuevaReserva);
                 cargarDatosReservas();
             } catch (ExeptionHotel e) {

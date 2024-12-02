@@ -4,7 +4,6 @@ import com.example.gestionhotel.Main;
 import com.example.gestionhotel.modelo.ExeptionHotel;
 import com.example.gestionhotel.modelo.HotelModelo;
 import com.example.gestionhotel.modelo.tablas.Cliente;
-import com.example.gestionhotel.modelo.tablas.ClienteVO;
 import com.example.gestionhotel.modelo.tablas.Reserva;
 import com.example.gestionhotel.modelo.util.ClienteUtil;
 import javafx.collections.FXCollections;
@@ -45,6 +44,7 @@ public class VPController {
     private ClienteUtil clienteUtil = new ClienteUtil();
     private ArrayList<Cliente> clientes;
     private ObservableList<Cliente> clienteData = FXCollections.observableArrayList();
+    private ObservableList<Reserva> reservaData = FXCollections.observableArrayList();
 
     // Método para recibir el modelo y configurar los datos
     public void setHotelModelo(HotelModelo hotelModelo) throws ExeptionHotel {
@@ -73,6 +73,13 @@ public class VPController {
             localidad.setText("");
             provincia.setText("");
         }
+    }
+
+    // Método que listará todas las resevas
+    public ObservableList<Reserva> getReservaData() throws SQLException {
+        ArrayList<Reserva> reservas = hotelModelo.obtenerListaReservas();
+        reservaData.setAll(reservas);
+        return reservaData;
     }
 
     // Método para configurar la tabla de datos
@@ -247,6 +254,7 @@ public class VPController {
         if (selectCliente >= 0) {
             Cliente clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem(); // Obtener el cliente seleccionado
             String dniCliente = clienteSeleccionado.getDni(); // Obtener el DNI del cliente
+            main.setClienteSeleccionado(dniCliente);
             main.abrirVentanaReservas(dniCliente); // Pasar el DNI al método de Main
         } else {
             // Nada seleccionado

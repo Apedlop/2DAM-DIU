@@ -38,7 +38,8 @@ public class EditarReservaController {
     private boolean okClicked = false;
 
     // Constructor vacío por defecto
-    public EditarReservaController() {}
+    public EditarReservaController() {
+    }
 
     // Métodos de configuración
 
@@ -50,12 +51,13 @@ public class EditarReservaController {
         this.stage = stage;
     }
 
-    // Establecer el DNI del cliente seleccionado
+    // Método para establecer el DNI del cliente seleccionado
     public void setDniClienteSeleccionado(String dni) {
         this.dniClienteSeleccionado = dni;
-        System.out.println("DNI Cliente: " + dniClienteSeleccionado);
+        System.out.println("ggggggg" + dniClienteSeleccionado);
     }
 
+    // Método para obtener el DNI del cliente seleccionado
     public String getDniClienteSeleccionado() {
         return dniClienteSeleccionado;
     }
@@ -113,37 +115,81 @@ public class EditarReservaController {
         });
     }
 
+    // Método para validar todos los campos
+    private boolean isValido() {
+        // Validar fechas (llegada y salida)
+        LocalDate llegada = fechaLlegada.getValue();
+        LocalDate salida = fechaSalida.getValue();
+
+        if (llegada == null || salida == null) {
+            mostrarAlerta("Error", "Las fechas de llegada y salida son obligatorias.");
+            return false;
+        }
+
+        if (llegada.isAfter(salida)) {
+            mostrarAlerta("Error", "La fecha de salida no puede ser anterior a la de llegada.");
+            return false;
+        }
+
+        // Validar tipo de habitación
+        if (tipoHabitacion.getText() == null || tipoHabitacion.getText().isEmpty()) {
+            mostrarAlerta("Error", "Debe seleccionar un tipo de habitación.");
+            return false;
+        }
+
+        // Validar régimen de alojamiento
+        if (!alojamientoDesayuno.isSelected() && !mediaPension.isSelected() && !pensionCompleta.isSelected()) {
+            mostrarAlerta("Error", "Debe seleccionar un régimen de alojamiento.");
+            return false;
+        }
+
+        // Validar DNI del cliente (si se requiere)
+        if (dniClienteSeleccionado == null || dniClienteSeleccionado.isEmpty()) {
+            mostrarAlerta("Error", "Debe seleccionar un cliente.");
+            return false;
+        }
+
+        // Si todo es válido
+        return true;
+    }
+
     // Método para guardar la reserva
     @FXML
     private void BotonAceptar() {
-        // Validación de fechas
-        LocalDate llegada = fechaLlegada.getValue();
-        LocalDate salida = fechaSalida.getValue();
-        if (llegada == null || salida == null) {
-            mostrarAlerta("Error", "Las fechas de llegada y salida son obligatorias.");
-            return;
-        }
-        if (llegada.isAfter(salida)) {
-            mostrarAlerta("Error", "La fecha de salida no puede ser anterior a la de llegada.");
-            return;
-        }
-
-        // Validación del régimen de alojamiento
-        RegimenAlojamiento regimen = obtenerRegimenSeleccionado();
-        if (regimen == null) {
-            mostrarAlerta("Error", "Debe seleccionar un régimen de alojamiento.");
-            return;
+        // Verificar si la entrada es válida
+        if (!isValido()) {
+            return;  // No continuar si los datos no son válidos
         }
 
         try {
-            // Tipo de habitación
-            TipoHabitacion tipoHab = TipoHabitacion.valueOf(tipoHabitacion.getText());
+            System.out.println("Estoy en boton aceptar");
+            // Crear una nueva reserva si no existe una reserva para editar
 
-            // Crear la reserva
-            Reserva nuevaReserva = new Reserva(0, dniClienteSeleccionado, llegada, salida, 1, tipoHab, fumador.isSelected(), regimen);
+            reserva = new Reserva();
+            System.out.println("buena" + reserva );
+            System.out.println(dniClienteSeleccionado + " boton aceptar");// Crear una nueva reserva
+            reserva.setDniCliente(dniClienteSeleccionado);  // Establecer el DNI del cliente
 
-            // Guardar en la base de datos
-            hotelModelo.anadirReserva(nuevaReserva);
+            // Actualizar los atributos de la reserva (tanto para creación como edición)
+            reserva.setFechaLlegada(fechaLlegada.getValue());
+            reserva.setFechaSalida(fechaSalida.getValue());
+            reserva.setTipoHabitacion(TipoHabitacion.valueOf(tipoHabitacion.getText()));
+            reserva.setFumador(fumador.isSelected());
+            reserva.setRegimenAlojamiento(obtenerRegimenSeleccionado());
+            reserva.setNumeroHabitaciones(1);  // Siempre 1 habitación (según tu código)
+            System.out.println("EStoy en boton acetpae");
+            // Actualizar o crear la reserva en la base de datos
+//            if (reserva.getIdReserva() != null) {  // Si ya tiene un ID, estamos editando
+//                System.out.println("Estos en distinto de null");
+//               // hotelModelo.editarReserva(reserva);
+//                System.out.println("Reserva editada " + reserva);
+//                hotelModelo.anadirReserva(reserva);
+//
+//            } else {  // Si no tiene ID, es una nueva reserva
+//                System.out.println("Nueva reserva" + reserva);
+//                hotelModelo.anadirReserva(reserva);
+//
+//            }
 
             okClicked = true;
             stage.close();
@@ -151,7 +197,7 @@ public class EditarReservaController {
             mostrarAlerta("Error", "Tipo de habitación no válido.");
         } catch (Exception e) {
             e.printStackTrace();
-            mostrarAlerta("Error", "No se pudo crear la reserva: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudo procesar la reserva: " + e.getMessage());
         }
     }
 

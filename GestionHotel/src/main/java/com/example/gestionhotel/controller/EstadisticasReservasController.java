@@ -8,6 +8,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.util.converter.NumberStringConverter;
 
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
@@ -17,72 +18,51 @@ import java.util.Locale;
 public class EstadisticasReservasController {
 
     @FXML
-    private BarChart<String, Number> estadisticas; // El gráfico de barras
+    private BarChart<String, Integer> barChart; // Asegúrate de que la serie Y sea Integer
     @FXML
-    private CategoryAxis xAxis;  // El eje X que representa los meses
+    private CategoryAxis xAxis;
     @FXML
-    private NumberAxis yAxis; // Eje Y para la cantidad de reservas
+    private NumberAxis yAxis;
 
-    private ObservableList<String> nombreMeses = FXCollections.observableArrayList();
+    private Integer max = 120;
+
+    private ObservableList<String> monthNames = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
-        // Cargar los nombres de los meses
-        String[] meses = DateFormatSymbols.getInstance(Locale.ENGLISH).getMonths();
-        nombreMeses.addAll(Arrays.asList(meses));
-        xAxis.setCategories(nombreMeses);
+        // Obtener un array con los nombres de los meses en inglés.
+        String[] months = DateFormatSymbols.getInstance(Locale.ENGLISH).getMonths();
+        // Convertirlo a una lista y agregarla a nuestro ObservableList de meses.
+        monthNames.addAll(Arrays.asList(months));
 
-        // Configuración del eje Y para que tenga un rango visible adecuado
-        yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(0);
-        yAxis.setUpperBound(10);  // Ajusta según la cantidad máxima de reservas esperadas
-        yAxis.setTickUnit(1);
+        // Asignar los nombres de los meses como categorías para el eje X.
+        xAxis.setCategories(monthNames);
+
+        // Configuración del eje Y
+        yAxis.setLowerBound(0);  // El valor mínimo será 0
+        yAxis.setUpperBound(120); // El valor máximo será 120
+        yAxis.setTickUnit(10);    // Las unidades de las divisiones serán de 10 en 10
+        yAxis.setTickLabelsVisible(true);
     }
 
-    /**
-     * Método que recibe las reservas y las procesa para mostrar las estadísticas
-     * @param reservaData Lista de reservas
-     */
-    public void setReservasMeses(List<Reserva> reservaData) {
-        // Arreglo para contar las reservas por mes (índice 0 = enero, 11 = diciembre)
-        int[] reservasPorMes = new int[12];
-
-        // Verificación de si hay datos
-        if (reservaData == null || reservaData.isEmpty()) {
-            System.out.println("No hay reservas para mostrar.");
-            return;  // Si no hay datos, no procesar nada
+    public void setReservaData(List<Reserva> reservas) {
+        int[] monthCounterL = new int[12];
+        int[] occupiedRoomsByMonth = new int[12];
+        for (Reserva p : reservas) {
+            int monthL = p.getFechaLlegada().getMonthValue() - 1;
+            int room = p.numeroHabitacionesProperty().get();
+            occupiedRoomsByMonth[monthL] = occupiedRoomsByMonth[monthL] + room;
+            monthCounterL[monthL]++;
         }
 
-        // Iterar sobre las reservas para contar cuántas ocurren en cada mes
-        for (Reserva reserva : reservaData) {
-            if (reserva.getFechaLlegada() != null) {
-                // Verifica la fecha de llegada de la reserva
-                System.out.println("Fecha de llegada de la reserva: " + reserva.getFechaLlegada());
-
-                // Obtener el mes de la fecha de llegada
-                int mes = reserva.getFechaLlegada().getMonthValue() - 1;  // Ajustar a 0-11
-                if (mes >= 0 && mes < 12) {
-                    reservasPorMes[mes]++;  // Incrementar el conteo para ese mes
-                } else {
-                    System.out.println("Fecha fuera de rango: " + reserva.getFechaLlegada());
-                }
-            } else {
-                System.out.println("Reserva sin fecha de llegada.");
-            }
+        // Creando la serie de datos con tipo Integer en lugar de Double
+        XYChart.Series<String, Integer> series = new XYChart.Series<>();
+        for (int i = 0; i < monthCounterL.length; i++) {
+            // Aquí, eliminamos el cálculo del porcentaje en double y usamos un valor entero
+            int valor = occupiedRoomsByMonth[i];  // Mostramos las habitaciones ocupadas directamente
+            series.getData().add(new XYChart.Data<>(monthNames.get(i), valor));
         }
 
-        // Crear la serie de datos para el gráfico de barras
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Reservas por Mes");
-
-        // Añadir los datos de cada mes
-        for (int i = 0; i < 12; i++) {
-            System.out.println("Mes: " + nombreMeses.get(i) + " - Reservas: " + reservasPorMes[i]);  // Depuración
-            series.getData().add(new XYChart.Data<>(nombreMeses.get(i), reservasPorMes[i]));
-        }
-
-        // Limpiar y agregar la nueva serie de datos al gráfico
-        estadisticas.getData().clear();
-        estadisticas.getData().add(series);
+        barChart.getData().add(series);
     }
 }

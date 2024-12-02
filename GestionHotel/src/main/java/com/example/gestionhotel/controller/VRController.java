@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class VRController {
 
@@ -32,20 +31,16 @@ public class VRController {
     @FXML
     private CheckBox fumador;
     @FXML
-    private RadioButton alojamientoDesayuno;
-    @FXML
-    private RadioButton mediaPension;
-    @FXML
-    private RadioButton pensionCompleta;
+    private RadioButton alojamientoDesayuno, mediaPension, pensionCompleta;
     @FXML
     private SplitMenuButton numHabitaciones;
 
     private Main main;
     private HotelModelo hotelModelo;
     private ObservableList<Reserva> reservaData = FXCollections.observableArrayList();
-    private String dniClienteSelecc;
-    private Stage stage;
+    private String dniClienteSeleccionado;
 
+    // Método para establecer el modelo del hotel
     public void setHotelModelo(HotelModelo hotelModelo) throws ExeptionHotel {
         this.hotelModelo = hotelModelo;
         cargarDatosReservas();
@@ -55,77 +50,89 @@ public class VRController {
         this.main = main;
     }
 
+    public String getDniClienteSeleccionado() {
+        return dniClienteSeleccionado;
+    }
+
     @FXML
-    public void initialize() {
+    private void initialize() {
         columnaCodigo.setCellValueFactory(cellData -> cellData.getValue().dniClienteProperty());
         columnaFechaEntrada.setCellValueFactory(cellData -> cellData.getValue().fechaLlegadaProperty().asString());
         tablaReservas.setItems(reservaData);
 
-        tablaReservas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            mostrarDatosReserva(newValue);
-        });
+        // Listener para cambios en la selección de la tabla
+        tablaReservas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> mostrarDatosReserva(newValue));
     }
 
+    // Cargar reservas de un cliente específico por su DNI
+    public void setDniClienteSeleccionado(String dni) {
+        this.dniClienteSeleccionado = dni;
+        cargarReservasPorCliente(dni);
+    }
+
+    // Método para obtener las reservas de un cliente
+    private void cargarReservasPorCliente(String dniCliente) {
+        try {
+            ArrayList<Reserva> reservasCliente = hotelModelo.buscarReserva(dniCliente);
+            reservaData.setAll(reservasCliente);
+            tablaReservas.setItems(reservaData);
+        } catch (ExeptionHotel e) {
+            mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
+        }
+    }
+
+    // Método auxiliar para mostrar detalles de una reserva seleccionada
     private void mostrarDatosReserva(Reserva reserva) {
         if (reserva != null) {
             fechaLlegada.setValue(reserva.getFechaLlegada());
             fechaSalida.setValue(reserva.getFechaSalida());
             tipoHabitacion.setText(reserva.getTipoHabitacion().toString());
             fumador.setSelected(reserva.isFumador());
-
             switch (reserva.getRegimenAlojamiento()) {
                 case desayuno -> alojamientoDesayuno.setSelected(true);
                 case mediaPension -> mediaPension.setSelected(true);
                 case pensionCompleta -> pensionCompleta.setSelected(true);
             }
-
             numHabitaciones.setText(String.valueOf(reserva.getNumeroHabitaciones()));
+        } else {
+            limpiarDetallesReserva();
         }
     }
 
-    public void setDniClienteSeleccionado(String dniCliente) {
-        this.dniClienteSelecc = dniCliente;
-        cargarReservasPorCliente(dniCliente);
+    // Limpiar la vista de detalles de reserva
+    private void limpiarDetallesReserva() {
+        fechaLlegada.setValue(null);
+        fechaSalida.setValue(null);
+        tipoHabitacion.setText("Selecciona");
+        fumador.setSelected(false);
+        alojamientoDesayuno.setSelected(false);
+        mediaPension.setSelected(false);
+        pensionCompleta.setSelected(false);
+        numHabitaciones.setText("Selecciona");
     }
 
-    // Método para obtener el DNI
-    public String getDniClienteSeleccionado() {
-        return dniClienteSelecc;
-    }
-
-    private void cargarReservasPorCliente(String dniCliente) {
-        try {
-            ArrayList<Reserva> listaReservasCliente = hotelModelo.buscarReserva(dniCliente);
-            reservaData.setAll(listaReservasCliente);
-        } catch (ExeptionHotel e) {
-            mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
-        }
-    }
-
-    // Este método debe devolver la lista de reservas
+    // Cargar la lista completa de reservas
     public ObservableList<Reserva> cargarDatosReservas() {
         try {
             ArrayList<Reserva> listaReservas = hotelModelo.obtenerListaReservas();
-            reservaData.setAll(listaReservas);  // Cargar las reservas en la lista observable
-            return reservaData;  // Devolver la lista de reservas
+            reservaData.setAll(listaReservas);
+            return reservaData;
         } catch (ExeptionHotel | SQLException e) {
             mostrarAlerta("Error", "No se pudieron cargar las reservas: " + e.getMessage());
-            return FXCollections.observableArrayList();  // Retorna una lista vacía en caso de error
+            return FXCollections.observableArrayList();
         }
     }
 
     @FXML
-    public void botonNuevaReserva() {
-        System.out.println("");
-        Reserva nuevaReserva = new Reserva();
-        boolean okClicked = main.pantallaCrearReserva(nuevaReserva);
+    private void botonNuevaReserva() {
+        Reserva nuevaReserva = new Reserva();  // Crea una instancia vacía
+        nuevaReserva.setDniCliente(dniClienteSeleccionado);  // Asocia el cliente seleccionado
+        boolean okClicked = main.pantallaEditarCrearReserva(nuevaReserva);
+        System.out.println("botonNuevaReserva: " + nuevaReserva);
         if (okClicked) {
             try {
-                System.out.println("bioton nueva reserva");
                 hotelModelo.anadirReserva(nuevaReserva);
-                System.out.println("Añadida a la base de datos");
-                main.getReservaData().add(nuevaReserva);
-                cargarDatosReservas();
+                reservaData.add(nuevaReserva);
             } catch (ExeptionHotel e) {
                 mostrarAlerta("Error", "No se pudo añadir la reserva: " + e.getMessage());
             }
@@ -133,15 +140,14 @@ public class VRController {
     }
 
     @FXML
-    public void botonEditarReserva() {
+    private void botonEditarReserva() {
         Reserva seleccionada = tablaReservas.getSelectionModel().getSelectedItem();
         if (seleccionada != null) {
-            boolean okClicked = main.pantallaEditarReserva(seleccionada);
+            boolean okClicked = main.pantallaEditarCrearReserva(seleccionada);
             if (okClicked) {
                 try {
                     hotelModelo.editarReserva(seleccionada);
                     mostrarDatosReserva(seleccionada);
-                    cargarDatosReservas();
                 } catch (ExeptionHotel e) {
                     mostrarAlerta("Error", "No se pudo actualizar la reserva: " + e.getMessage());
                 }
@@ -152,12 +158,12 @@ public class VRController {
     }
 
     @FXML
-    public void botonEliminarReserva() {
+    private void botonEliminarReserva() {
         Reserva seleccionada = tablaReservas.getSelectionModel().getSelectedItem();
         if (seleccionada != null) {
             try {
-                hotelModelo.eliminarReserva(seleccionada.getIdReserva()); // Llamada segura
-                reservaData.remove(seleccionada); // Actualiza la tabla
+                hotelModelo.eliminarReserva(seleccionada.getIdReserva());
+                reservaData.remove(seleccionada);
             } catch (ExeptionHotel e) {
                 mostrarAlerta("Error", "No se pudo eliminar la reserva: " + e.getMessage());
             }
@@ -166,15 +172,8 @@ public class VRController {
         }
     }
 
-    private RegimenAlojamiento obtenerRegimenSeleccionado() {
-        if (alojamientoDesayuno.isSelected()) return RegimenAlojamiento.desayuno;
-        if (mediaPension.isSelected()) return RegimenAlojamiento.mediaPension;
-        if (pensionCompleta.isSelected()) return RegimenAlojamiento.pensionCompleta;
-        return null;
-    }
-
     private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);

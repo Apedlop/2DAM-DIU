@@ -120,7 +120,7 @@ public class Main extends Application {
     }
 
     // Método para mostrar editarCliente o añadirCliente
-    public boolean pantallaCrear(Cliente cliente) {
+    public boolean pantallaCrear() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/com/example/gestionhotel/CrearCliente.fxml"));
@@ -144,10 +144,16 @@ public class Main extends Application {
             hotelModelo = new HotelModelo();
             clienteRepository = new ClienteRepositoryImpl();
             reservaRepository = new ReservaRepositoryImpl();
+
             controller.setHotelModelo(hotelModelo);
             hotelModelo.setReservaRepository(reservaRepository);
             hotelModelo.setClienteRepository(clienteRepository);
-            controller.setCliente(cliente);
+//            controller.setCliente(cliente);  // Pasar el cliente
+
+            // Si la reserva es nula (estás creando una nueva reserva), no pasa nada, ya que es una reserva nueva
+//            if (reserva != null) {
+//                controller.setReserva(reserva); // Solo pasa la reserva si no es nula (en caso de edición)
+//            }
 
             // Mostrar la ventana modal y esperar su cierre
             stage.showAndWait();
@@ -287,6 +293,38 @@ public class Main extends Application {
         }
     }
 
+    public boolean pantallaEditarCrearReserva(Reserva reserva) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/com/example/gestionhotel/EditarReserva.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
+
+            // Crear el nuevo Stage
+            Stage stage = new Stage();
+            stage.setTitle("Crear Reserva");
+            stage.initModality(Modality.APPLICATION_MODAL); // Cambiar a modalidad modal
+            stage.initOwner(primaryStage);
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            // Obtener el controlador y pasarle los datos
+            EditarReservaController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setDniClienteSeleccionado(dniSeleccionado); // Pasar el dni del cliente seleccionado
+            hotelModelo = new HotelModelo();
+            reservaRepository = new ReservaRepositoryImpl();
+            controller.setHotelModelo(hotelModelo);
+            hotelModelo.setReservaRepository(reservaRepository);
+            controller.setReserva(reserva);
+            stage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean pantallaCrearReserva(Reserva reserva) {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -334,7 +372,7 @@ public class Main extends Application {
 
             Stage stage = new Stage();
             stage.setTitle("Estadísticas de reservas");
-            stage.initModality(Modality.WINDOW_MODAL);
+//            stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(primaryStage);
             Scene scene = new Scene(estadisticasCliente);
             stage.setScene(scene);
@@ -366,8 +404,10 @@ public class Main extends Application {
             // Obtener el controlador del FXML cargado
             TipoHabitacionesController controller = loader.getController();
 
+            reservaRepository = new ReservaRepositoryImpl();
             HotelModelo hotelModelo = new HotelModelo();
             controller.setHotelModelo(hotelModelo);
+            hotelModelo.setReservaRepository(reservaRepository);
 
             // Mostrar la ventana
             stage.show();

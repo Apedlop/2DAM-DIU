@@ -117,6 +117,37 @@ public class CrearClienteController {
         ponerProvincia.setText(cliente.getProvincia());
     }
 
+    public void setReserva(Reserva reserva) {
+        // Asegúrate de que la reserva tenga todos los valores correctos
+        System.out.println(reserva);
+        if (reserva != null) {
+            fechaLlegada.setValue(reserva.getFechaLlegada());
+            fechaSalida.setValue(reserva.getFechaSalida());
+            tipoHabitacion.setText(reserva.getTipoHabitacion().toString());
+            numHabitaciones.setText(String.valueOf(reserva.getNumeroHabitaciones()));
+            fumador.setSelected(reserva.isFumador());
+
+            // Asignar régimen de alojamiento
+            switch (reserva.getRegimenAlojamiento()) {
+                case desayuno:
+                    alojamientoDesayuno.setSelected(true);
+                    break;
+                case mediaPension:
+                    mediaPension.setSelected(true);
+                    break;
+                case pensionCompleta:
+                    pensionCompleta.setSelected(true);
+                    break;
+                default:
+                    break;
+            }
+
+            // Buscar cliente por DNI y asignar
+            Cliente clienteReserva = hotelModelo.buscarDNI(reserva.getDniCliente());
+            setCliente(clienteReserva);
+        }
+    }
+
     // Retorna "true" si el usuario hace click en ACEPTAR
     public boolean isOkClicked() {
         return okClicked;
@@ -165,7 +196,7 @@ public class CrearClienteController {
 
     @FXML
     private void botonOk() {
-        // Primero validamos los datos del cliente
+        // Validación de los campos del cliente
         if (!isValido()) {
             return; // Si los datos no son válidos, no seguimos con el proceso
         }
@@ -196,7 +227,7 @@ public class CrearClienteController {
         }
 
         // Validación del tipo de habitación
-        TipoHabitacion tipoHab;
+        TipoHabitacion tipoHab = null;
         try {
             tipoHab = TipoHabitacion.valueOf(tipoHabitacion.getText());
         } catch (IllegalArgumentException e) {
@@ -221,7 +252,7 @@ public class CrearClienteController {
                 return;
             }
 
-            // Crear el cliente
+            // Crear el cliente con los datos del formulario
             Cliente nuevoCliente = new Cliente(
                     ponerDni.getText().trim(),
                     ponerNombre.getText().trim(),
@@ -231,13 +262,22 @@ public class CrearClienteController {
                     ponerProvincia.getText().trim()
             );
 
-            // Crear la reserva asociada
+            // Crear la reserva asociada con los datos del formulario
             boolean esFumador = fumador.isSelected();
             Reserva nuevaReserva = new Reserva(0, nuevoCliente.getDni(), llegada, salida, numHab, tipoHab, esFumador, regimen);
 
+            hotelModelo.anadirCliente(nuevoCliente);
+            hotelModelo.anadirReserva(nuevaReserva);
+
+            // Asegúrate de que no se guarden valores nulos
+            if (nuevoCliente.getDni() == null || nuevaReserva.getTipoHabitacion() == null) {
+                mostrarAlerta("Error", "Los datos del cliente y la reserva no son válidos.");
+                return;
+            }
+
             // Guardar el cliente y la reserva en el modelo
-            hotelModelo.anadirCliente(nuevoCliente);  // Método para añadir cliente (no lo tienes, pero es necesario)
-            hotelModelo.anadirReserva(nuevaReserva); // Guardar la reserva
+//            hotelModelo.anadirCliente(nuevoCliente);
+//            hotelModelo.anadirReserva(nuevaReserva);
 
             // Si todo se guarda correctamente, cerramos la ventana
             okClicked = true;
@@ -248,7 +288,6 @@ public class CrearClienteController {
             mostrarAlerta("Error", "Hubo un problema al guardar los datos.");
         }
     }
-
 
     @FXML
     private void botonCancelar() {

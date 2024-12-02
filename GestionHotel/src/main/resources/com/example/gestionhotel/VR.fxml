@@ -78,11 +78,7 @@
                         </RadioButton>
                      </children>
                   </VBox>
-                  <SplitMenuButton fx:id="numHabitaciones" layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="0">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="1" />
-                    </items>
-                  </SplitMenuButton>
+                  <SplitMenuButton fx:id="numHabitaciones" layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="1" />
                   <Label layoutX="24.0" layoutY="152.0" text="Numero de habitaciones" />
                   <Label layoutX="221.0" layoutY="194.0" prefHeight="19.0" prefWidth="192.0" text="En virtud de la ley de sanidad" />
                   <Label layoutX="221.0" layoutY="213.0" text="se informa a los clientes de que" />

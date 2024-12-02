@@ -147,14 +147,27 @@ public class VPController {
 
     @FXML
     private void botonNuevoCliente() {
+        // Crear nuevo cliente y reserva
         Cliente cliente = new Cliente();
-        boolean okClicked = main.pantallaCrear(cliente);
+        Reserva reserva = new Reserva();
+
+        // Asegurarse de que los datos necesarios se pasan correctamente
+        boolean okClicked = main.pantallaCrear();
+
         if (okClicked) {
             try {
-                hotelModelo.anadirCliente(cliente);
+                // Después de crear, se asocia el cliente y la reserva
+
+
+                // Mostrar en consola para depuración
+                System.out.println("BotonNuevoCliente " + cliente);
+                System.out.println("BotonNuevoCliente " + reserva);
+
+                // Añadir el cliente a la lista de datos
                 main.getClienteData().add(cliente);
                 cargarDatosClientes();
             } catch (ExeptionHotel | SQLException e) {
+                // Manejo de errores de base de datos
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Error al añadir la persona");
                 alert.setTitle("Error con la base de datos");
@@ -182,7 +195,6 @@ public class VPController {
                     alert.showAndWait();
                 }
             }
-
         } else {
             // Nada seleccionado
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);

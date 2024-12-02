@@ -165,8 +165,7 @@ public class EditarReservaController {
             System.out.println("Estoy en boton aceptar");
             // Crear una nueva reserva si no existe una reserva para editar
 
-            reserva = new Reserva();
-            System.out.println("buena" + reserva );
+            System.out.println("buena" + reserva);
             System.out.println(dniClienteSeleccionado + " boton aceptar");// Crear una nueva reserva
             reserva.setDniCliente(dniClienteSeleccionado);  // Establecer el DNI del cliente
 
@@ -176,20 +175,8 @@ public class EditarReservaController {
             reserva.setTipoHabitacion(TipoHabitacion.valueOf(tipoHabitacion.getText()));
             reserva.setFumador(fumador.isSelected());
             reserva.setRegimenAlojamiento(obtenerRegimenSeleccionado());
-            reserva.setNumeroHabitaciones(1);  // Siempre 1 habitación (según tu código)
+            reserva.setNumeroHabitaciones(1);  // Siempre será 1 habitación
             System.out.println("EStoy en boton acetpae");
-            // Actualizar o crear la reserva en la base de datos
-//            if (reserva.getIdReserva() != null) {  // Si ya tiene un ID, estamos editando
-//                System.out.println("Estos en distinto de null");
-//               // hotelModelo.editarReserva(reserva);
-//                System.out.println("Reserva editada " + reserva);
-//                hotelModelo.anadirReserva(reserva);
-//
-//            } else {  // Si no tiene ID, es una nueva reserva
-//                System.out.println("Nueva reserva" + reserva);
-//                hotelModelo.anadirReserva(reserva);
-//
-//            }
 
             okClicked = true;
             stage.close();

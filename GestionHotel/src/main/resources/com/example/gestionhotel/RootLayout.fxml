@@ -10,20 +10,19 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Documentacion">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem onAction="#botonDocumentacion" text="Ver Documentacion" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Estadisticas">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#botonVerEstadisticas" text="Ver Estadisticas" />
-                  <MenuItem mnemonicParsing="false" onAction="#botonTiposHbitacion" text="Tipos Habitación" />
+                        <MenuItem onAction="#botonVerEstadisticas" text="Ver Estadisticas" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu mnemonicParsing="false" text="Habitaciones">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem onAction="#botonTiposHbitacion" text="Ver Tipos Habitaciones" />
                     </items>
                 </Menu>
             </menus>

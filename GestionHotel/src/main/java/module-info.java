@@ -1,8 +1,6 @@
 module com.example.gestionhotel {
-    requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires java.desktop;
 
     // Librerías adicionales que usas, ajusta según sea necesario
     requires org.controlsfx.controls;
@@ -11,6 +9,7 @@ module com.example.gestionhotel {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires javafx.web;
 
     exports com.example.gestionhotel;
     opens com.example.gestionhotel to javafx.fxml;

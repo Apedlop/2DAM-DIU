@@ -12,15 +12,20 @@ public class RootLayoutController {
         this.main = main;
     }
 
-    // Se ejecuta cuando se pulsa el botón "Ver estadísticas"
+    // Método que se ejecuta cuando pulsamos en "Estadísticas"
     @FXML
     private void botonVerEstadisticas() {
         main.verEstadisticas();
     }
 
+    // Método que se ejecuta cuando pulsamos en "Habitaciones"
     @FXML
     private void botonTiposHbitacion() {
         main.verTiposHabitaciones();
     }
+
+    // Método que se ejecuta cuando pulsamos en "Documentación"
+    @FXML
+    private void botonDocumentacion() {main.verDocumentacion();}
 
 }

@@ -229,11 +229,11 @@ public class EditarReservaController {
         if (tipoHab != null) {
             tipoHabitacion.setText(tipoHab.toString());
         } else {
-            tipoHabitacion.setText("No especificado");
+            tipoHabitacion.setText("-- Seleccionar --");
         }
 
         // Número de habitaciones
-        numHabitaciones.setText(String.valueOf(reserva.getNumeroHabitaciones()));
+        numHabitaciones.setText(String.valueOf(1));
 
         // Fumador
         fumador.setSelected(reserva.isFumador());

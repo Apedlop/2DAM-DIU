@@ -56,7 +56,7 @@ public class VRController {
 
     @FXML
     private void initialize() {
-        columnaCodigo.setCellValueFactory(cellData -> cellData.getValue().dniClienteProperty());
+        columnaCodigo.setCellValueFactory(cellData -> cellData.getValue().idReservaProperty().asString());
         columnaFechaEntrada.setCellValueFactory(cellData -> cellData.getValue().fechaLlegadaProperty().asString());
         tablaReservas.setItems(reservaData);
 

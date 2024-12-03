@@ -150,4 +150,17 @@ public class Cliente {
     public StringProperty dniProperty() {
         return dni;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "dni=" + dni +
+                ", nombre=" + nombre +
+                ", apellido=" + apellido +
+                ", direccion=" + direccion +
+                ", localidad=" + localidad +
+                ", provincia=" + provincia +
+                ", reservas=" + reservas +
+                '}';
+    }
 }

@@ -152,12 +152,13 @@ public class VPController {
         Reserva reserva = new Reserva();
 
         // Asegurarse de que los datos necesarios se pasan correctamente
-        boolean okClicked = main.pantallaCrear();
+        boolean okClicked = main.pantallaCrear(cliente, reserva);
 
         if (okClicked) {
             try {
                 // Después de crear, se asocia el cliente y la reserva
-
+                hotelModelo.anadirCliente(cliente);
+                hotelModelo.anadirReserva(reserva);
 
                 // Mostrar en consola para depuración
                 System.out.println("BotonNuevoCliente " + cliente);
@@ -165,6 +166,8 @@ public class VPController {
 
                 // Añadir el cliente a la lista de datos
                 main.getClienteData().add(cliente);
+                System.out.println("nuevoCLienre: " + clienteData);
+                main.getReservaData().add(reserva);
                 cargarDatosClientes();
             } catch (ExeptionHotel | SQLException e) {
                 // Manejo de errores de base de datos
@@ -210,8 +213,12 @@ public class VPController {
         int selectIndex = tablaClientes.getSelectionModel().getSelectedIndex();
         if (selectIndex >= 0) {
             try {
-                hotelModelo.eliminarCliente(tablaClientes.getItems().get(selectIndex));
-                cargarDatosClientes();
+                // Eliminar del modelo (base de datos)
+                Cliente clienteSeleccionado = tablaClientes.getItems().get(selectIndex);
+                hotelModelo.eliminarCliente(clienteSeleccionado);
+
+                // Actualizar la lista de datos y la interfaz
+                cargarDatosClientes();  // Esto actualizará la tabla automáticamente
             } catch (ExeptionHotel | SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Error al eliminar al cliente");
@@ -219,7 +226,6 @@ public class VPController {
                 alert.setContentText("No se puede conectar con la base de datos para eliminar la persona");
                 alert.showAndWait();
             }
-            tablaClientes.getItems().remove(selectIndex);
         } else {
             // Nada seleccionado
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -252,6 +258,9 @@ public class VPController {
 
             // Si el cliente es encontrado, mostrar la información
             mostrarInformacionCliente(cliente);
+            System.out.println(clienteData);
+            // Filtrar la tabla para mostrar solo el cliente encontrado
+           tablaClientes.setItems(clienteData);  // Actualiza la tabla para mostrar solo el cliente encontrado
 
         } catch (ExeptionHotel e) {
             // Manejo de cualquier excepción

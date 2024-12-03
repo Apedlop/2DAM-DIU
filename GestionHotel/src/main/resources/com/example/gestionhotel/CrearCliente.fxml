@@ -65,7 +65,7 @@
       <Label layoutX="78.0" layoutY="308.0" text="Fecha llegada" />
       <Label layoutX="349.0" layoutY="307.0" text="Fecha salida" />
       <DatePicker fx:id="fechaSalida" layoutX="349.0" layoutY="330.0" />
-      <SplitMenuButton fx:id="tipoHabitacion" layoutX="184.0" layoutY="368.0" minHeight="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0" text="-- Seleccionar --" />
+      <SplitMenuButton fx:id="tipoHabitacion" layoutX="204.0" layoutY="369.0" minHeight="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="-- Seleccionar --" />
       <Label layoutX="78.0" layoutY="372.0" text="Tipo de Habitacion" />
       <Label layoutX="340.0" layoutY="416.0" text="Numero de habitaciones" />
       <SplitMenuButton fx:id="numHabitaciones" layoutX="480.0" layoutY="412.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="0" />

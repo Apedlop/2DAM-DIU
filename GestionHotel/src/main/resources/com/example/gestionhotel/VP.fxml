@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VPController">
+<AnchorPane stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VPController">
     <children>
         <!-- SplitPane para dividir en dos paneles -->
         <SplitPane dividerPositions="0.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -29,10 +29,10 @@
                         </TableView>
 
                         <!-- Botones de acción (Nuevo, Editar, Eliminar) -->
-                        <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" spacing="10" alignment="CENTER_RIGHT">
+                        <HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="260.0" spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="8.0">
                             <children>
-                                <Button mnemonicParsing="false" onAction="#botonNuevoCliente" prefHeight="29.0" prefWidth="68.0" text="Nuevo" />
-                                <Button mnemonicParsing="false" onAction="#botonEditarCliente" prefHeight="29.0" prefWidth="71.0" text="Editar" />
+                                <Button mnemonicParsing="false" onAction="#botonNuevoCliente" text="Nuevo" />
+                                <Button mnemonicParsing="false" onAction="#botonEditarCliente" text="Editar" />
                                 <Button mnemonicParsing="false" onAction="#botonEliminarCliente" text="Eliminar" />
                             </children>
                         </HBox>

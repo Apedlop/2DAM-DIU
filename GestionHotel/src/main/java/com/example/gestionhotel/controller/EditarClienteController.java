@@ -51,6 +51,9 @@ public class EditarClienteController {
         ponerDireccion.setText(cliente.getDireccion());
         ponerLocalidad.setText(cliente.getLocalidad());
         ponerProvincia.setText(cliente.getProvincia());
+
+        // Deshabilitar el campo de DNI para que no se pueda modificar
+        ponerDni.setDisable(true);  // Esto hace que el campo del DNI sea solo de lectura
     }
 
     // Retorna "true" si el usuario hace click en ACEPTAR

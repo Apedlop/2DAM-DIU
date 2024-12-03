@@ -1,0 +1,86 @@
+/* Estilo de la tabla */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b2ebf2; /* Azul pastel suave */
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+/* Encabezados de las columnas */
+.table-view .column-header-background {
+    -fx-background-color: #4dd0e1; /* Turquesa pastel */
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .table-column {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #004d40; /* Color de texto oscuro para contraste */
+    -fx-font-weight: bold;
+}
+
+/* Estilo de las filas */
+.table-row-cell {
+    -fx-background-color: #e0f2f1; /* Verde azulado claro */
+    -fx-text-fill: #004d40; /* Contraste oscuro */
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #b2dfdb; /* Turquesa pastel claro */
+    -fx-text-fill: #004d40;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #26c6da; /* Turquesa más fuerte */
+    -fx-text-fill: #ffffff; /* Texto blanco para mejor contraste */
+}
+
+/* Botones */
+.button {
+    -fx-background-color: #26c6da; /* Turquesa vibrante */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #00acc1;
+}
+
+.button:pressed {
+    -fx-background-color: #00838f;
+}
+
+/* Barra de búsqueda */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #80deea; /* Turquesa suave */
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+/* Estilo de las etiquetas */
+.label-header {
+    -fx-text-fill: #006064; /* Turquesa oscuro */
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: #004d40; /* Azul verdoso oscuro */
+}
+
+/* GridPane de detalles */
+.grid-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #b2ebf2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+
+/* Efecto de sombra */
+.anchor-pane, .grid-pane, .table-view {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 5);
+}

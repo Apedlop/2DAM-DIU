@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VRController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="700.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VRController">
     <children>
         <SplitPane dividerPositions="0.3862876254180602" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -35,12 +35,12 @@
                             </font></Label>
                         <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
                             <children>
-                                <Button layoutX="13.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonNuevaReserva" prefWidth="63.0" text="Nuevo">
+                                <Button layoutX="13.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonNuevaReserva" text="Nuevo">
                                     <HBox.margin>
                                         <Insets right="5.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button layoutX="222.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonEditarReserva" prefHeight="29.0" prefWidth="63.0" text="Editar">
+                                <Button layoutX="222.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonEditarReserva" text="Editar">
                                     <HBox.margin>
                                         <Insets right="5.0" />
                                     </HBox.margin>

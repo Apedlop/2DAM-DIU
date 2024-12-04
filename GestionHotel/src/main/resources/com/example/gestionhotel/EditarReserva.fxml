@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.EditarReservaController">
+<AnchorPane maxHeight="-Infinity" stylesheets="@styles/styles.css" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.EditarReservaController">
     <children>
         <AnchorPane minWidth="300.0" prefHeight="323.0" prefWidth="450.0" styleClass="background">
             <children>
@@ -45,12 +45,9 @@
                 </VBox>
                 <SplitMenuButton fx:id="numHabitaciones" layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="1" />
                 <Label layoutX="24.0" layoutY="152.0" text="Numero de habitaciones" />
-                <Label layoutX="221.0" layoutY="194.0" prefHeight="19.0" prefWidth="192.0" text="En virtud de la ley de sanidad" />
-                <Label layoutX="221.0" layoutY="213.0" text="se informa a los clientes de que" />
-                <Label layoutX="221.0" layoutY="232.0" text="solo podrán fumar en las " />
-                <Label layoutX="220.0" layoutY="251.0" text="habitaciones reservadas para tal fin." />
                 <Button layoutX="296.0" layoutY="288.0" mnemonicParsing="false" onAction="#BotonAceptar" text="Aceptar" />
                 <Button layoutX="366.0" layoutY="288.0" mnemonicParsing="false" onAction="#botonCancelar" text="Cancelar" />
+            <Label fx:id="alertaFumador" layoutX="243.0" layoutY="193.0" prefHeight="77.0" prefWidth="177.0" />
             </children>
         </AnchorPane>
     </children>

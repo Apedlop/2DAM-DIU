@@ -29,6 +29,8 @@ public class EditarReservaController {
     private RadioButton mediaPension;
     @FXML
     private RadioButton pensionCompleta;
+    @FXML
+    private Label alertaFumador;
 
     // Atributos de la clase
     private Stage stage;
@@ -69,6 +71,7 @@ public class EditarReservaController {
         configurarTipoHabitacion();
         configurarNumeroHabitaciones();
         configurarFechas();
+        configurarAlertaFumador();
     }
 
     // Configura los RadioButtons para el régimen de alojamiento
@@ -77,6 +80,17 @@ public class EditarReservaController {
         alojamientoDesayuno.setToggleGroup(grupoRegimen);
         mediaPension.setToggleGroup(grupoRegimen);
         pensionCompleta.setToggleGroup(grupoRegimen);
+    }
+
+    // Configura la `Label` de alerta cuando se selecciona "fumador"
+    private void configurarAlertaFumador() {
+        fumador.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {  // Si el checkbox se selecciona (fumador == true)
+                alertaFumador.setText("En virtud de la ley de sanidad, \nse informa a los clientes de que solo \npodrán fumar en las habitaciones \nreservadas para tal fin.");
+            } else {  // Si se deselecciona
+                alertaFumador.setText("");  // Borra el mensaje
+            }
+        });
     }
 
     // Configura el tipo de habitación (ComboBox)

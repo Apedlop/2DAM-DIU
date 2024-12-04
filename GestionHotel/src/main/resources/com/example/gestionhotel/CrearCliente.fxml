@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="592.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.CrearClienteController">
+<AnchorPane prefHeight="592.0" stylesheets="@styles/styles.css"  prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.CrearClienteController">
 <children>
         <GridPane layoutX="50.0" layoutY="68.0" prefWidth="500.0">
             <columnConstraints>
@@ -71,10 +71,6 @@
       <SplitMenuButton fx:id="numHabitaciones" layoutX="480.0" layoutY="412.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="0" />
       <Label layoutX="80.0" layoutY="416.0" text="Regimen de alojamiento:" />
       <CheckBox fx:id="fumador" layoutX="420.0" layoutY="372.0" mnemonicParsing="false" text="Fumador" />
-      <Label layoutX="340.0" layoutY="512.0" text="habitaciones reservadas para tal fin." />
-      <Label layoutX="341.0" layoutY="493.0" text="solo podrán fumar en las " />
-      <Label layoutX="341.0" layoutY="474.0" text="se informa a los clientes de que" />
-      <Label layoutX="341.0" layoutY="455.0" prefHeight="19.0" prefWidth="192.0" text="En virtud de la ley de sanidad" />
       <Group layoutX="129.0" layoutY="529.0" />
     <VBox layoutX="79.0" layoutY="434.0" prefWidth="200.0">
         <children>
@@ -94,5 +90,6 @@
             </RadioButton>
         </children>
     </VBox>
+      <Label fx:id="alertaFumador" layoutX="296.0" layoutY="458.0" prefHeight="74.0" prefWidth="236.0" />
 </children>
 </AnchorPane>

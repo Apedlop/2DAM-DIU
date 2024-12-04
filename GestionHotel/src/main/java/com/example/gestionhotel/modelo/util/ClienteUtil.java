@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ClienteUtil {
 
     // Convertir ClienteVO en Cliente
-    public Cliente convertirCliente(ClienteVO clienteVO) {
+    public static Cliente convertirCliente(ClienteVO clienteVO) {
         Cliente cliente = new Cliente();
         cliente.setDni(clienteVO.getDni());
         cliente.setNombre(clienteVO.getNombre());
@@ -20,18 +20,17 @@ public class ClienteUtil {
     }
 
     // ArrayList de ClienteVO y devuelve un ArrayList de Cliente
-    public ArrayList<Cliente> listaClientes(ArrayList<ClienteVO> listaClientesVO) {
+    public static ArrayList<Cliente> listaClientes(ArrayList<ClienteVO> listaClientesVO) {
         ArrayList<Cliente> clientes = new ArrayList<>();
-        Cliente cliente = new Cliente();
-        for (int i = 0; i < listaClientesVO.size(); i++) {
-            cliente = convertirCliente(listaClientesVO.get(i));
+        for (ClienteVO clienteVO : listaClientesVO) {
+            Cliente cliente = convertirCliente(clienteVO);
             clientes.add(cliente);
         }
         return clientes;
     }
 
     // Convertir Cliente a ClienteVO
-    public ClienteVO convertirClienteVO(Cliente cliente) {
+    public static ClienteVO convertirClienteVO(Cliente cliente) {
         ClienteVO clienteVO = new ClienteVO();
         clienteVO.setDni(cliente.getDni());
         clienteVO.setNombre(cliente.getNombre());
@@ -42,15 +41,13 @@ public class ClienteUtil {
         return clienteVO;
     }
 
-    // Convertir en una lista de Cliente a una lista de ClienteVO
-    public ArrayList<ClienteVO> listaClienteVO(ArrayList<Cliente> listaCliente) {
+    // Convertir una lista de Cliente a una lista de ClienteVO
+    public static ArrayList<ClienteVO> listaClienteVO(ArrayList<Cliente> listaCliente) {
         ArrayList<ClienteVO> listaClienteVO = new ArrayList<>();
-        ClienteVO clienteVO = new ClienteVO();
-        for (int i = 0; i < listaCliente.size(); i++) {
-            clienteVO = convertirClienteVO(listaCliente.get(i));
+        for (Cliente cliente : listaCliente) {
+            ClienteVO clienteVO = convertirClienteVO(cliente);
             listaClienteVO.add(clienteVO);
         }
         return listaClienteVO;
     }
-
 }

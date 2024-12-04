@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ReservaUtil {
 
     // Convertir ReservaVO en Reserva
-    public Reserva convertirReserva(ReservaVO reservaVO) {
+    public static Reserva convertirReserva(ReservaVO reservaVO) {
         Reserva reserva = new Reserva();
         reserva.setIdReserva(reservaVO.getId_reserva());
         reserva.setDniCliente(reservaVO.getDni_cliente());
@@ -21,8 +21,8 @@ public class ReservaUtil {
         return reserva;
     }
 
-    // ArrayList de ReservaVO y devuelve un ArrayList de Reserva
-    public ArrayList<Reserva> listaReservas(ArrayList<ReservaVO> listaReservasVO) {
+    // Convertir un ArrayList de ReservaVO a un ArrayList de Reserva
+    public static ArrayList<Reserva> listaReservas(ArrayList<ReservaVO> listaReservasVO) {
         ArrayList<Reserva> reservas = new ArrayList<>();
         for (ReservaVO reservaVO : listaReservasVO) {
             reservas.add(convertirReserva(reservaVO));
@@ -31,8 +31,8 @@ public class ReservaUtil {
     }
 
     // Convertir Reserva en ReservaVO
-    public ReservaVO convertirReservaVO(Reserva reserva) {
-        ReservaVO reservaVO = new ReservaVO(
+    public static ReservaVO convertirReservaVO(Reserva reserva) {
+        return new ReservaVO(
                 reserva.getIdReserva(),
                 reserva.getFechaLlegada(),
                 reserva.getFechaSalida(),
@@ -42,11 +42,10 @@ public class ReservaUtil {
                 reserva.getRegimenAlojamiento(),
                 reserva.getDniCliente()
         );
-        return reservaVO;
     }
 
     // Convertir una lista de Reserva a una lista de ReservaVO
-    public ArrayList<ReservaVO> listaReservaVO(ArrayList<Reserva> listaReservas) {
+    public static ArrayList<ReservaVO> listaReservaVO(ArrayList<Reserva> listaReservas) {
         ArrayList<ReservaVO> listaReservaVO = new ArrayList<>();
         for (Reserva reserva : listaReservas) {
             listaReservaVO.add(convertirReservaVO(reserva));

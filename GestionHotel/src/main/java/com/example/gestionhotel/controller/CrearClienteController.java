@@ -38,6 +38,8 @@ public class CrearClienteController {
     private RadioButton mediaPension;
     @FXML
     private RadioButton pensionCompleta;
+    @FXML
+    private Label alertaFumador;
 
     private Stage stage;
     private Cliente cliente;
@@ -105,7 +107,17 @@ public class CrearClienteController {
                 setDisable(empty || item.isBefore(LocalDate.now()));
             }
         });
+
+        // Listener para CheckBox fumador
+        fumador.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) { // Si fumador es seleccionado (true)
+                alertaFumador.setText("En virtud de la ley de sanidad, \nse informa a los clientes de que solo \npodrán fumar en las habitaciones \nreservadas para tal fin.");
+            } else { // Si fumador no está seleccionado (false)
+                alertaFumador.setText(""); // Limpiar el texto del label
+            }
+        });
     }
+
 
     // Método para añadir tanto el cliente como la reserva a los campos
     public void setClienteYReserva(Cliente cliente, Reserva reserva) {

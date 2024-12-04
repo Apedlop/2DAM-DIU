@@ -16,8 +16,8 @@ public class HotelModelo {
 
     private ClienteRepository clienteRepository;
     private ReservaRepository reservaRepository;
-    private ClienteUtil clienteUtil = new ClienteUtil();
-    private ReservaUtil reservaUtil = new ReservaUtil();
+//    private ClienteUtil clienteUtil = new ClienteUtil();
+//    private ReservaUtil reservaUtil = new ReservaUtil();
 
     // Constructo por defecto vacío
     public HotelModelo() {
@@ -41,7 +41,7 @@ public class HotelModelo {
             ArrayList<ClienteVO> listaClienteVO = clienteRepository.obtenerListaClientes();
 
             // Convertimos la lista de ClienteVO a Cliente usando ClienteUtil
-            ArrayList<Cliente> listaCliente = clienteUtil.listaClientes(listaClienteVO);
+            ArrayList<Cliente> listaCliente = ClienteUtil.listaClientes(listaClienteVO);
 
             // Retornamos la lista de Cliente
             return listaCliente;
@@ -58,26 +58,26 @@ public class HotelModelo {
 
     // Método para añadir Clientes en la BD
     public void anadirCliente(Cliente cliente) throws ExeptionHotel {
-        ClienteVO clienteVO = clienteUtil.convertirClienteVO(cliente);
+        ClienteVO clienteVO = ClienteUtil.convertirClienteVO(cliente);
         clienteRepository.addCliente(clienteVO);
     }
 
     // Método para editar personas de la BD
     public void editarCliente(Cliente cliente) throws ExeptionHotel {
-        ClienteVO clienteVO = clienteUtil.convertirClienteVO(cliente);
+        ClienteVO clienteVO = ClienteUtil.convertirClienteVO(cliente);
         clienteRepository.editCliente(clienteVO);
     }
 
     // Método para eliminar Cliente de la BD
     public void eliminarCliente(Cliente cliente) throws ExeptionHotel {
-        ClienteVO clienteVO = clienteUtil.convertirClienteVO(cliente);
+        ClienteVO clienteVO = ClienteUtil.convertirClienteVO(cliente);
         clienteRepository.deleteCliente(clienteVO);
     }
 
     // Método para buscar un cliente por DNI
     public Cliente buscarDNI(String dni) throws ExeptionHotel {
         ClienteVO clienteVO = clienteRepository.buscarPorDNI(dni);
-        return clienteUtil.convertirCliente(clienteVO);
+        return ClienteUtil.convertirCliente(clienteVO);
     }
 
     public String obtenerIdCliente() throws ExeptionHotel {
@@ -97,7 +97,7 @@ public class HotelModelo {
             ArrayList<ReservaVO> listaReservaVO = reservaRepository.obtenerListaReservas();
 
             // Convertimos la lista de ReservaVO a Reserva usando ReservaUtil
-            ArrayList<Reserva> listaReservas = reservaUtil.listaReservas(listaReservaVO);
+            ArrayList<Reserva> listaReservas = ReservaUtil.listaReservas(listaReservaVO);
 
             // Retornamos la lista de Reserva
             return listaReservas;
@@ -114,14 +114,14 @@ public class HotelModelo {
 
     // Método para añadir Clientes en la BD
     public void anadirReserva(Reserva reserva) throws ExeptionHotel {
-        ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
+        ReservaVO reservaVO = ReservaUtil.convertirReservaVO(reserva);
         reservaRepository.crearRerserva(reservaVO);
     }
 
     // Método para editar personas de la BD
     public void editarReserva(Reserva reserva) throws ExeptionHotel {
         reservaRepository = new ReservaRepositoryImpl();
-        ReservaVO reservaVO = reservaUtil.convertirReservaVO(reserva);
+        ReservaVO reservaVO = ReservaUtil.convertirReservaVO(reserva);
         reservaRepository.editarReserva(reservaVO);
     }
 
@@ -133,7 +133,7 @@ public class HotelModelo {
     // Método para buscar un cliente por DNI
     public ArrayList<Reserva> buscarReserva(String dni) throws ExeptionHotel {
         ArrayList<ReservaVO> reservaVO = reservaRepository.obtenerReservasCliente(dni);
-        return reservaUtil.listaReservas(reservaVO);
+        return ReservaUtil.listaReservas(reservaVO);
     }
 
     // Método para obtener la cantidad de habitaciones ocupadas según el tipo

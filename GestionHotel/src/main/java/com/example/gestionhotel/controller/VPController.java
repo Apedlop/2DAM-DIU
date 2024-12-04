@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class VPController {
 
@@ -241,28 +242,43 @@ public class VPController {
         try {
             String dniBuscado = buscarDni.getText().trim();
 
-            // Comprobar si el campo de búsqueda está vacío
+            // Si el campo de búsqueda está vacío, cargar todos los clientes
             if (dniBuscado.isEmpty()) {
-                mostrarAlerta("Búsqueda vacía", "Por favor, ingresa un DNI para buscar.");
+                mostrarAlerta("Búsqueda vacía", "Ingrese un DNI.");
+
+                // Cargar la lista completa de clientes desde el modelo
+                List<Cliente> todosClientes = hotelModelo.obtenerListaClientes();  // Asegúrate de tener este método en tu modelo
+
+                // Actualizar la lista observable
+                clienteData.setAll(todosClientes);
+                tablaClientes.setItems(clienteData);
                 return;
             }
 
-            // Buscar el cliente por DNI
-            Cliente cliente = hotelModelo.buscarDNI(dniBuscado);
+            // Validar formato del DNI (por ejemplo, 8 dígitos y una letra)
+            if (!dniBuscado.matches("\\d{8}[A-Za-z]")) {
+                mostrarAlerta("DNI inválido", "El formato del DNI es incorrecto. Debe contener 8 números seguidos de una letra.");
+                return;  // Detiene la ejecución si el formato es incorrecto
+            }
 
-            // Comprobar si el cliente no fue encontrado (es null)
+            // Buscar el cliente por DNI
+            System.out.println("holaa");
+            Cliente cliente = hotelModelo.buscarDNI(dniBuscado);
+            System.out.println("vo" + cliente);
+            // Si el cliente no existe, mostrar alerta
             if (cliente == null) {
-                mostrarAlerta("Cliente no encontrado", "No se encontró ningún cliente con el DNI proporcionado.");
-                return;
+                mostrarAlerta("Cliente no encontrado", "No se ha encontrado un cliente con el DNI proporcionado.");
+                return;  // Detiene la ejecución si no se encuentra el cliente
             }
 
             // Si el cliente es encontrado, mostrar la información
             mostrarInformacionCliente(cliente);
-            System.out.println(clienteData);
-            // Filtrar la tabla para mostrar solo el cliente encontrado
-           tablaClientes.setItems(clienteData);  // Actualiza la tabla para mostrar solo el cliente encontrado
 
-        } catch (ExeptionHotel e) {
+            // Crear una lista temporal con solo el cliente encontrado y mostrarla en la tabla
+            clienteData.setAll(cliente);
+            tablaClientes.setItems(clienteData);
+
+        } catch (ExeptionHotel | SQLException e) {
             // Manejo de cualquier excepción
             System.out.println("Excepción capturada: " + e.getMessage());
             mostrarAlerta("Error", e.getMessage());

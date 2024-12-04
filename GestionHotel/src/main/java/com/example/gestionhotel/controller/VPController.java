@@ -161,13 +161,8 @@ public class VPController {
                 hotelModelo.anadirCliente(cliente);
                 hotelModelo.anadirReserva(reserva);
 
-                // Mostrar en consola para depuración
-                System.out.println("BotonNuevoCliente " + cliente);
-                System.out.println("BotonNuevoCliente " + reserva);
-
                 // Añadir el cliente a la lista de datos
                 main.getClienteData().add(cliente);
-                System.out.println("nuevoCLienre: " + clienteData);
                 main.getReservaData().add(reserva);
                 cargarDatosClientes();
             } catch (ExeptionHotel | SQLException e) {
@@ -262,9 +257,7 @@ public class VPController {
             }
 
             // Buscar el cliente por DNI
-            System.out.println("holaa");
             Cliente cliente = hotelModelo.buscarDNI(dniBuscado);
-            System.out.println("vo" + cliente);
             // Si el cliente no existe, mostrar alerta
             if (cliente == null) {
                 mostrarAlerta("Cliente no encontrado", "No se ha encontrado un cliente con el DNI proporcionado.");
@@ -279,8 +272,6 @@ public class VPController {
             tablaClientes.setItems(clienteData);
 
         } catch (ExeptionHotel | SQLException e) {
-            // Manejo de cualquier excepción
-            System.out.println("Excepción capturada: " + e.getMessage());
             mostrarAlerta("Error", e.getMessage());
         }
     }

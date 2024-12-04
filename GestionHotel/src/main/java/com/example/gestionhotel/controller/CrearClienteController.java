@@ -112,6 +112,7 @@ public class CrearClienteController {
         fumador.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) { // Si fumador es seleccionado (true)
                 alertaFumador.setText("En virtud de la ley de sanidad, \nse informa a los clientes de que solo \npodrán fumar en las habitaciones \nreservadas para tal fin.");
+                alertaFumador.setTextFill(javafx.scene.paint.Color.RED); // Cambiar el color del texto a rojo
             } else { // Si fumador no está seleccionado (false)
                 alertaFumador.setText(""); // Limpiar el texto del label
             }
@@ -180,8 +181,11 @@ public class CrearClienteController {
 
         // Validar DNI
         String dniTexto = ponerDni.getText().trim();
-        if (dniTexto.isEmpty() || !dniTexto.matches("\\d{8}[A-Za-z]")) {
-            mensajeError += "DNI no válido. Debe tener 8 dígitos seguidos de una letra.\n";
+
+        // Validación de formato y letra
+        if (dniTexto.isEmpty() || !dniTexto.matches("\\d{8}[A-Za-z]") ||
+                dniTexto.charAt(8) != "TRWAGMYFPDXBNJZSQVHLCKE".charAt(Integer.parseInt(dniTexto.substring(0, 8)) % 23)) {
+            mensajeError += "DNI no válido.\n";
         }
 
         // Validar nombre, apellido, dirección, localidad, y provincia
@@ -259,10 +263,6 @@ public class CrearClienteController {
             mostrarAlerta("Error", "Debe seleccionar un régimen de alojamiento.");
             return;
         }
-
-        // Mostrar valores de cliente y reserva para depuración
-        System.out.println("Cliente antes de actualizar: " + cliente);
-        System.out.println("Reserva antes de actualizar: " + reserva);
 
         // Actualizar cliente y reserva
         cliente.setDni(ponerDni.getText().trim());

@@ -136,3 +136,45 @@
     -fx-background-color: #4dd0e1; /* Azul suave al pasar el ratón */
     -fx-text-fill: white; /* Texto blanco en hover */
 }
+
+/* Estilo para el BarChart */
+.bar-chart {
+    -fx-background-color: #e0f7fa; /* Fondo azul claro */
+    -fx-border-color: #80deea; /* Borde turquesa */
+    -fx-border-width: 2px;
+    -fx-background-insets: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 4);
+}
+
+.bar-chart .x-axis {
+    -fx-tick-label-fill: #004d40; /* Color de las etiquetas del eje X */
+    -fx-font-size: 12px;
+    -fx-font-family: "Arial", sans-serif;
+}
+
+.bar-chart .y-axis {
+    -fx-tick-label-fill: #004d40; /* Color de las etiquetas del eje Y */
+    -fx-font-size: 12px;
+    -fx-font-family: "Arial", sans-serif;
+}
+
+.bar-chart .series0 .chart-bar {
+    -fx-bar-fill: #80deea; /* Color para las barras */
+}
+
+.bar-chart .series1 .chart-bar {
+    -fx-bar-fill: #26c6da; /* Otro color para las barras */
+}
+
+.bar-chart .chart-plot-background {
+    -fx-background-color: #ffffff; /* Fondo blanco para el área de gráficos */
+}
+
+/* Agregar un estilo especial para los ejes */
+.bar-chart .axis line {
+    -fx-stroke: #004d40; /* Color de las líneas de los ejes */
+}
+
+.bar-chart .axis path {
+    -fx-stroke: #004d40; /* Color de la ruta de los ejes */
+}

@@ -3,82 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentación del Proyecto</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Puedes agregar una hoja de estilo externa si lo deseas -->
+    <title>Documentación de Gestión Hotel</title>
+    <link rel="stylesheet" href="../styles/stylesDocumentacion.css"> <!-- Puedes agregar una hoja de estilo externa si lo deseas -->
 </head>
 <body>
 <header>
-    <h1>Documentación del Proyecto</h1>
+    <h1>Documentación del Proyecto Gestión Hotel</h1>
+    <hr>
+    <h2>Índice</h2>
     <nav>
         <ul>
             <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#instalacion">Instalación</a></li>
-            <li><a href="#uso">Uso</a></li>
-            <li><a href="#estructura">Estructura del Proyecto</a></li>
-            <li><a href="#contribuciones">Contribuciones</a></li>
-            <li><a href="#licencia">Licencia</a></li>
+            <li><a href="#casosUso">Diagrama de Casos de Uso</a></li>
+            <li>
+                <a href="#diagramasSecuencia">Diagramas de Secuencia</a>
+                    <li><a href="#editarCliente">EditarCliente</a></li>
+                    <li><a href="#editarReserva">EditarReserva</a></li>
+                    <li><a href="#verReservas">VerReservas</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
+    <hr>
 </header>
 
 <section id="introduccion">
     <h2>Introducción</h2>
-    <p>Este proyecto es una aplicación que permite gestionar reservas de un hotel...</p>
+    <p>Este proyecto es una aplicación que permite gestionar reservas de un hotel, donde podremos crear, editar y eliminar clientes, con el adicional que en la opción de crear el nuevo cliente también se podrá crear una nueva reserva asociada al nuevo cliente, y se podrá buscar e un cliente mediante su DNI, si embargo, en el caso de que el DNI sea null o no tenga el formato deseado nos saltará una alerta. </p>
+    <p>Además de que se podrán ver todos las reservas asociadas a los clientes son tan solo darle al botón "Ver reservas", ahí encontraremos todas las reservas asociadas al mismo cliente, debido a que buscamos las reservas mediante el dni del cliente, que es la foreing key en la base de datos.</p>
+    <p>Una vez en la pantalla de las reservas, además de ver todas las reservas, como anteriormente se ha dicho, podremos crear nuevas reservas, las cuales estarán asociadas al cliente que hemos previamente seleccionado; editar una reserva que hayamos seleccionado en la pantalla VR, y eliminar las reservas. </p>
+</section>
+<hr>
+<section id="casosUso">
+    <h2>Diagrama de Casos de uso</h2>
+    <img src="images/Diagrama_CasosUso.png" id="imagen-caso-de-uso">
+    <p>En este diagrama podemos observar cómo interactua el usuario con el proyecto. De manera que éste puede crear nuevos clientes, editarlos, eliminarlos y buscarlos, además de que en las opciones del menú pueden ver los tipos de habitaciones que hay, con imágenes incluidas, y el porcentaje de la ocupación de cada una de ellas; ver las estadísticas de la ocupación de las habitaciones en total, en porcentaje; y ver esta documentación, que es un HTML añadido con un WebView. Y por último, podrá ver las reservas del cliente que seleccione, y en él podrá crear una nueva reserva para dicho cliente, editar la reserva y eliminarla.</p>
+</section>
+<hr>
+<section id="diagramasSecuencia">
+    <h2>Diagramas de secuencia</h2>
+    <p>A continuación vamos a ver tres diagramas de secuencia: </p>
 </section>
 
-<section id="instalacion">
-    <h2>Instalación</h2>
-    <p>Para instalar este proyecto, sigue los siguientes pasos:</p>
-    <ol>
-        <li>Clona el repositorio: <code>git clone https://github.com/usuario/proyecto.git</code></li>
-        <li>Instala las dependencias: <code>npm install</code></li>
-        <li>Ejecuta el proyecto: <code>npm start</code></li>
-    </ol>
+<section id="editarCliente">
+    <h3>Diagrama de Editar Cliente</h3>
+    <img src="images/DiagramaSecuencia_EditarCliente.png">
+    <p>En este diagrama de secuencia de Editar Cliente, podemos ver cómo es el flujo del trabajo que hace el programa para editar el cliente mediante la interfaz y a su ve editarlo en la Base de Datos.</p>
 </section>
 
-<section id="uso">
-    <h2>Uso</h2>
-    <p>Para utilizar esta aplicación, debes hacer lo siguiente...</p>
-    <ul>
-        <li>Crea una nueva cuenta</li>
-        <li>Inicia sesión con tus credenciales</li>
-        <li>Gestiona tus reservas a través del panel de usuario</li>
-    </ul>
+<section id="editarReserva">
+    <h3>Diagrama de Editar Reserva</h3>
+    <img src="images/DiagramaSecuencia_EditarReserva.png">
+    <p>Éste diagrama es muy parecido al anterior, de Editar Cliente, ya que hacen prácticamente lo mismo, con la diferencia de que éste edita las reservas y el otro edita los clientes. </p>
 </section>
 
-<section id="estructura">
-    <h2>Estructura del Proyecto</h2>
-    <p>La estructura del proyecto es la siguiente:</p>
-    <pre>
-        /proyecto
-        ├── index.html
-        ├── styles.css
-        ├── script.js
-        ├── /src
-        │   ├── app.js
-        │   ├── components
-        │   └── utils
-        └── /docs
-        </pre>
+<section id="verReservas">
+    <h2>Diagrama de Ver Reservas</h2>
+    <img src="images/DiagramaSecuencia_VerReservas.png">
+    <p>En este diagrama podemos observar cómo es el flujo del trabajo que hace el programa para que nos muestre las reservas que tiene asociado el cliente seleccionado en el VP.</p>
 </section>
-
-<section id="contribuciones">
-    <h2>Contribuciones</h2>
-    <p>Si deseas contribuir a este proyecto, por favor sigue estos pasos:</p>
-    <ol>
-        <li>Haz un fork del repositorio.</li>
-        <li>Realiza tus cambios en una nueva rama.</li>
-        <li>Haz un pull request con una descripción clara de tus cambios.</li>
-    </ol>
-</section>
-
-<section id="licencia">
-    <h2>Licencia</h2>
-    <p>Este proyecto está bajo la Licencia MIT. Puedes ver los detalles completos en el archivo <code>LICENSE</code>.</p>
-</section>
-
+<hr>
 <footer>
-    <p>&copy; 2024 Nombre del Proyecto</p>
+    <p>&copy; 2024 Ángela Kaijing Pedrera López - Proyecto Gestión Hotel</p>
 </footer>
 </body>
 </html>

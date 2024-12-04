@@ -56,7 +56,6 @@ public class EditarReservaController {
     // Método para establecer el DNI del cliente seleccionado
     public void setDniClienteSeleccionado(String dni) {
         this.dniClienteSeleccionado = dni;
-        System.out.println("ggggggg" + dniClienteSeleccionado);
     }
 
     // Método para obtener el DNI del cliente seleccionado
@@ -72,6 +71,7 @@ public class EditarReservaController {
         configurarNumeroHabitaciones();
         configurarFechas();
         configurarAlertaFumador();
+        alertaFumador.setTextFill(javafx.scene.paint.Color.RED); // Cambiar el color del texto a rojo
     }
 
     // Configura los RadioButtons para el régimen de alojamiento
@@ -87,6 +87,7 @@ public class EditarReservaController {
         fumador.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {  // Si el checkbox se selecciona (fumador == true)
                 alertaFumador.setText("En virtud de la ley de sanidad, \nse informa a los clientes de que solo \npodrán fumar en las habitaciones \nreservadas para tal fin.");
+                alertaFumador.setTextFill(javafx.scene.paint.Color.RED); // Cambiar el color del texto a rojo
             } else {  // Si se deselecciona
                 alertaFumador.setText("");  // Borra el mensaje
             }
@@ -176,11 +177,6 @@ public class EditarReservaController {
         }
 
         try {
-            System.out.println("Estoy en boton aceptar");
-            // Crear una nueva reserva si no existe una reserva para editar
-
-            System.out.println("buena" + reserva);
-            System.out.println(dniClienteSeleccionado + " boton aceptar");// Crear una nueva reserva
             reserva.setDniCliente(dniClienteSeleccionado);  // Establecer el DNI del cliente
 
             // Actualizar los atributos de la reserva (tanto para creación como edición)
@@ -190,7 +186,6 @@ public class EditarReservaController {
             reserva.setFumador(fumador.isSelected());
             reserva.setRegimenAlojamiento(obtenerRegimenSeleccionado());
             reserva.setNumeroHabitaciones(1);  // Siempre será 1 habitación
-            System.out.println("EStoy en boton acetpae");
 
             okClicked = true;
             stage.close();

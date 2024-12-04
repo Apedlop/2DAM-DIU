@@ -129,8 +129,6 @@ public class Main extends Application {
 
             controlador.setHotelModelo(hotelModelo);  // Establecer el modelo del hotel
             controlador.setClienteYReserva(cliente, reserva);
-            System.out.println("pantalla" + cliente);
-            System.out.println("pantalla" + reserva);
             Stage stage = new Stage();
             controlador.setStage(stage);  // Pasar la instancia de Stage
 
@@ -216,9 +214,7 @@ public class Main extends Application {
 
             controller.setMain(this); // Pasar la instancia del Main al controlador de la vista de reservas
             controller.setDniClienteSeleccionado(dni); // Pasar el DNI al controlador de VR
-            System.out.println(dni);
             dniSeleccionado = controller.getDniClienteSeleccionado();
-            System.out.println("sele" + dniSeleccionado);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,7 +228,7 @@ public class Main extends Application {
 
             // Crear el nuevo Stage
             Stage stage = new Stage();
-            stage.setTitle("Crear Reserva");
+            stage.setTitle("Crear y Editar Reserva");
             stage.initModality(Modality.APPLICATION_MODAL); // Cambiar a modalidad modal
             stage.initOwner(primaryStage);
             Scene scene = new Scene(pane);
@@ -275,7 +271,6 @@ public class Main extends Application {
 
             EstadisticasReservasController controller = loader.getController();
             controller.setReservaData(reservaData);
-            System.out.println();
             stage.show();  // Asegúrate de llamar a stage.show() para mostrar la ventana
         } catch (IOException e) {
             e.printStackTrace();

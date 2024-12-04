@@ -92,18 +92,18 @@ public class EstadisticasReservasController {
             double porcentajeSuite = (ocupacionSuite / (double) TOTAL_SUITES) * 100;
 
             // Imprimir porcentajes individuales
-            System.out.printf("Mes: %s\n", monthNames.get(mes));
-            System.out.printf("Doble Individual: %.2f%%\n", porcentajeDobleIndividual);
-            System.out.printf("Doble: %.2f%%\n", porcentajeDoble);
-            System.out.printf("Junior Suite: %.2f%%\n", porcentajeJuniorSuite);
-            System.out.printf("Suite: %.2f%%\n", porcentajeSuite);
+//            System.out.printf("Mes: %s\n", monthNames.get(mes));
+//            System.out.printf("Doble Individual: %.2f%%\n", porcentajeDobleIndividual);
+//            System.out.printf("Doble: %.2f%%\n", porcentajeDoble);
+//            System.out.printf("Junior Suite: %.2f%%\n", porcentajeJuniorSuite);
+//            System.out.printf("Suite: %.2f%%\n", porcentajeSuite);
 
             // Calcular el porcentaje total mensual
             totalOcupadasMes += ocupacionDobleIndividual + ocupacionDoble + ocupacionJuniorSuite + ocupacionSuite;
             double porcentajeMes = (totalOcupadasMes / 120.0) * 100; // 120 es el total de habitaciones
 
             // Imprimir porcentaje total mensual
-            System.out.printf("Porcentaje Total: %.2f%%\n\n", porcentajeMes);
+//            System.out.printf("Porcentaje Total: %.2f%%\n\n", porcentajeMes);
 
             // Agregar los datos al gráfico
             seriesOcupacion.getData().add(new XYChart.Data<>(monthNames.get(mes), porcentajeMes));

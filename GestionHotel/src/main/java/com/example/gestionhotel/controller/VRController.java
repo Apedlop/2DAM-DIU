@@ -34,6 +34,8 @@ public class VRController {
     private RadioButton alojamientoDesayuno, mediaPension, pensionCompleta;
     @FXML
     private SplitMenuButton numHabitaciones;
+    @FXML
+    private Label alertaFumador;
 
     private Main main;
     private HotelModelo hotelModelo;
@@ -62,6 +64,9 @@ public class VRController {
 
         // Listener para cambios en la selección de la tabla
         tablaReservas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> mostrarDatosReserva(newValue));
+
+        // Listener para el CheckBox de fumador
+        fumador.selectedProperty().addListener((observable, oldValue, newValue) -> actualizarAlertaFumador(newValue));
     }
 
     // Cargar reservas de un cliente específico por su DNI
@@ -81,6 +86,16 @@ public class VRController {
         }
     }
 
+    // Método para actualizar el texto y color del Label alertaFumador
+    private void actualizarAlertaFumador(boolean esFumador) {
+        if (esFumador) {
+            alertaFumador.setText("En virtud de la ley de sanidad, \nse informa a los clientes de que solo \npodrán fumar en las habitaciones \nreservadas para tal fin.");
+            alertaFumador.setTextFill(javafx.scene.paint.Color.RED); // Cambiar el color del texto a rojo
+        } else {
+            alertaFumador.setText(""); // Vaciar el texto cuando no es fumador
+        }
+    }
+
     // Método auxiliar para mostrar detalles de una reserva seleccionada
     private void mostrarDatosReserva(Reserva reserva) {
         if (reserva != null) {
@@ -88,11 +103,19 @@ public class VRController {
             fechaSalida.setValue(reserva.getFechaSalida());
             tipoHabitacion.setText(reserva.getTipoHabitacion().toString());
             fumador.setSelected(reserva.isFumador());
+
+            // Desmarcar todos los RadioButton antes de seleccionar el adecuado
+            alojamientoDesayuno.setSelected(false);
+            mediaPension.setSelected(false);
+            pensionCompleta.setSelected(false);
+
+            // Seleccionar el RadioButton correspondiente
             switch (reserva.getRegimenAlojamiento()) {
                 case desayuno -> alojamientoDesayuno.setSelected(true);
                 case mediaPension -> mediaPension.setSelected(true);
                 case pensionCompleta -> pensionCompleta.setSelected(true);
             }
+
             numHabitaciones.setText(String.valueOf(reserva.getNumeroHabitaciones()));
         } else {
             limpiarDetallesReserva();
@@ -128,7 +151,6 @@ public class VRController {
         Reserva nuevaReserva = new Reserva();  // Crea una instancia vacía
         nuevaReserva.setDniCliente(dniClienteSeleccionado);  // Asocia el cliente seleccionado
         boolean okClicked = main.pantallaEditarCrearReserva(nuevaReserva);
-        System.out.println("botonNuevaReserva: " + nuevaReserva);
         if (okClicked) {
             try {
                 hotelModelo.anadirReserva(nuevaReserva);

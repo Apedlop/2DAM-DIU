@@ -123,7 +123,6 @@ public class HotelModelo {
 
     // Método para editar personas de la BD
     public void editarReserva(Reserva reserva) throws ExeptionHotel {
-        reservaRepository = new ReservaRepositoryImpl();
         ReservaVO reservaVO = ReservaUtil.convertirReservaVO(reserva);
         reservaRepository.editarReserva(reservaVO);
     }

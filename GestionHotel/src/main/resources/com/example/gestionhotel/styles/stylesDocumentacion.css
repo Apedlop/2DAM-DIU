@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa; /* Fondo azul claro */
+    color: #004d40; /* Texto principal en azul verdoso oscuro */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #80deea; /* Turquesa vibrante */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+/* Estilo del contenedor de navegación */
+nav {
+    display: flex; /* Flexbox para centrar contenido */
+    justify-content: center; /* Centra horizontalmente */
+    margin: 20px 0; /* Espaciado vertical */
+}
+
+nav ul {
+    list-style-type: disc; /* Puntos de lista */
+    list-style-position: outside; /* Asegura que los puntos se muestren fuera del borde */
+    padding: 20px 30px; /* Espaciado interno */
+    margin: 0;
+    background-color: #e0f7fa; /* Fondo igual al color del cuerpo */
+    border: 2px solid #b2ebf2; /* Borde azul pastel suave */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+    display: inline-block; /* Ajusta el ancho al contenido */
+    text-align: left; /* Alinea texto a la izquierda */
+}
+
+
+nav li:last-child {
+    border-bottom: none; /* Elimina la línea del último elemento */
+}
+
+
+nav a {
+    text-decoration: none;
+    color: #004d40; /* Color del texto */
+    font-weight: bold;
+    transition: color 0.3s, background-color 0.3s;
+    padding: 5px 10px; /* Espaciado interno */
+    display: block; /* Ocupa toda la fila */
+}
+
+nav a:hover {
+    color: white;
+    background-color: #80deea; /* Color al hacer hover */
+    border-radius: 5px;
+}
+
+/* Otros estilos permanecen igual */
+section {
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #006064; /* Turquesa oscuro */
+}
+
+p {
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #26c6da;
+    color: white;
+    margin-top: 20px;
+}
+
+img {
+    width: 100%; /* Asegura que la imagen tenga el mismo ancho que el contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    display: block; /* Elimina espacios adicionales debajo de la imagen */
+    margin: 10px auto; /* Centra la imagen con un margen superior e inferior */
+    border-radius: 8px; /* Esquinas redondeadas, opcional */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+#imagen-caso-de-uso {
+    width: 50%;             /* Limita el tamaño máximo de la imagen a 800px */
+    height: auto;             /* Mantiene la proporción de la imagen */
+    display: block;           /* Elimina espacios adicionales debajo de la imagen */
+    margin: 10px auto;        /* Centra la imagen con un margen superior e inferior */
+    border-radius: 8px;       /* Esquinas redondeadas, opcional */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}

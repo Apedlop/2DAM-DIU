@@ -108,7 +108,6 @@ public class TipoHabitacionesController {
             imagenesSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/suite3.jpg")));
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error al cargar las imágenes: " + e.getMessage());
         }
     }
 
@@ -147,7 +146,7 @@ public class TipoHabitacionesController {
             progressSuite.setProgress(porcentajeSuite);
 
         } catch (ExeptionHotel e) {
-            System.err.println("Error al contar las reservas por tipo de habitación: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

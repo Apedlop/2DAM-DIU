@@ -85,7 +85,6 @@ public class ReservaRepositoryImpl implements ReservaRepository {
             Connection conn = this.conexion.conectarBD();
             String query = "INSERT INTO reserva (fechaLlegada, fechaSalida, nHabitaciones, tipoHabitacion, fumador, regimenAlojamiento, dni) VALUES (?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement stmt = conn.prepareStatement(query);
-            System.out.println("EStoy en crear reseva del IMpl");
             // Establecer los parámetros de la consulta
             stmt.setDate(1, java.sql.Date.valueOf(reservaVO.getFecha_llegada())); // fecha_llegada
             stmt.setDate(2, java.sql.Date.valueOf(reservaVO.getFecha_salida())); // fecha_salida

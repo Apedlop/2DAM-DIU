@@ -1,6 +1,7 @@
 package com.example.gestionhotel.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 public class WebViewController {
@@ -9,9 +10,15 @@ public class WebViewController {
     private WebView webView;
 
     @FXML
-    private void initialize() {
-        // Cargar la URL de la documentación en el WebView
-        webView.getEngine().load("https://www.gopagify.com/page?#2PACX-1vQz0hZ-80KkUSvX8ze1_nY-QC50gOIIVsds1nXqUsLxZ8dkLg1X16etO4pMz81kic15ehfb2yJLz-uQ");
-    }
+    public void initialize() {
+        // Obtener el WebEngine del WebView
+        WebEngine webEngine = webView.getEngine();
 
+        // Cargar el archivo HTML desde la carpeta de recursos
+        // Si el archivo HTML está en el directorio de recursos, usa el siguiente código:
+        String htmlFile = getClass().getResource("/com/example/gestionhotel/docs/index.html").toExternalForm();
+
+        // Cargar el archivo HTML en el WebView
+        webEngine.load(htmlFile);
+    }
 }

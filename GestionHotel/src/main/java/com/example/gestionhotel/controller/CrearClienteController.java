@@ -280,10 +280,6 @@ public class CrearClienteController {
         reserva.setRegimenAlojamiento(regimen);
         reserva.setDniCliente(cliente.getDni());
 
-        // Depuración de los valores actualizados
-        System.out.println("Cliente actualizado: " + cliente);
-        System.out.println("Reserva actualizada: " + reserva);
-
         // Confirmar que todo está bien y cerrar la ventana
         okClicked = true;
         stage.close();

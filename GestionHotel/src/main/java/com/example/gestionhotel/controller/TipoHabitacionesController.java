@@ -67,8 +67,7 @@ public class TipoHabitacionesController {
     }
 
     // Método de inicialización para cargar las imágenes y configurar los progress indicators
-    @FXML
-    private void initialize() {
+    public void inicializarDatos() {
         // Cargar las imágenes en las listas
         cargarImagenes();
 
@@ -90,22 +89,27 @@ public class TipoHabitacionesController {
         imagenesJuniorSuite = new ArrayList<>();
         imagenesSuite = new ArrayList<>();
 
-        imagenesDobleInvididual.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/dobleInvididual1.jpg")));
-        imagenesDobleInvididual.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/dobleInvididual2.jpg")));
-        imagenesDobleInvididual.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/dobleInvididual3.jpg")));
+        // Asegurarse de que las rutas a las imágenes sean correctas
+        try {
+            imagenesDobleInvididual.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/dobleInvididual1.jpg")));
+            imagenesDobleInvididual.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/dobleInvididual2.jpg")));
+            imagenesDobleInvididual.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/dobleInvididual3.jpg")));
 
-        imagenesDoble.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/doble1.jpg")));
-        imagenesDoble.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/doble2.jpg")));
-        imagenesDoble.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/doble3.jpg")));
+            imagenesDoble.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/doble1.jpg")));
+            imagenesDoble.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/doble2.jpg")));
+            imagenesDoble.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/doble3.jpg")));
 
-        imagenesJuniorSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/juniorSuite1.jpg")));
-        imagenesJuniorSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/juniorSuite2.jpg")));
-        imagenesJuniorSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/juniorSuite3.jpg")));
+            imagenesJuniorSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/juniorSuite1.jpg")));
+            imagenesJuniorSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/juniorSuite2.jpg")));
+            imagenesJuniorSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/juniorSuite3.jpg")));
 
-        imagenesSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/suite1.jpg")));
-        imagenesSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/suite2.jpg")));
-        imagenesSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/suite3.jpg")));
-
+            imagenesSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/suite1.jpg")));
+            imagenesSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/suite2.jpg")));
+            imagenesSuite.add(new Image(getClass().getResourceAsStream("/com/example/gestionhotel/images/suite3.jpg")));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error al cargar las imágenes: " + e.getMessage());
+        }
     }
 
     // Método para actualizar la imagen mostrada en el ImageView
@@ -118,7 +122,6 @@ public class TipoHabitacionesController {
     // Método para actualizar el progreso de ocupación de habitaciones
     private void actualizarProgresoHabitaciones() {
         try {
-            hotelModelo = new HotelModelo(); // Quitar
             // Obtener el número de reservas por tipo de habitación
             int reservasDobleInvididual = hotelModelo.habitacionesOcupadas(TipoHabitacion.dobleIndividual);
             int reservasDoble = hotelModelo.habitacionesOcupadas(TipoHabitacion.doble);
@@ -148,10 +151,12 @@ public class TipoHabitacionesController {
         }
     }
 
+    // Métodos para manejar la navegación de imágenes
     @FXML
     private void handleNextDobleIndividual() {
         cambiarImagenDerecha(imagenDobleInvididual, imagenesDobleInvididual, ++indiceDobleInvididual);
     }
+
     @FXML
     private void handlePrevDobleIndividual() {
         indiceDobleInvididual = (indiceDobleInvididual - 1 + imagenesDobleInvididual.size()) % imagenesDobleInvididual.size();
@@ -162,6 +167,7 @@ public class TipoHabitacionesController {
     private void handleNextDoble() {
         cambiarImagenDerecha(imagenDoble, imagenesDoble, ++indiceDoble);
     }
+
     @FXML
     private void handlePrevDoble() {
         indiceDoble = (indiceDoble - 1 + imagenesDoble.size()) % imagenesDoble.size();
@@ -172,6 +178,7 @@ public class TipoHabitacionesController {
     private void handleNextJuniorSuite() {
         cambiarImagenDerecha(imagenJuniorSuite, imagenesJuniorSuite, ++indiceJuniorSuite);
     }
+
     @FXML
     private void handlePrevJuniorSuite() {
         indiceJuniorSuite = (indiceJuniorSuite - 1 + imagenesJuniorSuite.size()) % imagenesJuniorSuite.size();
@@ -182,6 +189,7 @@ public class TipoHabitacionesController {
     private void handleNextSuite() {
         cambiarImagenDerecha(imagenSuite, imagenesSuite, ++indiceSuite);
     }
+
     @FXML
     private void handlePrevSuite() {
         indiceSuite = (indiceSuite - 1 + imagenesSuite.size()) % imagenesSuite.size();
@@ -189,64 +197,14 @@ public class TipoHabitacionesController {
     }
 
     private void cambiarImagenDerecha(ImageView imageView, List<Image> imagenes, int indice) {
-        indice = (indice + 1) % imagenes.size();
-        actualizarImagen(imageView, imagenes, indice);
+        if (!imagenes.isEmpty()) {
+            actualizarImagen(imageView, imagenes, indice % imagenes.size());
+        }
     }
 
     private void cambiarImagenIzquierda(ImageView imageView, List<Image> imagenes, int indice) {
-        // Manejar la navegación circular hacia atrás
-        indice = (indice - 1 + imagenes.size()) % imagenes.size();
-        actualizarImagen(imageView, imagenes, indice);
-    }
-
-
-    // Método para manejar el clic en la flecha derecha
-    @FXML
-    private void flechaDerechaDobleInvididual() {
-        indiceDobleInvididual = (indiceDobleInvididual + 1) % imagenesDobleInvididual.size();
-        actualizarImagen(imagenDobleInvididual, imagenesDobleInvididual, indiceDobleInvididual);
-    }
-
-    @FXML
-    private void flechaDerechaDoble() {
-        indiceDoble = (indiceDoble + 1) % imagenesDoble.size();
-        actualizarImagen(imagenDoble, imagenesDoble, indiceDoble);
-    }
-
-    @FXML
-    private void flechaDerechaJuniorSuite() {
-        indiceJuniorSuite = (indiceJuniorSuite + 1) % imagenesJuniorSuite.size();
-        actualizarImagen(imagenJuniorSuite, imagenesJuniorSuite, indiceJuniorSuite);
-    }
-
-    @FXML
-    private void flechaDerechaSuite() {
-        indiceSuite = (indiceSuite + 1) % imagenesSuite.size();
-        actualizarImagen(imagenSuite, imagenesSuite, indiceSuite);
-    }
-
-    // Método para manejar el clic en la flecha izquierda
-    @FXML
-    private void flechaIzquierdaDobleInvididual() {
-        indiceDobleInvididual = (indiceDobleInvididual - 1 + imagenesDobleInvididual.size()) % imagenesDobleInvididual.size();
-        actualizarImagen(imagenDobleInvididual, imagenesDobleInvididual, indiceDobleInvididual);
-    }
-
-    @FXML
-    private void flechaIzquierdaDoble() {
-        indiceDoble = (indiceDoble - 1 + imagenesDoble.size()) % imagenesDoble.size();
-        actualizarImagen(imagenDoble, imagenesDoble, indiceDoble);
-    }
-
-    @FXML
-    private void flechaIzquierdaJuniorSuite() {
-        indiceJuniorSuite = (indiceJuniorSuite - 1 + imagenesJuniorSuite.size()) % imagenesJuniorSuite.size();
-        actualizarImagen(imagenJuniorSuite, imagenesJuniorSuite, indiceJuniorSuite);
-    }
-
-    @FXML
-    private void flechaIzquierdaSuite() {
-        indiceSuite = (indiceSuite - 1 + imagenesSuite.size()) % imagenesSuite.size();
-        actualizarImagen(imagenSuite, imagenesSuite, indiceSuite);
+        if (!imagenes.isEmpty()) {
+            actualizarImagen(imageView, imagenes, indice % imagenes.size());
+        }
     }
 }

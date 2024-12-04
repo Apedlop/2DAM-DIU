@@ -22,7 +22,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Habitaciones">
                     <items>
-                        <MenuItem onAction="#botonTiposHbitacion" text="Ver Tipos Habitaciones" />
+                        <MenuItem onAction="#botonTiposHabitacion" text="Ver Tipos Habitaciones" />
                     </items>
                 </Menu>
             </menus>

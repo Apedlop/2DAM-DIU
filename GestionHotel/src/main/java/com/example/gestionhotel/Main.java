@@ -300,12 +300,12 @@ public class Main extends Application {
             // Obtener el controlador del FXML cargado
             TipoHabitacionesController controller = loader.getController();
 
+            hotelModelo = new HotelModelo();
             reservaRepository = new ReservaRepositoryImpl();
-            HotelModelo hotelModelo = new HotelModelo();
-            controller.setHotelModelo(hotelModelo);
-            hotelModelo.setReservaRepository(reservaRepository);
 
-            // Mostrar la ventana
+            hotelModelo.setReservaRepository(reservaRepository);
+            controller.setHotelModelo(hotelModelo);
+            controller.inicializarDatos();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

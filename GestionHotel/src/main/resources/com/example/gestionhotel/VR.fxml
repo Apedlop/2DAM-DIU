@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="700.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VRController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="850.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionhotel.controller.VRController">
     <children>
         <SplitPane dividerPositions="0.3862876254180602" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -29,10 +29,6 @@
                 </AnchorPane>
                 <AnchorPane prefHeight="323.0" prefWidth="397.0" styleClass="background">
                     <children>
-                        <Label layoutX="82.0" layoutY="14.0" styleClass="label-header" text="Detalles Reserva" AnchorPane.leftAnchor="82.0" AnchorPane.topAnchor="14.0">
-                            <font>
-                                <Font name="System Bold" size="25.0" />
-                            </font></Label>
                         <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
                             <children>
                                 <Button layoutX="13.0" layoutY="255.0" mnemonicParsing="false" onAction="#botonNuevaReserva" text="Nuevo">
@@ -49,7 +45,11 @@
                             </children>
                         </HBox>
                   <DatePicker fx:id="fechaLlegada" layoutX="23.0" layoutY="77.0" prefHeight="29.0" prefWidth="136.0" />
-                  <Label layoutX="23.0" layoutY="58.0" text="Fecha Llegada" />
+                  <Label layoutX="23.0" layoutY="58.0" text="Fecha Llegada">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
                   <Label layoutX="205.0" layoutY="58.0" text="Fecha Salida" />
                   <DatePicker fx:id="fechaSalida" layoutX="205.0" layoutY="77.0" prefHeight="29.0" prefWidth="136.0" />
                   <Label layoutX="23.0" layoutY="115.0" text="Tipo de Habitacion" />
@@ -63,7 +63,7 @@
                   </SplitMenuButton>
                   <CheckBox fx:id="fumador" layoutX="256.0" layoutY="152.0" mnemonicParsing="false" text="Fumador" />
                   <Label layoutX="23.0" layoutY="184.0" text="Regimen de alojamiento:" />
-                  <VBox layoutX="38.0" layoutY="209.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="209.0">
+                  <VBox layoutX="31.0" layoutY="222.0" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="222.0">
                      <children>
                         <RadioButton fx:id="alojamientoDesayuno" mnemonicParsing="false" text="Alojamiento y desayuno" />
                         <RadioButton fx:id="mediaPension" mnemonicParsing="false" text="Media pension">
@@ -80,6 +80,17 @@
                   </VBox>
                   <SplitMenuButton fx:id="numHabitaciones" layoutX="179.0" layoutY="149.0" minHeight="25.0" mnemonicParsing="false" prefHeight="25.0" text="1" />
                   <Label layoutX="24.0" layoutY="152.0" text="Numero de habitaciones" />
+                  <HBox alignment="CENTER" layoutX="156.0" layoutY="8.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <children>
+                              <Label styleClass="label-header" text="Detalles Reserva">
+                                  <font>
+                                      <Font name="System Bold" size="25.0" />
+                                  </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="70.0" layoutY="350.0" prefHeight="100.0" prefWidth="200.0" />
+                  <VBox layoutX="323.0" layoutY="233.0" prefHeight="200.0" prefWidth="100.0" />
                     </children>
                 </AnchorPane>
             </items>

@@ -77,6 +77,9 @@ public class HotelModelo {
     // Método para buscar un cliente por DNI
     public Cliente buscarDNI(String dni) throws ExeptionHotel {
         ClienteVO clienteVO = clienteRepository.buscarPorDNI(dni);
+        if (clienteVO == null) {
+            return null;
+        }
         return ClienteUtil.convertirCliente(clienteVO);
     }
 
@@ -138,7 +141,6 @@ public class HotelModelo {
 
     // Método para obtener la cantidad de habitaciones ocupadas según el tipo
     public int habitacionesOcupadas(TipoHabitacion tipoHabitacion) throws ExeptionHotel {
-        reservaRepository = new ReservaRepositoryImpl();
         return reservaRepository.contarReservasPorTipoHabitacion(tipoHabitacion);
     }
 

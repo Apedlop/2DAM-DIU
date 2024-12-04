@@ -20,7 +20,7 @@ public class RootLayoutController {
 
     // Método que se ejecuta cuando pulsamos en "Habitaciones"
     @FXML
-    private void botonTiposHbitacion() {
+    private void botonTiposHabitacion() {
         main.verTiposHabitaciones();
     }
 

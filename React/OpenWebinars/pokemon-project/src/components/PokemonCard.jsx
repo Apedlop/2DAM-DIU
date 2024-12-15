@@ -1,5 +1,5 @@
 import "./PokemonCard.css"
-import { useEffect, useState } from "react"
+import React from "react";
 
 function PokemonCard(props) {
    
@@ -24,4 +24,4 @@ function PokemonCard(props) {
   );
 }
 
-export default PokemonCard
+export default React.memo(PokemonCard) // Sirve para renderizar la memoria

@@ -1,38 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
 import "../style/Calculadora.css"; // Agregar archivo de CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+import calculate from "../logic/calculate";
 
 function Calculadora() {
+  const [dato, setDato] = useState({ total: null, next: null, operation: null });
+
+  // Función que maneja el click en los botones
+  const click = (nombreBoton) => {
+    const nuevoDato = calculate(dato, nombreBoton);
+    setDato(nuevoDato);
+  }
+  
+
+  const { total, next, operation } = dato;
+  const valor = next || total || "0"; // Para mostrar el valor en la pantalla, en el caso de que no haya "next" o "total"
+
   return (
-    <div className="calculadora-container">
-      <div className="pantalla">0</div>
-      <div className="calculadora">
-        <button className="btn">C</button>
-        <button className="btn">÷</button>
-        <button className="btn">^</button>
-        <button className="btn">-</button>
+    <div className="container-fluid">
+      <div className="calculadora text-center">
+        {/* Pantalla */}
+        <div className="display">{valor}</div>
+        {/* Botones */}
+        <div className="row g-2">
+          {/* Primera fila */}
+          <div className="col-3">
+            <button className="btn btn-danger w-100" onClick={() => click("AC")}>AC</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-purple w-100" onClick={() => click("+/-")}>+/-</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-purple w-100" onClick={() => click("%")}>%</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-purple w-100" onClick={() => click("÷")}>÷</button>
+          </div>
 
-        <button className="btn">7</button>
-        <button className="btn">8</button>
-        <button className="btn">9</button>
-        <button className="btn plus" rowSpan={2}>
-          +
-        </button>
+          {/* Segunda fila */}
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("7")}>7</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("8")}>8</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("9")}>9</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-purple w-100" onClick={() => click("x")}>x</button>
+          </div>
 
-        <button className="btn">4</button>
-        <button className="btn">5</button>
-        <button className="btn">6</button>
+          {/* Tercera fila */}
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("4")}>4</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("5")}>5</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("6")}>6</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-purple w-100" onClick={() => click("-")}>-</button>
+          </div>
 
-        <button className="btn">1</button>
-        <button className="btn">2</button>
-        <button className="btn">3</button>
-        <button className="btn equals" rowSpan={2}>
-          =
-        </button>
+          {/* Cuarta fila */}
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("1")}>1</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("2")}>2</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click("3")}>3</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-purple w-100" onClick={() => click("+")}>+</button>
+          </div>
 
-        <button className="btn cero" colSpan={2}>
-          0
-        </button>
-        <button className="btn">.</button>
+          {/* Quinta fila */}
+          <div className="col-6">
+            <button className="btn btn-light w-100" onClick={() => click("0")}>0</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-light w-100" onClick={() => click(".")}>.</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-purple w-100" onClick={() => click("=")}>=</button>
+          </div>
+        </div>
       </div>
     </div>
   );

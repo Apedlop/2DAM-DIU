@@ -1,73 +1,40 @@
-/* Estilos generales */
 .container-fluid {
   height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evitar scroll */
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.calculadora-container {
-  width: 100%;
-  height: 100%;
-  max-width: 400px; /* Limita el ancho */
-  padding: 20px;
-}
-
-.pantalla {
-  width: 100%;
-  height: 50px;
-  background-color: blueviolet;
-  color: white;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  font-size: 2em;
-  padding-right: 20px;
-  margin-bottom: 20px;
-  border-radius: 10px;
+  height: 100vh; /* Asegura que ocupa toda la pantalla */
 }
 
 .calculadora {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
   width: 100%;
-  height: 100%;
+  max-width: 60vw; /* Tamaño máximo para pantallas grandes */
+
+  .btn-purple {
+    background-color: rgb(161, 64, 190);
+    color: white;
+  }
+
+  .btn-purple:hover {
+    background-color: rgb(125, 40, 151);
+    color: white;
+  }
 }
 
-.calculadora .btn {
-  /* background-color: #f1f1f1; */
-  border: 2px solid #ddd;
-  width: 50px;
-  font-size: 1.5em;
-  border-radius: 10px;
-  padding: 20px 0;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
+.display {
+  height: 12vh;
+  text-align: right;
+  font-size: 6vh;
+  padding: 10px;
   margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.calculadora .btn:hover {
-  background-color: #e0e0e0;
-}
-
-.calculadora .btn:active {
-  background-color: #bdbdbd;
-}
-
-.calculadora .plus {
-  grid-row: span 2;
-}
-
-.calculadora .equals {
-  grid-row: span 2;
-}
-
-.calculadora .btn[colspan="2"] {
-  grid-column: span 2;
-}
-
-.calculadora .cero {
-    grid-column: span 2;
+.calculadora button {
+  font-size: 5vh;
 }

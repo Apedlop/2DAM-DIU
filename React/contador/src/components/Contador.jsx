@@ -22,7 +22,7 @@ import "../style/counterApp.css";
 // }
 // export default Contador;
 
-/* Usando componentes */
+/* Usando componentes basados en clases */
 export default class Contador extends Component {
   render() {
     return (

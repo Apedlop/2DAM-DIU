@@ -1,0 +1,1 @@
+import{j as r,L as e}from"./index-rxqo8U_r.js";function n(){return r.jsxs("section",{id:"error-page",children:[r.jsx("h1",{children:"ERROR"}),r.jsx("h2",{children:"No puedes entrar ahí"}),r.jsx(e,{to:"/",children:"Ir a Home"})]})}export{n as default};

@@ -25,7 +25,7 @@ import Contador from './components/Contador'
 //   );
 // }
 
-/* Usando comonentes */
+/* Usando comonentes basados en clases */
 class App extends Component {
   constructor() {
     super();
@@ -36,11 +36,11 @@ class App extends Component {
 
   // Métodos para manejar el estado
   incrementar = () => {
-    this.setState((prevState) => ({ num: prevState.num + 1 }));
+    this.setState({ num: this.state.num + 1 });
   };
 
   decrementar = () => {
-    this.setState((prevState) => ({ num: prevState.num - 1 }));
+    this.setState({ num: this.state.num - 1 });
   };
 
   resetear = () => {

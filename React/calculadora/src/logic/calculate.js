@@ -14,6 +14,7 @@ import isNumber from "./isNumber";
  *   operation:String  +, -, etc.
  */
 export default function calculate(obj, buttonName) {
+  console.log(obj)
   if (buttonName === "AC") {
     return {
       total: null,
@@ -111,7 +112,9 @@ export default function calculate(obj, buttonName) {
   // }
 
   // User pressed an operation button and there is an existing operation
+  console.log("Objeto --> ", obj.operation);
   if (obj.operation) {
+    console.log("Obj --> ", obj.operation)
     return {
       total: operate(obj.total, obj.next, obj.operation),
       next: null,

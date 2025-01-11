@@ -5,13 +5,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Calculadora(props) {
 
-  const { click, limpiar, calcular, cambio, verDato} = props;;
+  const { click, limpiar, calcular, cambio, dato} = props;;
 
   return (
     <div className="container-fluid">
       <div className="calculadora text-center">
         {/* Pantalla */}
-        <div className="display">{verDato || "0"}</div>
+        <div className="display">{dato || "0"}</div>
         {/* Botones */}
         <div className="row g-2">
           {/* Primera fila */}

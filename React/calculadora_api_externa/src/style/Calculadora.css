@@ -1,0 +1,49 @@
+.container-fluid {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Asegura que ocupa toda la pantalla */
+}
+
+.calculadora {
+  width: 100%;
+  max-width: 60vw; /* Tamaño máximo para pantallas grandes */
+  max-height: 70vh;
+
+  .btn-purple {
+    background-color: rgb(161, 64, 190);
+    color: white;
+  }
+
+  .btn-purple:hover {
+    background-color: rgb(125, 40, 151);
+    color: white;
+  }
+
+  .btn-gray {
+    background-color: gainsboro;
+  }
+
+   .btn-gray:hover {
+    background-color: rgb(170, 170, 170);
+  }
+}
+
+.display {
+  height: 100%;
+  text-align: right;
+  font-size: 6vh;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.calculadora button {
+  font-size: 5vh;
+  display: grid;
+}

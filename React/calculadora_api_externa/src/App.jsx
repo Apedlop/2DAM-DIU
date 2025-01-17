@@ -36,7 +36,7 @@ function App() {
   // Hace la operación
   const calcular = () => {
     // encodeURIComponent sirve para codificar caracteres especiales en una cadena, haciéndola segura para usarse como parte de una URL
-    const operacion = encodeURIComponent(dato);
+    const operacion = encodeURIComponent(dato.trim);
     fetch(`http://api.mathjs.org/v4/?expr=${operacion}`)
       .then((response) => {
         if (response.ok) {
@@ -47,8 +47,8 @@ function App() {
       })
       .then((resultado) => {
         setDato(resultado); // Actualizar el estado con el resultado
+        setActualizar(true);
       });
-    setActualizar(true);
   };
 
   // Para cambiar el signo

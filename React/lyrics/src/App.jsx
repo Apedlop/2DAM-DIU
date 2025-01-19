@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "./App.css";
 import Lyrics from "./components/Lyrics";
+import SongLyrics from "./components/SongLyrics";
 
 function App() {
-  const [song, setSong] = useState(""); // Inicializar como cadena vacía
-  const [artist, setArtist] = useState(""); // Inicializar como cadena vacía
+  const [song, setSong] = useState(""); 
+  const [artist, setArtist] = useState(""); 
   const [songLyrics, setSongLyrics] = useState("");
 
   // Función para obtener los datos
@@ -17,18 +18,18 @@ function App() {
   };
 
   const buscar = () => {
-    if (!song || !artist) {
+    if (!song || !artist) { // Si no se ha encontrado la canción o al artista
       alert("Por favor, ingresa el nombre de la canción y el artista.");
       return;
     }
 
     const formattSong = encodeURIComponent(song);
     const formattArtist = encodeURIComponent(artist);
-
+    console.log("Cancion --> ", formattSong);
     fetch(`https://api.lyrics.ovh/v1/${formattArtist}/${formattSong}`)
       .then((response) => {
         if (response.ok) {
-          return response.json(); // Cambié a .json() ya que la respuesta es un objeto JSON
+          return response.json(); 
         } else {
           throw new Error(response.statusText);
         }
@@ -48,8 +49,8 @@ function App() {
         nameSong={nameSong}
         nameArtist={nameArtist}
         buscar={buscar}
-        songLyrics={songLyrics}
       />
+      <SongLyrics songLyrics={songLyrics}/>
     </>
   );
 }

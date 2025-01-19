@@ -1,0 +1,26 @@
+.formatoLetra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 80vw;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.titulo {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Ajustes básicos para el formulario */
+.formulario {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+
+}

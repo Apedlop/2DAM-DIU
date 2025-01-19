@@ -1,12 +1,10 @@
-import React from 'react'
+import React from "react";
+import "../style/style.css";
 
 function SongLyrics(props) {
+  const { songLyrics } = props;
 
-    const {songLyrics} = props; 
-
-  return (
-    <div>{songLyrics}</div>
-  )
+  return <div className="formatoLetra">{songLyrics}</div>;
 }
 
-export default SongLyrics
+export default SongLyrics;

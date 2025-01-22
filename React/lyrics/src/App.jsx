@@ -4,9 +4,9 @@ import Lyrics from "./components/Lyrics";
 import SongLyrics from "./components/SongLyrics";
 
 function App() {
-  const [song, setSong] = useState(""); 
-  const [artist, setArtist] = useState(""); 
-  const [songLyrics, setSongLyrics] = useState("");
+  const [song, setSong] = useState("");
+  const [artist, setArtist] = useState("");
+  const [canciones, setCanciones] = useState([]); // Estado para almacenar el historial de canciones
 
   // Función para obtener los datos
   const nameSong = (name) => {
@@ -18,39 +18,34 @@ function App() {
   };
 
   const buscar = () => {
-    if (!song || !artist) { // Si no se ha encontrado la canción o al artista
-      alert("Por favor, ingresa el nombre de la canción y el artista.");
-      return;
-    }
-
     const formattSong = encodeURIComponent(song);
     const formattArtist = encodeURIComponent(artist);
     console.log("Cancion --> ", formattSong);
     fetch(`https://api.lyrics.ovh/v1/${formattArtist}/${formattSong}`)
       .then((response) => {
         if (response.ok) {
-          return response.json(); 
+          return response.json();
         } else {
           throw new Error(response.statusText);
         }
       })
       .then((data) => {
-        setSongLyrics(data.lyrics); // Actualiza el estado con la letra
+        // Guardar la canción en el historial
+        setCanciones((prevCanciones) => [
+          ...prevCanciones,
+          { song, artist, lyrics: data.lyrics },
+        ]);
       })
       .catch((error) => {
         console.error(error);
-        setSongLyrics("No se encontraron letras para esta canción.");
+        alert("No se ha encontrado la canción.");
       });
   };
 
   return (
     <>
-      <Lyrics
-        nameSong={nameSong}
-        nameArtist={nameArtist}
-        buscar={buscar}
-      />
-      <SongLyrics songLyrics={songLyrics}/>
+      <Lyrics nameSong={nameSong} nameArtist={nameArtist} buscar={buscar} />
+      <SongLyrics canciones={canciones} />
     </>
   );
 }

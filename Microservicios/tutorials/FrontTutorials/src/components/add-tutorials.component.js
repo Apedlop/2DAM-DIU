@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TutorialDataService from "../services/tutorial.service";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const Tutorial = () => {
-
-  const { id } = useParams(); // Obtener el id de la URL
-
-  const [currentTutorial, setCurrentTutorial] = useState({
-    id: null,
-    title: "",
-    description: "",
-    published: false,
-  });
-
-  const [tutorial, setTutorial] = useState({
+const AddTutorial = () => {
+  const [newTutorial, setNewTutorial] = useState({
     title: "",
     description: "",
     published: false,
@@ -21,56 +11,31 @@ const Tutorial = () => {
 
   const history = useHistory();
 
-  // Usar useEffect para obtener los datos del tutorial y que se renderice cada vez que cambie el id
-  useEffect(() => {
-    // Usar id para obtener los datos del tutorial desde la API
-    TutorialDataService.get(id)
-      .then((response) => {
-        setCurrentTutorial(response.data);
-        setTutorial({
-          title: response.data.title, // Establecer los valores del tutorial en el estado
-          description: response.data.description,
-          published: response.data.published,
-        });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [id]); // El useEffect se ejecutará cada vez que cambie el id
+  // Esta función actualiza el estado 'newTutorial' con el valor del campo de entrada que ha cambiado.
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setNewTutorial({
+      ...newTutorial,
+      [id]: value,
+    });
+  };
 
-  const editTutorials = () => {
-    const updatedTutorial = {
-      id: currentTutorial.id,
-      title: tutorial.title,
-      description: tutorial.description,
-      published: tutorial.published,
-    };
+  const handlePublishedChange = (e) => {
+    const { id } = e.target;
+    setNewTutorial({
+      ...newTutorial,
+      published: id === "radioButtonYes",
+    });
+  };
 
-    TutorialDataService.update(id, updatedTutorial)
+  const createTutorial = () => {
+    TutorialDataService.create(newTutorial)
       .then(() => {
         history.push("/tutorials");
       })
       .catch((e) => {
         console.log(e);
       });
-  };
-
-  // Manejar los cambios de entrada en los campos del formulario
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setTutorial({
-      ...tutorial,
-      [id]: value,
-    });
-  };
-
-  // Comprobamos el estado del published
-  const handlePublishedChange = (e) => {
-    const { id } = e.target;
-    setTutorial({
-      ...tutorial,
-      published: id === "radioButtonYes",
-    });
   };
 
   return (
@@ -83,7 +48,7 @@ const Tutorial = () => {
             className="form-control"
             id="title"
             required
-            value={tutorial.title}
+            value={newTutorial.title}
             onChange={handleInputChange}
           />
         </div>
@@ -94,7 +59,7 @@ const Tutorial = () => {
             className="form-control"
             id="description"
             required
-            value={tutorial.description}
+            value={newTutorial.description}
             onChange={handleInputChange}
           />
         </div>
@@ -107,7 +72,7 @@ const Tutorial = () => {
                 type="radio"
                 name="flexRadioDefault"
                 id="radioButtonYes"
-                checked={tutorial.published === true}
+                checked={newTutorial.published === true}
                 onChange={handlePublishedChange}
               />
               <label className="form-check-label" htmlFor="radioButtonYes">
@@ -122,7 +87,7 @@ const Tutorial = () => {
                 type="radio"
                 name="flexRadioDefault"
                 id="radioButtonNo"
-                checked={tutorial.published === false}
+                checked={newTutorial.published === false}
                 onChange={handlePublishedChange}
               />
               <label className="form-check-label" htmlFor="radioButtonNo">
@@ -133,7 +98,7 @@ const Tutorial = () => {
         </div>
         <button
           type="button"
-          onClick={editTutorials}
+          onClick={createTutorial}
           className="btn btn-success"
         >
           Submit
@@ -143,4 +108,4 @@ const Tutorial = () => {
   );
 };
 
-export default Tutorial;
+export default AddTutorial;

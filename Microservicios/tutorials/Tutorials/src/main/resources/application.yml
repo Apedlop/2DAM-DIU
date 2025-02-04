@@ -1,5 +1,5 @@
 server:
-  port: 8098
+  port: 8080
 spring:
     application:
       name:tutorialsService
@@ -8,4 +8,5 @@ main:
 data:
       mongodb:
         database: tutorialsservice_db
+        host: mongo_DB # Usa el nombre del contenedor en Docker en lugar de la IP
         port: 27017

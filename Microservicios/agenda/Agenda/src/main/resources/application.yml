@@ -1,0 +1,12 @@
+server:
+    port: 8099
+spring:
+    application:
+    name: agendaService
+main:
+    allow-bean-definition-overriding: true
+data:
+    mongodb:
+        database: agendaservice_db
+        host: mongo_DB # Usa el nombre del contenedor en Docker en lugar de la IP
+        port: 27017

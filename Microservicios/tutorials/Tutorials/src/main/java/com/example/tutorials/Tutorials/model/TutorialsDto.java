@@ -5,6 +5,8 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.net.URL;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,5 +19,6 @@ public class TutorialsDto {
     private String title;
     private String description;
     private Boolean published;
+    private URL imagen;
 
 }

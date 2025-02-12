@@ -1,8 +1,11 @@
 import axios from "axios";
 
+// AGENDA
 export default axios.create({
-  baseURL: "http://tutorials2025akpl.us-east-1.elasticbeanstalk.com/api/v1",
+  baseURL: "http://localhost:8099/api/v1",
   headers: {
-    "Content-type": "application/json"
-  }
+    "Content-type": "application/json",
+  },
 });
+
+// TUTORIALS

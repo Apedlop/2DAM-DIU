@@ -22,7 +22,7 @@ class AgendaDataService {
     }
 
     deleteAll() {    
-        return http.delete(`/agenda`);
+        return http.delete("/agenda");
     }
 
     findByName(name) {

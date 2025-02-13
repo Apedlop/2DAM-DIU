@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
 public class AgendaController implements AgendaAPI {
@@ -28,19 +29,19 @@ public class AgendaController implements AgendaAPI {
 
     @Override
     @GetMapping("/agenda/{id}")
-    public Optional<PersonaDto> getPersonaById(String id) {
+    public Optional<PersonaDto> getPersonaById(@PathVariable String id) {
         return agendaService.getPersonaById(id);
     }
 
     @Override
     @GetMapping("/agenda/nombre/{nombre}")
-    public List<PersonaDto> findByNombreContaining(String nombre) {
+    public List<PersonaDto> findByNombreContaining(@PathVariable String nombre) {
         return agendaService.findByNombreContaining(nombre);
     }
 
     @Override
     @GetMapping("/agenda/apellidos/{apellidos}")
-    public List<PersonaDto> findByApellidosContaining(String apellidos) {
+    public List<PersonaDto> findByApellidosContaining(@PathVariable String apellidos) {
         return agendaService.findByApellidosContaining(apellidos);
     }
 
@@ -58,7 +59,7 @@ public class AgendaController implements AgendaAPI {
 
     @Override
     @DeleteMapping("/agenda/{id}")
-    public ResponseEntity deletePersona(String id) {
+    public ResponseEntity deletePersona(@PathVariable String id) {
         return agendaService.deletePersona(id);
     }
 

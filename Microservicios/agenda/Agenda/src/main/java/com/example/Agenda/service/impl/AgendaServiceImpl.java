@@ -82,6 +82,7 @@ public class AgendaServiceImpl implements AgendaService {
 
     @Override
     public ResponseEntity deletePersona(String id) {
+        System.out.println("ID recibido: " + id); // Para verificar el ID
         try {
             Optional<PersonaVO> personaOptional = agendaRepository.findById(id);
             if (personaOptional.isPresent()) {

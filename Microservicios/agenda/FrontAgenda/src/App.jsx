@@ -1,12 +1,10 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./App.css";
 import AgendaList from "./components/AgendaList";
-// import AgendaAdd from "./components/AgendaAdd";
+import AgendaAdd from "./components/AgendaAdd";
+import AgendaEdit from "./components/AgendaEdit";
 
 function App() {
   return (
@@ -32,7 +30,8 @@ function App() {
         <Routes>
           <Route path="/" element={<AgendaList />} />
           <Route path="/agenda" element={<AgendaList />} />
-          {/* <Route path="/add" element={<AgendaAdd />} /> */}
+          <Route path="/add" element={<AgendaAdd />} />
+          <Route path="/agenda/:id" element={<AgendaEdit />} />
         </Routes>
       </Router>
     </div>

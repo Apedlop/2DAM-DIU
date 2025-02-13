@@ -1,9 +1,9 @@
-import tutorialsService from '../service/tutorials.service';
-import { useNavigate } from 'react-router-dom';
+import tutorialsService from "../service/tutorials.service";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
-function TutorialsAdd() {
-const [newTutorial, setNewTutorial] = useState({
+function TutorialsAdd(props) {
+  const [newTutorial, setNewTutorial] = useState({
     title: "",
     description: "",
     published: false,
@@ -29,13 +29,23 @@ const [newTutorial, setNewTutorial] = useState({
   };
 
   const createTutorial = () => {
-    tutorialsService.create(newTutorial)
+    tutorialsService
+      .create(newTutorial)
       .then(() => {
         navegar.push("/tutorials");
       })
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const crearContacto = () => {
+    createTutorial;
+    props;
+  };
+
+  const createCancel = () => {
+    navegar.push("/agenda");
   };
 
   return (
@@ -96,17 +106,15 @@ const [newTutorial, setNewTutorial] = useState({
             </div>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={createTutorial}
-          className="btn btn-success"
-        >
-          Submit
+        <button onClick={crearContacto} className="btn btn-success">
+          Añadir
+        </button>
+        <button onClick={createCancel} className="btn btn-danger">
+          Cancelar
         </button>
       </form>
     </div>
   );
-};
+}
 
-
-export default TutorialsAdd
+export default TutorialsAdd;

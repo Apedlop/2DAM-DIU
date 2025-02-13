@@ -36,9 +36,20 @@ function AgendaAdd() {
       });
   };
 
-  const createCancel = () => {
-    navegar.push("/agenda");
-  }
+  const agregarTutorial = (newTutorial) => {
+    setNewPersona(prevState => ({
+      ...prevState,
+      tutorials: [...prevState.tutorials, newTutorial]
+    }));
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setNewPersona(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  };
 
   return (
     <div>
@@ -110,14 +121,8 @@ function AgendaAdd() {
           />
         </div>
         <div>
-            <TutorialsAdd />
+            <TutorialsAdd agregarTutorial={agregarTutorial}/>
         </div>
-        <button onClick={createAgenda} className="btn btn-success">
-          Añadir
-        </button>
-        <button onClick={createCancel} className="btn btn-danger">
-            Cancelar
-        </button>
       </form>
     </div>
   );

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import agendaService from "../service/agenda.service";
+import tutorialsService from "../service/tutorials.service"; // Asegúrate de tener un servicio para obtener tutoriales
 import TutorialsAdd from "./TutorialsAdd";
 
 function AgendaAdd() {
@@ -12,10 +13,24 @@ function AgendaAdd() {
     codigoPostal: "",
     ciudad: "",
     cumpleanos: "",
-    tutorials: []
+    tutorials: [],
   });
-
+  const [tutorials, setTutorials] = useState([]); // Para almacenar los tutoriales publicados
+  const [selectedTutorials, setSelectedTutorials] = useState([]); // Tutoriales seleccionados
+  const [tutorialDetail, setTutorialDetail] = useState(null); // Detalle de un tutorial
   const navegar = useNavigate(); // Hook para redireccionar
+
+  useEffect(() => {
+    // Obtener la lista de tutoriales publicados
+    tutorialsService
+      .getAllPublishedTutorials() 
+      .then((response) => {
+        setTutorials(response.data); // Asumiendo que la respuesta contiene la lista de tutoriales
+      })
+      .catch((error) => {
+        console.log("Error fetching tutorials:", error);
+      });
+  }, []);
 
   const valoresEditados = (e) => {
     const { id, value } = e.target;
@@ -27,7 +42,7 @@ function AgendaAdd() {
 
   const createAgenda = () => {
     agendaService
-      .create(newPersona)
+      .create({ ...newPersona, tutorials: selectedTutorials })
       .then(() => {
         navegar.push("/agenda");
       })
@@ -36,19 +51,22 @@ function AgendaAdd() {
       });
   };
 
-  const agregarTutorial = (newTutorial) => {
-    setNewPersona(prevState => ({
-      ...prevState,
-      tutorials: [...prevState.tutorials, newTutorial]
-    }));
+  const agregarTutorial = (tutorialId) => {
+    // Agregar tutorial seleccionado
+    setSelectedTutorials((prevSelected) => [...prevSelected, tutorialId]);
   };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setNewPersona(prevState => ({
+    setNewPersona((prevState) => ({
       ...prevState,
-      [id]: value
+      [id]: value,
     }));
+  };
+
+  const mostrarDetalleTutorial = (tutorialId) => {
+    const tutorial = tutorials.find((t) => t.id === tutorialId);
+    setTutorialDetail(tutorial);
   };
 
   return (
@@ -120,10 +138,51 @@ function AgendaAdd() {
             onChange={valoresEditados}
           />
         </div>
-        <div>
-            <TutorialsAdd agregarTutorial={agregarTutorial}/>
+
+        {/* Lista de tutoriales */}
+        <div className="form-group">
+          <label htmlFor="tutoriales">Selecciona Tutoriales</label>
+          <select
+            id="tutoriales"
+            multiple
+            className="form-control"
+            onChange={(e) => {
+              const selected = Array.from(
+                e.target.selectedOptions,
+                (option) => option.value
+              );
+              setSelectedTutorials(selected);
+            }}
+          >
+            {tutorials.map((tutorial) => (
+              <option key={tutorial.id} value={tutorial.id}>
+                {tutorial.title}
+              </option>
+            ))}
+          </select>
         </div>
+
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={createAgenda}
+        >
+          Crear Agenda
+        </button>
       </form>
+
+      {/* Detalle de tutorial */}
+      {tutorialDetail && (
+        <div className="tutorial-detail mt-5">
+          <h3>{tutorialDetail.title}</h3>
+          <img
+            src={tutorialDetail.coverImageUrl}
+            alt={tutorialDetail.title}
+            style={{ width: "100%", height: "auto" }}
+          />
+          <p>{tutorialDetail.description}</p>
+        </div>
+      )}
     </div>
   );
 }

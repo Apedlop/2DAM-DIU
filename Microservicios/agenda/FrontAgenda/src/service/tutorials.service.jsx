@@ -1,4 +1,4 @@
-import http from "../http-common-agenda";
+import http from "../http-common-tutorials";
 
 class TutorialDataService {
   getAll() {
@@ -27,6 +27,10 @@ class TutorialDataService {
 
   findByTitle(title) {
     return http.get(`/tutorials/title/${title}`);
+  }
+
+  getAllPublishedTutorials() {
+    return http.get("/tutorials/published");
   }
 }
 

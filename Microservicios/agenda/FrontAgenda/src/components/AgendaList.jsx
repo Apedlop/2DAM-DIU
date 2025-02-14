@@ -62,7 +62,10 @@ function AgendaList() {
           <tbody>
             {personas.length > 0 ? ( // Si la lista de personas es mayor a 0
               [...personas].reverse().map(
-                (persona, index) => ( // Muestra la lista de personas
+                (
+                  persona,
+                  index // Muestra la lista de personas
+                ) => (
                   <tr
                     className={index === selectPersona ? "active" : ""}
                     onClick={() => setActivateAgenda(persona, index)}
@@ -91,6 +94,12 @@ function AgendaList() {
                 <strong>Nombre: </strong>
               </label>
               {" " + selectPersona.nombre}
+            </div>
+            <div>
+              <label>
+                <strong>Tutoriales: </strong>
+              </label>
+              {" " + selectPersona.tutorials}
             </div>
             <button>
               <Link to={"/agenda/" + selectPersona.id}>Editar</Link>

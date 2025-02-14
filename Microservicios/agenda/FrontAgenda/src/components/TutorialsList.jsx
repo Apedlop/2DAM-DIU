@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TutorialDataService from "../services/tutorial.service";
+import TutorialDataService from "../service/tutorials.service";
 import { Link } from "react-router-dom";
 
 const TutorialsList = () => {

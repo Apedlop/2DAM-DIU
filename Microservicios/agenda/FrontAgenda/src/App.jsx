@@ -5,6 +5,7 @@ import "./App.css";
 import AgendaList from "./components/AgendaList";
 import AgendaAdd from "./components/AgendaAdd";
 import AgendaEdit from "./components/AgendaEdit";
+import AgendaDetails from "./components/AgendaDetails";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           <Route path="/" element={<AgendaList />} />
           <Route path="/agenda" element={<AgendaList />} />
           <Route path="/add" element={<AgendaAdd />} />
-          <Route path="/agenda/:id" element={<AgendaEdit />} />
+          <Route path="/agenda/:id" element={<AgendaDetails />} />
         </Routes>
       </Router>
     </div>

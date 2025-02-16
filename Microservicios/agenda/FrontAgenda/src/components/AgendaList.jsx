@@ -102,7 +102,10 @@ function AgendaList() {
               {" " + selectPersona.tutorials}
             </div>
             <button>
-              <Link to={"/agenda/" + selectPersona.id}>Editar</Link>
+              <Link to={"/agenda/edit/" + selectPersona.id}>Editar</Link>
+            </button>
+            <button>
+              <Link to={"/agenda/" + selectPersona.id}>Ver detalles</Link>
             </button>
             <button onClick={() => deletePersona(selectPersona.id)}>
               Eliminar

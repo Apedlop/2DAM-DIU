@@ -9,12 +9,12 @@ import java.net.URL;
 @Setter
 @Builder
 public class Tutorials {
-
+    @Id
     private String id;
     private String title;
     private String description;
     private Boolean published;
-    private URL imagen;
+    private String imagen;
 
 }
 

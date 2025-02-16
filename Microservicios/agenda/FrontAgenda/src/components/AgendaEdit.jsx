@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import agendaService from "../service/agenda.service";
-import tutorialsService from "../service/tutorials.service"; // Asegúrate de tener un servicio para obtener tutoriales
-import TutorialsAdd from "./TutorialsAdd";
+import tutorialsService from "../service/tutorials.service"; 
+import { useParams } from "react-router-dom"; 
 
 function AgendaEdit() {
 
@@ -19,17 +19,14 @@ function AgendaEdit() {
     tutorials: [],
   });
   
-  const [tutorials, setTutorials] = useState([]); // Para almacenar los tutoriales publicados
-  const [selectedTutorials, setSelectedTutorials] = useState([]); // Tutoriales seleccionados
-  const [tutorialDetail, setTutorialDetail] = useState(null); // Detalle de un tutorial
   const navegar = useNavigate(); // Hook para redireccionar
 
   useEffect(() => {
     // Obtener la lista de tutoriales publicados
     tutorialsService
-      .getAllPublishedTutorials()
+      .get(id)
       .then((response) => {
-        setTutorials(response.data); // Asumiendo que la respuesta contiene la lista de tutoriales
+        setPersona(response.data); // Asumiendo que la respuesta contiene la lista de tutoriales
       })
       .catch((error) => {
         console.log("Error fetching tutorials:", error);
@@ -38,31 +35,25 @@ function AgendaEdit() {
 
   const valoresEditados = (e) => {
     const { id, value } = e.target;
-    setNewPersona({
-      ...newPersona,
+    setPersona({
+      ...persona,
       [id]: value,
     });
   };
 
-  const createAgenda = () => {
-    agendaService
-      .create({ ...newPersona, tutorials: selectedTutorials })
-      .then(() => {
-        navegar.push("/agenda");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const agregarTutorial = (tutorialId) => {
-    // Agregar tutorial seleccionado
-    setSelectedTutorials((prevSelected) => [...prevSelected, tutorialId]);
+  const updateAgenda = () => {
+    agendaService.update(id, persona)
+    .then(() => {
+      navegar("/agenda")
+    })
+    .catch((e) => {
+      console.log(e)
+    })
   };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setNewPersona((prevState) => ({
+    setpersona((prevState) => ({
       ...prevState,
       [id]: value,
     }));
@@ -83,7 +74,7 @@ function AgendaEdit() {
             className="form-control"
             id="nombre"
             required
-            value={newPersona.nombre}
+            value={persona.nombre}
             onChange={valoresEditados}
           />
         </div>
@@ -94,7 +85,7 @@ function AgendaEdit() {
             className="form-control"
             id="apellidos"
             required
-            value={newPersona.apellidos}
+            value={persona.apellidos}
             onChange={valoresEditados}
           />
         </div>
@@ -105,7 +96,7 @@ function AgendaEdit() {
             className="form-control"
             id="calle"
             required
-            value={newPersona.calle}
+            value={persona.calle}
             onChange={valoresEditados}
           />
         </div>
@@ -116,7 +107,7 @@ function AgendaEdit() {
             className="form-control"
             id="codigoPostal"
             required
-            value={newPersona.codigoPostal}
+            value={persona.codigoPostal}
             onChange={valoresEditados}
           />
         </div>
@@ -127,7 +118,7 @@ function AgendaEdit() {
             className="form-control"
             id="ciudad"
             required
-            value={newPersona.ciudad}
+            value={persona.ciudad}
             onChange={valoresEditados}
           />
         </div>
@@ -138,7 +129,7 @@ function AgendaEdit() {
             className="form-control"
             id="cumpleanos"
             required
-            value={newPersona.cumpleanos}
+            value={persona.cumpleanos}
             onChange={valoresEditados}
           />
         </div>

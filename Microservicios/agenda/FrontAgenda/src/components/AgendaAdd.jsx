@@ -44,29 +44,20 @@ function AgendaAdd() {
     agendaService
       .create({ ...newPersona, tutorials: selectedTutorials })
       .then(() => {
-        navegar.push("/agenda");
+        navegar("/agenda");
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
+  const cancelar = () => {
+    navegar("/agenda");
+  }
+
   const agregarTutorial = (tutorialId) => {
     // Agregar tutorial seleccionado
     setSelectedTutorials((prevSelected) => [...prevSelected, tutorialId]);
-  };
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setNewPersona((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
-
-  const mostrarDetalleTutorial = (tutorialId) => {
-    const tutorial = tutorials.find((t) => t.id === tutorialId);
-    setTutorialDetail(tutorial);
   };
 
   return (
@@ -169,20 +160,14 @@ function AgendaAdd() {
         >
           Crear Agenda
         </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={cancelar}
+        >
+          Cancelar
+        </button>
       </form>
-
-      {/* Detalle de tutorial */}
-      {tutorialDetail && (
-        <div className="tutorial-detail mt-5">
-          <h3>{tutorialDetail.title}</h3>
-          <img
-            src={tutorialDetail.coverImageUrl}
-            alt={tutorialDetail.title}
-            style={{ width: "100%", height: "auto" }}
-          />
-          <p>{tutorialDetail.description}</p>
-        </div>
-      )}
     </div>
   );
 }

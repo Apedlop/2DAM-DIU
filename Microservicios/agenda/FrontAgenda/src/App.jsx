@@ -32,6 +32,7 @@ function App() {
           <Route path="/" element={<AgendaList />} />
           <Route path="/agenda" element={<AgendaList />} />
           <Route path="/add" element={<AgendaAdd />} />
+          <Route path="/agenda/edit/:id" element={<AgendaEdit />} />
           <Route path="/agenda/:id" element={<AgendaDetails />} />
         </Routes>
       </Router>

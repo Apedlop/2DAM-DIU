@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import agendaService from "../service/agenda.service";
-import tutorialsService from "../service/tutorials.service"; 
-import { useParams } from "react-router-dom"; 
+import tutorialsService from "../service/tutorials.service";
+import { useParams } from "react-router-dom";
 
 function AgendaEdit() {
-
   const { id } = useParams(); // Obtener el id de la agenda a editar
 
-  const [persona, setPersona] = useState({
+  const [selectPersona, setSelectPersona] = useState({
     nombre: "",
     apellidos: "",
     calle: "",
@@ -18,166 +17,191 @@ function AgendaEdit() {
     cumpleanos: "",
     tutorials: [],
   });
-  
+
+  const [tutorials, setTutorials] = useState([]); // Lista de tutoriales disponibles
+
   const navegar = useNavigate(); // Hook para redireccionar
 
   useEffect(() => {
-    // Obtener la lista de tutoriales publicados
-    tutorialsService
+    // Obtener la información de la persona
+    agendaService
       .get(id)
       .then((response) => {
-        setPersona(response.data); // Asumiendo que la respuesta contiene la lista de tutoriales
+        setSelectPersona(response.data); // Inicializar selectPersona con los datos obtenidos
       })
       .catch((error) => {
-        console.log("Error fetching tutorials:", error);
+        console.log("Error al obtener los datos:", error);
       });
-  }, []);
+
+    // Obtener la lista de tutoriales disponibles
+    tutorialsService
+      .getAll()
+      .then((response) => {
+        setTutorials(response.data);
+      })
+      .catch((error) => {
+        console.log("Error al obtener tutoriales:", error);
+      });
+  }, [id]);
+
+  const editAgenda = () => {
+    const updatePersona = {
+      nombre: selectPersona.nombre,
+      apellidos: selectPersona.apellidos,
+      calle: selectPersona.calle,
+      codigoPostal: selectPersona.codigoPostal,
+      ciudad: selectPersona.ciudad,
+      cumpleanos: selectPersona.cumpleanos,
+      tutorials: selectPersona.tutorials,
+    };
+
+    agendaService
+      .update(id, updatePersona)
+      .then(() => {
+        navegar("/agenda");
+      })
+      .catch((e) => {
+        console.log("Error al actualizar:", e);
+      });
+  };
 
   const valoresEditados = (e) => {
     const { id, value } = e.target;
-    setPersona({
-      ...persona,
+    setSelectPersona({
+      ...selectPersona,
       [id]: value,
     });
   };
 
-  const updateAgenda = () => {
-    agendaService.update(id, persona)
-    .then(() => {
-      navegar("/agenda")
-    })
-    .catch((e) => {
-      console.log(e)
-    })
-  };
+  const elegirTutorial = (tutorialId) => {
+    // Comprobar si el tutorial ya está seleccionado
+    const estaSeleccionado = selectPersona.tutorials.includes(tutorialId);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setpersona((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
-
-  const mostrarDetalleTutorial = (tutorialId) => {
-    const tutorial = tutorials.find((t) => t.id === tutorialId);
-    setTutorialDetail(tutorial);
+    if (estaSeleccionado) {
+      // Si está seleccionado, se quita de la lista
+      setSelectPersona({
+        ...selectPersona,
+        tutorials: selectPersona.tutorials.filter((id) => id !== tutorialId),
+      });
+    } else {
+      // Si no está seleccionado, se agrega
+      setSelectPersona({
+        ...selectPersona,
+        tutorials: [...selectPersona.tutorials, tutorialId],
+      });
+    }
   };
 
   return (
-    <div>
+    <div className="container mt-4">
+      <h2>Editar Persona</h2>
       <form>
-        <div className="form-group">
-          <label htmlFor="nombre">Nombre</label>
+        <div className="mb-3">
+          <label htmlFor="nombre" className="form-label">
+            Nombre:
+          </label>
           <input
             type="text"
             className="form-control"
             id="nombre"
-            required
-            value={persona.nombre}
+            value={selectPersona.nombre}
             onChange={valoresEditados}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="apellidos">Apellidos</label>
+
+        <div className="mb-3">
+          <label htmlFor="apellidos" className="form-label">
+            Apellidos:
+          </label>
           <input
             type="text"
             className="form-control"
             id="apellidos"
-            required
-            value={persona.apellidos}
+            value={selectPersona.apellidos}
             onChange={valoresEditados}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="calle">Calle</label>
+
+        <div className="mb-3">
+          <label htmlFor="calle" className="form-label">
+            Calle:
+          </label>
           <input
             type="text"
             className="form-control"
             id="calle"
-            required
-            value={persona.calle}
+            value={selectPersona.calle}
             onChange={valoresEditados}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="codigoPostal">Código Postal</label>
+
+        <div className="mb-3">
+          <label htmlFor="codigoPostal" className="form-label">
+            Código Postal:
+          </label>
           <input
-            type="number"
+            type="text"
             className="form-control"
             id="codigoPostal"
-            required
-            value={persona.codigoPostal}
+            value={selectPersona.codigoPostal}
             onChange={valoresEditados}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="ciudad">Ciudad</label>
+
+        <div className="mb-3">
+          <label htmlFor="ciudad" className="form-label">
+            Ciudad:
+          </label>
           <input
             type="text"
             className="form-control"
             id="ciudad"
-            required
-            value={persona.ciudad}
+            value={selectPersona.ciudad}
             onChange={valoresEditados}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="cumpleanos">Cumpleaños</label>
+
+        <div className="mb-3">
+          <label htmlFor="cumpleanos" className="form-label">
+            Cumpleaños:
+          </label>
           <input
             type="date"
             className="form-control"
             id="cumpleanos"
-            required
-            value={persona.cumpleanos}
+            value={selectPersona.cumpleanos}
             onChange={valoresEditados}
           />
         </div>
 
-        {/* Lista de tutoriales */}
-        <div className="form-group">
-          <label htmlFor="tutoriales">Selecciona Tutoriales</label>
-          <select
-            id="tutoriales"
-            multiple
-            className="form-control"
-            onChange={(e) => {
-              const selected = Array.from(
-                e.target.selectedOptions,
-                (option) => option.value
-              );
-              setSelectedTutorials(selected);
-            }}
-          >
+        <div className="mb-3">
+          <label className="form-label">Tutoriales:</label>
+          <div>
             {tutorials.map((tutorial) => (
-              <option key={tutorial.id} value={tutorial.id}>
-                {tutorial.title}
-              </option>
+              <div className="form-check" key={tutorial.id}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value={tutorial.id}
+                  checked={selectPersona.tutorials.includes(tutorial.id)}
+                  onChange={() => elegirTutorial(tutorial.id)}
+                  id={`tutorial-${tutorial.id}`}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`tutorial-${tutorial.id}`}
+                >
+                  {tutorial.title}
+                </label>
+              </div>
             ))}
-          </select>
+          </div>
         </div>
 
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={createAgenda}
-        >
-          Crear Agenda
+        <button type="button" className="btn btn-primary" onClick={editAgenda}>
+          Guardar Cambios
         </button>
       </form>
-
-      {/* Detalle de tutorial */}
-      {tutorialDetail && (
-        <div className="tutorial-detail mt-5">
-          <h3>{tutorialDetail.title}</h3>
-          <img
-            src={tutorialDetail.coverImageUrl}
-            alt={tutorialDetail.title}
-            style={{ width: "100%", height: "auto" }}
-          />
-          <p>{tutorialDetail.description}</p>
-        </div>
-      )}
     </div>
   );
 }

@@ -1,38 +1,42 @@
 import React, { useEffect, useState } from "react";
-import tutorialsService from "../service/tutorials.service";
+import tutorialsService from "../service/tutorials.service"; // Ajusta la ruta según tu proyecto
 
-function TutorialsDetails({ tutorials }) {
-  const [selectedTutorial, setSelectedTutorial] = useState(null);
+const Tutoriales = ({ tutorials }) => {
+  const [datosTutoriales, setDatosTutoriales] = useState([]);
 
   useEffect(() => {
-    if (tutorials) { // Asegurarse de que `tutorials` es un ID válido
-      tutorialsService.get(tutorials) // `tutorials` ahora es el ID
-        .then((response) => {
-          setSelectedTutorial(response.data); // Guardar los datos del tutorial
-          console.log(response.data); // Opcional: para ver los datos en la consola
-        })
-        .catch((e) => {
-          console.log(e); // Manejo de errores
-        });
-    }
-  }, [tutorials]); // Este `useEffect` se ejecutará cuando cambie el valor de `tutorials`
+    const obtenerTutoriales = async () => {
+      try {
+        const respuestas = await Promise.all(
+          tutorials.map((id) => tutorialsService.get(id))
+        );
+
+        // Extraer solo la propiedad 'data' de cada respuesta
+        const datos = respuestas.map((respuesta) => respuesta.data);
+        setDatosTutoriales(datos);
+      } catch (error) {
+        console.error("Error al obtener los tutoriales:", error);
+      }
+    };
+
+    obtenerTutoriales();
+  }, [tutorials]);
 
   return (
     <div>
-      <h5>Detalles del Tutorial:</h5>
-
-      {selectedTutorial ? (
-        <div>
-          <h6>{selectedTutorial.title}</h6>
-          <p>{selectedTutorial.description}</p>
-          <img src={selectedTutorial.imagen} alt="Imagen del tutorial" />
-          <p><strong>Publicado:</strong> {selectedTutorial.published ? "Sí" : "No"}</p>
-        </div>
-      ) : (
-        <p>Cargando detalles del tutorial...</p>
-      )}
+      <h2>Lista de Tutoriales</h2>
+      <ul>
+        {datosTutoriales.map((tutorial, index) => (
+          <li key={index}>
+            <h3>{tutorial.title}</h3>
+            <p>{tutorial.description}</p>
+            <p>{tutorial.published ? "Publicado" : "No Publicado"}</p>
+            <img src={tutorial.imagen} alt={tutorial.title} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
-export default TutorialsDetails;
+export default Tutoriales;

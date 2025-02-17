@@ -1,7 +1,61 @@
-.negro {
-    background-color: black;
+.row {
+  margin-left: 5vh;
+  margin-right: 5vh;
+  margin-top: 5vh;
 }
 
-.estilo {
-    font-weight: bold;
+.card {
+  margin-right: 1vh;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.card-text {
+  margin-left: 15%;
+}
+
+.btn {
+  margin: 10px;
+  margin-top: 0px;
+}
+
+.botones {
+  display: flex;
+  justify-content: space-between;
+}
+
+.busqueda {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente si es necesario */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+}
+
+.input-group {
+  width: 50%; /* Controla el tamaño de la barra de búsqueda */
+}
+
+.boton-flotante {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4dd0e1; /* Turquesa */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.floating-btn:hover {
+  transform: scale(1.1);
 }

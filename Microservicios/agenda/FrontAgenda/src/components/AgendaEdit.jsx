@@ -15,7 +15,7 @@ function AgendaEdit() {
     codigoPostal: "",
     ciudad: "",
     cumpleanos: "",
-    tutorials: [],
+    tutorials: [], // Asegurarse de que sea siempre un arreglo
   });
 
   const [tutorials, setTutorials] = useState([]); // Lista de tutoriales disponibles
@@ -27,7 +27,10 @@ function AgendaEdit() {
     agendaService
       .get(id)
       .then((response) => {
-        setSelectPersona(response.data); // Inicializar selectPersona con los datos obtenidos
+        setSelectPersona({
+          ...response.data,
+          tutorials: response.data.tutorials || [], // Asegurarse de que 'tutorials' sea un arreglo
+        });
       })
       .catch((error) => {
         console.log("Error al obtener los datos:", error);
@@ -37,7 +40,7 @@ function AgendaEdit() {
     tutorialsService
       .getAll()
       .then((response) => {
-        setTutorials(response.data);
+        setTutorials(response.data); // Asegurarse de que siempre sea un arreglo
       })
       .catch((error) => {
         console.log("Error al obtener tutoriales:", error);
@@ -46,6 +49,7 @@ function AgendaEdit() {
 
   const editAgenda = () => {
     const updatePersona = {
+      id: selectPersona.id,
       nombre: selectPersona.nombre,
       apellidos: selectPersona.apellidos,
       calle: selectPersona.calle,
@@ -177,24 +181,28 @@ function AgendaEdit() {
         <div className="mb-3">
           <label className="form-label">Tutoriales:</label>
           <div>
-            {tutorials.map((tutorial) => (
-              <div className="form-check" key={tutorial.id}>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value={tutorial.id}
-                  checked={selectPersona.tutorials.includes(tutorial.id)}
-                  onChange={() => elegirTutorial(tutorial.id)}
-                  id={`tutorial-${tutorial.id}`}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor={`tutorial-${tutorial.id}`}
-                >
-                  {tutorial.title}
-                </label>
-              </div>
-            ))}
+            {tutorials && tutorials.length > 0 ? (
+              tutorials.map((tutorial) => (
+                <div className="form-check" key={tutorial.id}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={tutorial.id}
+                    checked={selectPersona.tutorials.includes(tutorial.id)}
+                    onChange={() => elegirTutorial(tutorial.id)}
+                    id={`tutorial-${tutorial.id}`}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor={`tutorial-${tutorial.id}`}
+                  >
+                    {tutorial.title}
+                  </label>
+                </div>
+              ))
+            ) : (
+              <p>No hay tutoriales disponibles</p>
+            )}
           </div>
         </div>
 

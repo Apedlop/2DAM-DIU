@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import agendaService from "../service/agenda.service";
 import { Link } from "react-router-dom";
-import "./AgendaList.css"
+import { FaPlus } from "react-icons/fa";
+import "./AgendaList.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function AgendaList() {
   const [personas, setPersonas] = useState([]); // Lista de personas
   const [selectPersona, setSelectPersona] = useState(null); // Persona seleccionada
   const [idSelect, setIdSelect] = useState(-1);
+  const [buscarNombre, setBuscarNombre] = useState("");
 
   // Cuando se monta el compoenente, se carga la Agenda
   useEffect(() => {
@@ -46,77 +48,111 @@ function AgendaList() {
       .catch((e) => {
         console.log(e);
       });
-  }
+  };
+
+  const searchNombre = () => {
+    if (buscarNombre === "") {
+      // Si no hay texto en la búsqueda, obtener todas las personas
+      agendaService
+        .getAll()
+        .then((response) => {
+          setPersonas(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      // Si hay texto, buscar por nombre
+      agendaService
+        .findByName(buscarNombre)
+        .then((response) => {
+          setPersonas(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const onChangeNombre = (e) => {
+    const buscarNombre = e.target.value;
+    setBuscarNombre(buscarNombre);
+  };
 
   return (
-    <div className="list row">
-      <div className="col-md-4">
-        <h4>Lista Agenda</h4>
-        <table className="table">
-          <thead className="estilo">
-            <tr>
-              <td>Nombre</td>
-              <td>Apellidos</td>
-            </tr>
-          </thead>
-          <tbody>
-            {personas.length > 0 ? ( // Si la lista de personas es mayor a 0
-              [...personas].reverse().map(
-                (
-                  persona,
-                  index // Muestra la lista de personas
-                ) => (
-                  <tr
-                    className={index === selectPersona ? "active" : ""}
-                    onClick={() => setActivateAgenda(persona, index)}
-                    key={index}
-                  >
-                    <td>{persona.nombre}</td>
-                    <td>{persona.apellidos}</td>
-                  </tr>
-                )
-              )
-            ) : (
-              <tr>
-                <td colSpan="3">No hay conactos...</td>{" "}
-                {/*Si no hay personas en la lista, muestra un mensaje */}
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div className="col-md-8">
-        {selectPersona ? (
-          <div>
-            <h4>Persona</h4>
-            <div>
-              <label>
-                <strong>Nombre: </strong>
-              </label>
-              {" " + selectPersona.nombre}
-            </div>
-            <div>
-              <label>
-                <strong>Tutoriales: </strong>
-              </label>
-              {" " + selectPersona.tutorials}
-            </div>
-            <button>
-              <Link to={"/agenda/edit/" + selectPersona.id}>Editar</Link>
-            </button>
-            <button>
-              <Link to={"/agenda/" + selectPersona.id}>Ver detalles</Link>
-            </button>
-            <button onClick={() => deletePersona(selectPersona.id)}>
-              Eliminar
+    <div className="row">
+      <div className="col-md-8 busqueda">
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Busqueda por nombre"
+            value={buscarNombre}
+            onChange={onChangeNombre}
+          />
+          <div className="input-group-append">
+            <button
+              className="btn btn-secondary"
+              type="button"
+              onClick={searchNombre}
+            >
+              Buscar
             </button>
           </div>
-        ) : (
-          <div>
-            <p>Please click on a Tutorial...</p>
-          </div>
-        )}
+        </div>
       </div>
+      <h1>Lista Agenda</h1>
+      {personas.length > 0 ? (
+        [...personas].reverse().map((persona, index) => (
+          <div
+            className="col-md-4 mb-3"
+            key={index}
+            onClick={() => setActivateAgenda(persona, index)}
+          >
+            <div
+              className={`card ${
+                index === selectPersona ? "border-primary" : ""
+              }`}
+              style={{ cursor: "pointer" }}
+            >
+              <Link
+                to={"/agenda/" + persona.id}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <div className="card-body">
+                  <h4 className="card-title">{persona.nombre}</h4>
+                  <p className="card-text">
+                    <b>Apellidos:</b> {persona.apellidos} <br />
+                    <b>Fecha de nacimiento: </b> {persona.cumpleanos}
+                  </p>
+                </div>
+              </Link>
+              <div className="botones">
+                <Link to={"/agenda/edit/" + persona.id}>
+                  <button className="btn btn-warning">Editar</button>
+                </Link>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deletePersona(persona.id)}
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="col-12">
+          <div className="alert alert-warning" role="alert">
+            No hay contactos...
+          </div>
+        </div>
+      )}
+      <Link to={"/add"}>
+        <button className="btn btn-primary boton-flotante" title="Añadir nuevo">
+          <FaPlus />
+        </button>
+      </Link>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import AgendaAdd from "./components/AgendaAdd";
 import AgendaEdit from "./components/AgendaEdit";
 import AgendaDetails from "./components/AgendaDetails";
 import TutorialsList from "./components/TutorialsList";
+import SignIn from "./components/SignIn";
 
 function App() {
   return (
@@ -27,6 +28,11 @@ function App() {
                 Tutoriales
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={"/signIn"} className="nav-link">
+                Loggin
+              </Link>
+            </li>
           </div>
         </nav>
         <Routes>
@@ -36,6 +42,7 @@ function App() {
           <Route path="/agenda/edit/:id" element={<AgendaEdit />} />
           <Route path="/agenda/:id" element={<AgendaDetails />} />
           <Route path="/tutorials" element={<TutorialsList />} />
+          <Route path="/signIn" element={<SignIn />} />
         </Routes>
       </Router>
     </div>

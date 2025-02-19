@@ -8,6 +8,7 @@ import AgendaEdit from "./components/AgendaEdit";
 import AgendaDetails from "./components/AgendaDetails";
 import TutorialsList from "./components/TutorialsList";
 import SignIn from "./components/SignIn";
+import UserProvider from "./provider/UserProvider";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
             </li>
             <li className="nav-item">
               <Link to={"/signIn"} className="nav-link">
-                Loggin
+                Login
               </Link>
             </li>
           </div>

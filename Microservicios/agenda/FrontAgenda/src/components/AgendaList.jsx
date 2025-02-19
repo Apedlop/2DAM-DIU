@@ -2,19 +2,25 @@ import React, { useEffect, useState } from "react";
 import agendaService from "../service/agenda.service";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import "./AgendaList.css";
+import "./style/AgendaList.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ProgressBar, Modal, Button } from "react-bootstrap"; 
 
 function AgendaList() {
   const [personas, setPersonas] = useState([]); // Lista de personas
   const [selectPersona, setSelectPersona] = useState(null); // Persona seleccionada
   const [idSelect, setIdSelect] = useState(-1);
   const [buscarNombre, setBuscarNombre] = useState("");
+  const [maxPersonas, setMaxPersonas] = useState(0);
 
-  // Cuando se monta el compoenente, se carga la Agenda
+  // Cuando se monta el componente, se carga la Agenda
   useEffect(() => {
     getAllAgenda();
   }, []);
+
+  useEffect(() => {
+    setMaxPersonas(10);
+  }, [personas]);
 
   const getAllAgenda = () => {
     agendaService
@@ -81,6 +87,16 @@ function AgendaList() {
 
   return (
     <div className="row">
+      <div>
+        <div>
+          <ProgressBar
+            now={personas.length}
+            max={maxPersonas}
+            label={`${personas.length * 10}%`}
+            variant="success"
+          />
+        </div>
+      </div>
       <div className="col-md-8 busqueda">
         <div className="input-group mb-3">
           <input

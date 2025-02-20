@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import "./App.css";
+import ProductoList from "./components/ProductoList";
+import ProductoAdd from "./components/ProductoAdd";
+import ProductoEdit from "./components/ProductoEdit";
+import ProductoCompra from "./components/ProductoCompra";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Router>
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          <Link to={"/productos"} className="navbar-brand">
+            Productos
+          </Link>
+          <div className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link to={"/add"} className="nav-link">
+                Añadir
+              </Link>
+            </li>
+          </div>
+        </nav>
+        <Routes>
+          <Route path="/" element={<ProductoList />} />
+          <Route path="/productos" element={<ProductoList />} />
+          <Route path="/add" element={<ProductoAdd />} />
+          <Route path="/comprar" element={<ProductoCompra />} />
+          <Route path="/productos/:id" element={<ProductoEdit />} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -4,20 +4,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import productoService from "../service/producto.service";
 
 function ProductoEdit() {
-  const { id } = useParams(); // Obtener ID del producto a editar
-  const navegar = useNavigate(); // Hook para navegación
+  const { id } = useParams();
+  const navegar = useNavigate();
 
   const [newProducto, setNewProducto] = useState({
+    stock: 0,
     name: "",
     brand: "",
-    stock: 0,
-    precio: 0.0,
+    price: 0.0,
     active: false,
-    unidades: 0,
   });
 
   useEffect(() => {
-    // Cargar datos del producto
     productoService
       .get(id)
       .then((response) => {
@@ -28,17 +26,23 @@ function ProductoEdit() {
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
-    setNewProducto({
-      ...newProducto,
-      [id]: type === "checkbox" ? checked : value,
-    });
+
+    setNewProducto((prevProducto) => ({
+      ...prevProducto,
+      [id]:
+        type === "checkbox"
+          ? checked
+          : type === "number"
+          ? parseFloat(value) || 0
+          : value,
+    }));
   };
 
   const handleSubmit = () => {
     productoService
       .update(id, newProducto)
       .then(() => {
-        navegar("/productos"); // Redirigir después de la actualización
+        navegar("/products");
       })
       .catch((error) => console.log("Error al actualizar:", error));
   };
@@ -48,7 +52,9 @@ function ProductoEdit() {
       <h2>Editar Producto</h2>
       <form>
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Nombre:</label>
+          <label htmlFor="name" className="form-label">
+            Nombre:
+          </label>
           <input
             type="text"
             className="form-control"
@@ -59,7 +65,9 @@ function ProductoEdit() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="brand" className="form-label">Marca:</label>
+          <label htmlFor="brand" className="form-label">
+            Marca:
+          </label>
           <input
             type="text"
             className="form-control"
@@ -70,7 +78,9 @@ function ProductoEdit() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="stock" className="form-label">Stock:</label>
+          <label htmlFor="stock" className="form-label">
+            Stock:
+          </label>
           <input
             type="number"
             className="form-control"
@@ -81,13 +91,15 @@ function ProductoEdit() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="precio" className="form-label">Precio:</label>
+          <label htmlFor="price" className="form-label">
+            Precio:
+          </label>
           <input
             type="number"
             step="0.01"
             className="form-control"
-            id="precio"
-            value={newProducto.precio}
+            id="price"
+            value={newProducto.price}
             onChange={handleChange}
           />
         </div>
@@ -100,10 +112,16 @@ function ProductoEdit() {
             checked={newProducto.active}
             onChange={handleChange}
           />
-          <label className="form-check-label" htmlFor="active">Activo</label>
+          <label className="form-check-label" htmlFor="active">
+            Activo
+          </label>
         </div>
 
-        <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
           Guardar Cambios
         </button>
       </form>

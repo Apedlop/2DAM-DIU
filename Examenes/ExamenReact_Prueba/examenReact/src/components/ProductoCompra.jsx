@@ -1,38 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import productoService from "../service/producto.service";
 
 function ProductoCompra(props) {
-  const { id, actualizarStock } = props; // Recibe la función para actualizar el stock
-  const [producto, setProducto] = useState(null);
+  const { producto, actualizarStock } = props; // Recibe el producto seleccionado y la función para actualizar el stock
   const [total, setTotal] = useState(0);
   const [unidades, setUnidades] = useState(0);
 
-  // Obtiene el producto por su id
-  useEffect(() => {
-    getProducto(id);
-  }, [id]);
-
-  const getProducto = (id) => {
-    productoService
-      .get(id)
-      .then((response) => {
-        setProducto(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
   // Maneja el cambio en la cantidad de unidades ingresadas
   const getUnidades = (e) => {
-    const unidadesIngresadas = e.target.value;
-    if (
-      producto &&
-      unidadesIngresadas <= producto.stock &&
-      unidadesIngresadas >= 0
-    ) {
+    const unidadesIngresadas = parseInt(e.target.value, 10) || 0; // Convertir a número
+    if (!producto) return;
+
+    if (unidadesIngresadas <= producto.stock && unidadesIngresadas >= 0) {
       setUnidades(unidadesIngresadas);
-      setTotal(unidadesIngresadas * producto.precio);
+      setTotal(unidadesIngresadas * producto.price);
     } else {
       alert("No hay suficientes unidades en stock o la cantidad es inválida.");
     }
@@ -40,17 +21,19 @@ function ProductoCompra(props) {
 
   // Función para procesar la compra
   const comprar = () => {
-    const productoActualizado = { ...producto, stock: producto.stock - unidades };
-    
+    const productoActualizado = {
+      ...producto,
+      stock: producto.stock - unidades,
+    };
+
     productoService
-      .update(producto.id, productoActualizado) // Pasa el id y los datos actualizados
+      .update(producto.id, productoActualizado)
       .then(() => {
-        setProducto((prevProducto) => ({
-          ...prevProducto,
-          stock: prevProducto.stock - unidades,
-        }));
-        actualizarStock(producto.id, unidades); // Actualiza el stock en el componente padre
-        alert(`Compra realizada con éxito: ${unidades} unidad(es) de ${producto.name}. Total: €${total}`);
+        setUnidades(0); // Resetear unidades después de la compra
+        actualizarStock(producto.id, unidades);
+        alert(
+          `Compra realizada con éxito: ${unidades} unidad(es) de ${producto.name}. Total: €${total}`
+        );
       })
       .catch((e) => {
         console.log(e);
@@ -60,8 +43,13 @@ function ProductoCompra(props) {
   // Ejecuta la compra
   const handleCompra = (e) => {
     e.preventDefault();
-    if (producto && unidades > 0 && unidades <= producto.stock) {
-      comprar(); // Llama a la función comprar
+    if (!producto) {
+      alert("Error: No se ha cargado el producto.");
+      return;
+    }
+
+    if (unidades > 0 && unidades <= producto.stock) {
+      comprar(); // Ya validado anteriormente
     } else {
       alert("Por favor ingresa una cantidad válida.");
     }
@@ -69,16 +57,13 @@ function ProductoCompra(props) {
 
   // Comprobar el stock y mostrar el mensaje correspondiente
   const comprobarStock = () => {
-    if (producto) {
-      if (producto.stock === 0) {
-        return <span className="text-danger">Producto agotado</span>;
-      } else if (producto.stock <= 10) {
-        return <span className="text-warning">¡Stock bajo!</span>;
-      } else {
-        return <span className="text-success">Stock disponible</span>;
-      }
-    }
-    return null;
+    if (!producto) return null;
+    const { stock } = producto;
+
+    if (stock === 0)
+      return <span className="text-danger">Producto agotado</span>;
+    if (stock <= 10) return <span className="text-warning">¡Stock bajo!</span>;
+    return <span className="text-success">Stock disponible</span>;
   };
 
   return (
@@ -115,8 +100,9 @@ function ProductoCompra(props) {
             </form>
           </div>
         ) : (
-          // Si el producto no está activo, muestra un mensaje
-          <p className="text-danger">Este producto no está disponible para la venta.</p>
+          <p className="text-danger">
+            Este producto no está disponible para la venta.
+          </p>
         )
       ) : (
         <p>Cargando producto...</p>

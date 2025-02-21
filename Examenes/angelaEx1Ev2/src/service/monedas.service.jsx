@@ -1,12 +1,8 @@
-import http from "../http-common-producto";
+import http from "../http-commons-monedas";
 
 class productosDataService {
   getAll() {
     return http.get("/products");
-  }
-
-  get(id) {
-    return http.get(`/products/${id}`);
   }
 
   create(data) {
@@ -20,11 +16,6 @@ class productosDataService {
   delete(id) {
     return http.delete(`/products/${id}`);
   }
-
-  deleteAll() {
-    return http.delete("/products");
-  }
-
 }
 
 export default new productosDataService();

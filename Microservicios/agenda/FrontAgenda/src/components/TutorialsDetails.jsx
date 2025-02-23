@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import tutorialsService from "../service/tutorials.service"; // Ajusta la ruta según tu proyecto
+import "./style/TutorialsDetails.css"; // Importa los estilos CSS
 
-const Tutoriales = ({ tutorials }) => {
+const TutorialsDetails = ({ tutorials }) => {
   const [datosTutoriales, setDatosTutoriales] = useState([]);
+  const [selectedTutorial, setSelectedTutorial] = useState(null); // Tutorial seleccionado
 
   useEffect(() => {
     const obtenerTutoriales = async () => {
@@ -22,16 +24,39 @@ const Tutoriales = ({ tutorials }) => {
     obtenerTutoriales();
   }, [tutorials]);
 
+  // Función para manejar la selección de un tutorial
+  const handleTutorialClick = (tutorial) => {
+    setSelectedTutorial(selectedTutorial === tutorial ? null : tutorial);
+  };
+
   return (
-    <div>
-      <h2>Lista de Tutoriales</h2>
-      <ul>
+    <div className="tutoriales-container">
+      <h2 className="tutoriales-title">Tutoriales Asociados</h2>
+      <ul className="tutoriales-list">
         {datosTutoriales.map((tutorial, index) => (
-          <li key={index}>
-            <h3>{tutorial.title}</h3>
-            <p>{tutorial.description}</p>
-            <p>{tutorial.published ? "Publicado" : "No Publicado"}</p>
-            <img src={tutorial.imagen} alt={tutorial.title} />
+          <li
+            key={index}
+            className={`tutorial-item ${
+              selectedTutorial === tutorial ? "active" : ""
+            }`}
+            onClick={() => handleTutorialClick(tutorial)}
+          >
+            <div className="tutorial-summary">
+              <h3>{tutorial.title}</h3>
+              <p>{tutorial.published ? "Publicado" : "No Publicado"}</p>
+            </div>
+            {selectedTutorial === tutorial && (
+              <div className="tutorial-details">
+                <p>{tutorial.description}</p>
+                {tutorial.imagen && (
+                  <img
+                    src={tutorial.imagen}
+                    alt={tutorial.title}
+                    className="tutorial-image"
+                  />
+                )}
+              </div>
+            )}
           </li>
         ))}
       </ul>
@@ -39,4 +64,4 @@ const Tutoriales = ({ tutorials }) => {
   );
 };
 
-export default Tutoriales;
+export default TutorialsDetails;

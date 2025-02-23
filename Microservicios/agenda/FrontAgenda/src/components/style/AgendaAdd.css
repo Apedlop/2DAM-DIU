@@ -1,0 +1,130 @@
+/* Contenedor principal */
+.rowAdd {
+    margin: auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.agenda-add-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del formulario */
+.agenda-add-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6a1b9a; /* Morado oscuro */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Estilos para los campos del formulario */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #7c4dff; /* Morado brillante */
+  box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.1);
+  outline: none;
+}
+
+/* Estilos para el select de tutoriales */
+.form-control[multiple] {
+  height: auto;
+  padding: 10px;
+}
+
+.form-control[multiple] option {
+  padding: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-control[multiple] option:hover {
+  background-color: #f5f5f5;
+}
+
+/* Botones */
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: #7c4dff; /* Morado brillante */
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #6a1b9a; /* Morado oscuro */
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Botón de cancelar */
+.btn-cancelar {
+  background-color: #e57373; /* Rojo pastel */
+  color: white;
+  border: none;
+}
+
+.btn-cancelar:hover {
+  background-color: #ef5350; /* Rojo más oscuro */
+  transform: translateY(-2px);
+}
+
+.btn-cancelar:active {
+  transform: translateY(0);
+}
+
+/* Mensajes de error o información */
+.alert {
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  color: #856404;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}

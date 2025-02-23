@@ -1,61 +1,177 @@
+/* Estilos generales */
 .row {
-  margin-left: 5vh;
-  margin-right: 5vh;
-  margin-top: 5vh;
+  margin: 5vh auto;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
 .card {
   margin-right: 1vh;
+  border-radius: 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-title {
   text-align: center;
+  font-weight: bold;
+  color: #6a1b9a; /* Morado oscuro */
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 .card-text {
   margin-left: 15%;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
 }
 
+/* Botones */
 .btn {
-  margin: 10px;
-  margin-top: 0px;
+  margin: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-warning {
+  background-color: #ab47bc; /* Morado claro */
+  color: white;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #8e24aa; /* Morado más oscuro */
+  transform: scale(1.05);
+}
+
+.btn-danger {
+  background-color: #d81b60; /* Rosa oscuro */
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #ad1457; /* Rosa más oscuro */
+  transform: scale(1.05);
 }
 
 .botones {
   display: flex;
   justify-content: space-between;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  border-radius: 0 0 16px 16px;
 }
 
+/* Barra de búsqueda */
 .busqueda {
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente si es necesario */
-  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 2rem;
 }
 
 .input-group {
-  width: 50%; /* Controla el tamaño de la barra de búsqueda */
+  width: 60%;
+  max-width: 600px;
 }
 
+.input-group .form-control {
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  height: 45px;
+}
+
+.input-group-append .btn {
+  background-color: #7c4dff; /* Morado brillante */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  margin-left: 10px;
+  height: 45px;
+}
+
+.input-group-append .btn:hover {
+  background-color: #651fff; /* Morado más intenso */
+}
+
+/* Título */
+.titulo {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #6a1b9a; /* Morado oscuro */
+  margin-bottom: 2rem;
+  letter-spacing: -0.5px;
+}
+
+/* Barra de progreso */
+.barraProgreso {
+  width: 60%;
+  margin:auto;
+  height: 16px;
+  border-radius: 12px;
+  background-color: #ede7f6; /* Morado claro de fondo */
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: #7c4dff !important; /* Morado brillante */
+  font-weight: bold;
+  border-radius: 12px;
+  transition: width 0.5s ease;
+}
+
+/* Botón flotante */
 .boton-flotante {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #4dd0e1; /* Turquesa */
+  bottom: 30px;
+  right: 30px;
+  background-color: #6a1b9a; /* Morado oscuro */
   color: white;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
   z-index: 1000;
+  font-size: 1.5rem;
 }
 
-.floating-btn:hover {
+.boton-flotante:hover {
+  background-color: #4a148c; /* Morado más oscuro */
   transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Mensaje de alerta */
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  color: #856404;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  font-size: 1rem;
+  margin: 2rem auto;
+  max-width: 600px;
 }

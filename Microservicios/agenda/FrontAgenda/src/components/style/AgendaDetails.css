@@ -1,0 +1,94 @@
+/* Contenedor principal */
+.agenda-details-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Tarjeta de detalles */
+  .agenda-details-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  /* Encabezado de la tarjeta */
+  .agenda-header {
+    background-color: #6a1b9a; /* Morado oscuro */
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .agenda-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .agenda-subtitle {
+    font-size: 16px;
+    margin: 5px 0 0;
+    opacity: 0.8;
+  }
+  
+  /* Cuerpo de la tarjeta */
+  .agenda-body {
+    padding: 20px;
+  }
+  
+  /* Información de la agenda */
+  .agenda-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .info-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #eee;
+  }
+  
+  .info-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .info-value {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Sección de tutoriales */
+  .tutorials-section {
+    margin-top: 20px;
+  }
+  
+  .tutorials-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .no-tutorials {
+    font-size: 14px;
+    color: #777;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  /* Mensaje de carga */
+  .loading-message {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
+  }

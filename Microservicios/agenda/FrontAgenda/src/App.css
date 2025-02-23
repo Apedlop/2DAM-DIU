@@ -1,0 +1,58 @@
+/* Estilos para la navbar */
+.navbar {
+    padding: 15px 20px;
+    background-color: #7e57c2; /* Morado suave */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff !important;
+  }
+  
+  .nav-link {
+    font-size: 16px;
+    color: #ffffff !important;
+    margin: 0 10px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #d1c4e9 !important; /* Morado muy claro al pasar el mouse */
+  }
+  
+  /* Contenido principal con margen superior */
+  .main-content {
+    padding-top: 80px; /* Ajusta el margen superior para evitar solapamiento con la navbar */
+    background-color: #faf0e6; /* Beige clarito */
+    min-height: 100vh; /* Asegura que el fondo cubra toda la pantalla */
+  }
+  
+  /* Estilos adicionales para mejorar la apariencia */
+  body {
+    font-family: "Arial", sans-serif;
+    margin: 0; /* Elimina el margen predeterminado del body */
+  }
+  
+  /* Efectos de hover en los enlaces de la navbar */
+  .navbar .nav-item .nav-link {
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar .nav-item .nav-link:hover {
+    background-color: rgba(209, 196, 233, 0.1); /* Fondo semi-transparente morado muy claro al pasar el mouse */
+  }
+  
+  /* Botón de login con un estilo especial */
+  .navbar .nav-item:last-child .nav-link {
+    background-color: #9575cd; /* Morado medio */
+    border-radius: 8px;
+    padding: 8px 15px;
+  }
+  
+  .navbar .nav-item:last-child .nav-link:hover {
+    background-color: #7e57c2; /* Morado suave al pasar el mouse */
+  }

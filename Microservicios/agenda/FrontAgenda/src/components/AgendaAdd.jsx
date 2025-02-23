@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import agendaService from "../service/agenda.service";
-import tutorialsService from "../service/tutorials.service"; // Asegúrate de tener un servicio para obtener tutoriales
-import TutorialsAdd from "./TutorialsAdd";
+import tutorialsService from "../service/tutorials.service";
+import "./style/AgendaAdd.css"; // Importa los estilos CSS
 
 function AgendaAdd() {
   const [newPersona, setNewPersona] = useState({
@@ -17,13 +17,12 @@ function AgendaAdd() {
   });
   const [tutorials, setTutorials] = useState([]); // Para almacenar los tutoriales publicados
   const [selectedTutorials, setSelectedTutorials] = useState([]); // Tutoriales seleccionados
-  const [tutorialDetail, setTutorialDetail] = useState(null); // Detalle de un tutorial
   const navegar = useNavigate(); // Hook para redireccionar
 
   useEffect(() => {
     // Obtener la lista de tutoriales publicados
     tutorialsService
-      .getAllPublishedTutorials() 
+      .getAllPublishedTutorials()
       .then((response) => {
         setTutorials(response.data); // Asumiendo que la respuesta contiene la lista de tutoriales
       })
@@ -53,86 +52,110 @@ function AgendaAdd() {
 
   const cancelar = () => {
     navegar("/agenda");
-  }
-
-  const agregarTutorial = (tutorialId) => {
-    // Agregar tutorial seleccionado
-    setSelectedTutorials((prevSelected) => [...prevSelected, tutorialId]);
   };
 
   return (
-    <div>
+    <div className="agenda-add-container">
+      <h2 className="agenda-add-title">Añadir Nueva Persona</h2>
       <form>
-        <div className="form-group">
-          <label htmlFor="nombre">Nombre</label>
-          <input
-            type="text"
-            className="form-control"
-            id="nombre"
-            required
-            value={newPersona.nombre}
-            onChange={valoresEditados}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="apellidos">Apellidos</label>
-          <input
-            type="text"
-            className="form-control"
-            id="apellidos"
-            required
-            value={newPersona.apellidos}
-            onChange={valoresEditados}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="calle">Calle</label>
-          <input
-            type="text"
-            className="form-control"
-            id="calle"
-            required
-            value={newPersona.calle}
-            onChange={valoresEditados}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="codigoPostal">Código Postal</label>
-          <input
-            type="number"
-            className="form-control"
-            id="codigoPostal"
-            required
-            value={newPersona.codigoPostal}
-            onChange={valoresEditados}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="ciudad">Ciudad</label>
-          <input
-            type="text"
-            className="form-control"
-            id="ciudad"
-            required
-            value={newPersona.ciudad}
-            onChange={valoresEditados}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="cumpleanos">Cumpleaños</label>
-          <input
-            type="date"
-            className="form-control"
-            id="cumpleanos"
-            required
-            value={newPersona.cumpleanos}
-            onChange={valoresEditados}
-          />
+        <div className="row rowAdd">
+          {/* Columna izquierda */}
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="nombre" className="form-label">
+                Nombre
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="nombre"
+                required
+                value={newPersona.nombre}
+                onChange={valoresEditados}
+                placeholder="Ingresa el nombre"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="calle" className="form-label">
+                Calle
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="calle"
+                required
+                value={newPersona.calle}
+                onChange={valoresEditados}
+                placeholder="Ingresa la calle"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="ciudad" className="form-label">
+                Ciudad
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="ciudad"
+                required
+                value={newPersona.ciudad}
+                onChange={valoresEditados}
+                placeholder="Ingresa la ciudad"
+              />
+            </div>
+          </div>
+
+          {/* Columna derecha */}
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="apellidos" className="form-label">
+                Apellidos
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="apellidos"
+                required
+                value={newPersona.apellidos}
+                onChange={valoresEditados}
+                placeholder="Ingresa los apellidos"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="codigoPostal" className="form-label">
+                Código Postal
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                id="codigoPostal"
+                required
+                value={newPersona.codigoPostal}
+                onChange={valoresEditados}
+                placeholder="Ingresa el código postal"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="cumpleanos" className="form-label">
+                Cumpleaños
+              </label>
+              <input
+                type="date"
+                className="form-control"
+                id="cumpleanos"
+                required
+                value={newPersona.cumpleanos}
+                onChange={valoresEditados}
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Lista de tutoriales */}
+        {/* Lista de tutoriales (ocupa todo el ancho) */}
         <div className="form-group">
-          <label htmlFor="tutoriales">Selecciona Tutoriales</label>
+          <label htmlFor="tutoriales" className="form-label">
+            Selecciona Tutoriales
+          </label>
           <select
             id="tutoriales"
             multiple
@@ -153,20 +176,23 @@ function AgendaAdd() {
           </select>
         </div>
 
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={createAgenda}
-        >
-          Crear Agenda
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={cancelar}
-        >
-          Cancelar
-        </button>
+        {/* Botones (ocupan todo el ancho) */}
+        <div className="form-group text-center marginButton">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={createAgenda}
+          >
+            Crear Agenda
+          </button>
+          <button
+            type="button"
+            className="btn btn-cancelar"
+            onClick={cancelar}
+          >
+            Cancelar
+          </button>
+        </div>
       </form>
     </div>
   );

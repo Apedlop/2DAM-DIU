@@ -1,0 +1,118 @@
+/* Contenedor principal */
+.tutorials-list-container {
+    margin: 5vh;
+  }
+  
+  /* Estilos para la barra de búsqueda */
+  .search-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    width: 50%;
+  }
+  
+  .input-group .form-control {
+    border-radius: 8px;
+  }
+  
+  .input-group-append .btn {
+    background-color: #6a1b9a; /* Morado oscuro */
+    color: white;
+    border: none;
+    border-radius: 8px;
+  }
+  
+  .input-group-append .btn:hover {
+    background-color: #4a148c; /* Morado más oscuro */
+  }
+  
+  /* Título de la lista */
+  .titulo {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #6a1b9a; /* Morado oscuro */
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para las tarjetas de tutoriales */
+  .card {
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .tutorial-image {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  /* Botones de editar y eliminar */
+  .botones {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-top: 1px solid #eee;
+  }
+  
+  .btn-warning {
+    background-color: #ffb74d; /* Naranja suave */
+    color: white;
+    border: none;
+  }
+  
+  .btn-warning:hover {
+    background-color: #ffa726; /* Naranja más oscuro */
+  }
+  
+  .btn-danger {
+    background-color: #e57373; /* Rojo pastel */
+    color: white;
+    border: none;
+  }
+  
+  .btn-danger:hover {
+    background-color: #ef5350; /* Rojo más oscuro */
+  }
+  
+  /* Botón flotante */
+  .boton-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #6a1b9a; /* Morado oscuro */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .boton-flotante:hover {
+    background-color: #4a148c; /* Morado más oscuro */
+  }

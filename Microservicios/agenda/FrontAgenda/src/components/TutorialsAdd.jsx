@@ -1,102 +1,134 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from "react";
+import tutorialService from "../service/tutorials.service";
 import { useNavigate } from "react-router-dom";
-import agendaService from "../service/agenda.service";
-import tutorialsService from "../service/tutorials.service";
+import "./style/TutorialsAdd.css"; // Archivo CSS para estilos personalizados
 
-function AgendaAdd() {
-  const [newPersona, setNewPersona] = useState({
-    nombre: "",
-    apellidos: "",
-    calle: "",
-    codigoPostal: "",
-    ciudad: "",
-    cumpleanos: "",
-    tutorials: [],
+const TutorialsAdd = () => {
+  const [newTutorial, setNewTutorial] = useState({
+    title: "",
+    description: "",
+    published: false,
+    imagen: "", // Nuevo campo para la URL de la imagen
   });
 
-  const [tutorialsList, setTutorialsList] = useState([]);
-  const navegar = useNavigate(); // Hook para redireccionar
+  const navegar = useNavigate();
 
-  useEffect(() => {
-    // Cargar todos los tutoriales publicados
-    tutorialsService
-      .getAllPublishedTutorials()
-      .then((response) => {
-        setTutorialsList(response.data); // Suponiendo que la respuesta tiene la lista de tutoriales
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
-
-  const valoresEditados = (e) => {
+  // Esta función actualiza el estado 'newTutorial' con el valor del campo de entrada que ha cambiado.
+  const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setNewPersona({
-      ...newPersona,
+    setNewTutorial({
+      ...newTutorial,
       [id]: value,
     });
   };
 
-  const createAgenda = () => {
-    agendaService
-      .create(newPersona)
+  const handlePublishedChange = (e) => {
+    const { id } = e.target;
+    setNewTutorial({
+      ...newTutorial,
+      published: id === "radioButtonYes",
+    });
+  };
+
+  const createTutorial = () => {
+    tutorialService
+      .create(newTutorial)
       .then(() => {
-        navegar.push("/agenda");
+        navegar("/tutorials");
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const handleTutorialSelection = (e) => {
-    const { value, checked } = e.target;
-    let updatedTutorials = [...newPersona.tutorials];
-
-    if (checked) {
-      updatedTutorials.push(value);
-    } else {
-      updatedTutorials = updatedTutorials.filter(
-        (tutorial) => tutorial !== value
-      );
-    }
-
-    setNewPersona({
-      ...newPersona,
-      tutorials: updatedTutorials,
-    });
-  };
-
   return (
-    <div>
-      <form>
-        {/* ... los otros campos del formulario ... */}
-
-        <div className="form-group">
-          <label>Tutoriales publicados:</label>
-          <div>
-            {tutorialsList.map((tutorial) => (
-              <div key={tutorial.id}>
+    <div className="tutorials-add-container">
+      <div className="tutorials-add-card">
+        <h2 className="tutorials-add-title">Add New Tutorial</h2>
+        <form>
+          <div className="form-group">
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              required
+              value={newTutorial.title}
+              onChange={handleInputChange}
+              placeholder="Enter tutorial title"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description" className="form-label">
+              Description
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="description"
+              required
+              value={newTutorial.description}
+              onChange={handleInputChange}
+              placeholder="Enter tutorial description"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="imagen" className="form-label">
+              Image URL
+            </label>
+            <input
+              type="url"
+              className="form-control"
+              id="imagen"
+              value={newTutorial.imagen}
+              onChange={handleInputChange}
+              placeholder="Paste the image URL here"
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Published:</label>
+            <div className="radio-group">
+              <div className="form-check">
                 <input
-                  type="checkbox"
-                  id={`tutorial-${tutorial.id}`}
-                  value={tutorial.id}
-                  onChange={handleTutorialSelection}
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="radioButtonYes"
+                  checked={newTutorial.published === true}
+                  onChange={handlePublishedChange}
                 />
-                <label htmlFor={`tutorial-${tutorial.id}`}>
-                  {tutorial.title}
+                <label className="form-check-label" htmlFor="radioButtonYes">
+                  Yes
                 </label>
               </div>
-            ))}
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="radioButtonNo"
+                  checked={newTutorial.published === false}
+                  onChange={handlePublishedChange}
+                />
+                <label className="form-check-label" htmlFor="radioButtonNo">
+                  No
+                </label>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <button onClick={createAgenda} className="btn btn-success">
-          Añadir
-        </button>
-      </form>
+          <button
+            type="button"
+            onClick={createTutorial}
+            className="btn-submit"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
-}
+};
 
-export default AgendaAdd;
+export default TutorialsAdd;

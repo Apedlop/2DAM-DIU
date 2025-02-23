@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react"; 
-import { useParams } from "react-router-dom"; 
-import agendaService from "../service/agenda.service"; 
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import agendaService from "../service/agenda.service";
 import TutorialsDetails from "./TutorialsDetails";
+import "./style/AgendaDetails.css"; // Importa los estilos CSS
 
 function AgendaDetails() {
   const { id } = useParams(); // Obtener el id de la URL
@@ -20,61 +21,47 @@ function AgendaDetails() {
   }, [id]); // Se ejecuta cuando cambia el id
 
   return (
-    <div>
+    <div className="agenda-details-container">
       {persona ? (
-        <div>
-          <h4>Detalles de la agenda</h4>
-          <div>
-            <label>
-              <strong>Nombre:</strong>
-            </label>{" "}
-            {persona.nombre}
+        <div className="agenda-details-card">
+          <div className="agenda-header">
+            <h2 className="agenda-name">
+              {persona.nombre} {persona.apellidos}
+            </h2>
           </div>
-          <div>
-            <label>
-              <strong>Apellidos:</strong>
-            </label>{" "}
-            {persona.apellidos}
-          </div>
-          <div>
-            <label>
-              <strong>Calle:</strong>
-            </label>{" "}
-            {persona.calle}
-          </div>
-          <div>
-            <label>
-              <strong>Código Postal:</strong>
-            </label>{" "}
-            {persona.codigoPostal}
-          </div>
-          <div>
-            <label>
-              <strong>Ciudad:</strong>
-            </label>{" "}
-            {persona.ciudad}
-          </div>
-          <div>
-            <label>
-              <strong>Cumpleaños:</strong>
-            </label>{" "}
-            {persona.cumpleanos}
-          </div>
-          <div>
-            <label>
-              <strong>Tutoriales:</strong>
-            </label>{" "}
-            {/* Verificamos si persona tiene tutoriales antes de pasarlos */}
-            {persona.tutorials && persona.tutorials.length > 0 ? (
-              <TutorialsDetails tutorials={persona.tutorials} />
-            ) : (
-              <p>No hay tutoriales disponibles.</p>
-            )}
+
+          <div className="agenda-body">
+            <div className="agenda-info">
+              <div className="info-item">
+                <span className="info-label">Calle:</span>
+                <span className="info-value">{persona.calle}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Código Postal:</span>
+                <span className="info-value">{persona.codigoPostal}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Ciudad:</span>
+                <span className="info-value">{persona.ciudad}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Cumpleaños:</span>
+                <span className="info-value">{persona.cumpleanos}</span>
+              </div>
+            </div>
+
+            {/* Tutoriales */}
+            <div className="tutorials-section">
+              {persona.tutorials && persona.tutorials.length > 0 ? (
+                <TutorialsDetails tutorials={persona.tutorials} />
+              ) : (
+                <p className="no-tutorials">No hay tutoriales disponibles.</p>
+              )}
+            </div>
           </div>
         </div>
       ) : (
-        <div>
-          <br />
+        <div className="loading-message">
           <p>Selecciona una persona...</p>
         </div>
       )}

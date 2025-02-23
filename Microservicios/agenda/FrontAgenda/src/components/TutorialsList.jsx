@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import TutorialDataService from "../service/tutorials.service";
 import { Link } from "react-router-dom";
+import "./style/TutorialsList.css"; // Importa los estilos CSS
 
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]); // Lista de tutoriales
   const [currentTutorial, setCurrentTutorial] = useState(null); // Tutorial seleccionado
-  const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
 
   // Cuando se monta el componente, se cargan los tutoriales
@@ -32,12 +32,6 @@ const TutorialsList = () => {
   const refreshList = () => {
     retrieveTutorials();
     setCurrentTutorial(null);
-    setCurrentIndex(-1);
-  };
-
-  const setActiveTutorial = (tutorial, index) => {
-    setCurrentTutorial(tutorial);
-    setCurrentIndex(index);
   };
 
   const removeAllTutorials = () => {
@@ -63,90 +57,96 @@ const TutorialsList = () => {
   };
 
   return (
-    <div className="list row">
-      <div className="col-md-8">
+    <div className="tutorials-list-container">
+      <div className="search-section">
         <div className="input-group mb-3">
           <input
             type="text"
             className="form-control"
-            placeholder="Search by title"
+            placeholder="Buscar por título"
             value={searchTitle}
             onChange={onChangeSearchTitle}
           />
           <div className="input-group-append">
             <button
-              className="btn btn-outline-secondary"
+              className="btn btn-secondary"
               type="button"
               onClick={searchTitleHandler}
             >
-              Search
+              <i className="fas fa-search"></i> Buscar
             </button>
           </div>
         </div>
       </div>
-      <div className="col-md-6">
-        <h4>Tutorials List</h4>
 
-        <ul className="list-group">
-          {tutorials &&
-            tutorials.map((tutorial, index) => (
-              <li
-                className={
-                  "list-group-item " +
-                  (index === currentIndex ? "active" : "")
-                }
-                onClick={() => setActiveTutorial(tutorial, index)}
-                key={index}
-              >
-                {tutorial.title}
-              </li>
-            ))}
-        </ul>
+      <h1 className="titulo">Lista de Tutoriales</h1>
 
-        <button
-          className="m-3 btn btn-sm btn-danger"
-          onClick={removeAllTutorials}
-        >
-          Remove All
-        </button>
-      </div>
-      <div className="col-md-6">
-        {currentTutorial ? (
-          <div>
-            <h4>Tutorial</h4>
-            <div>
-              <label>
-                <strong>Title:</strong>
-              </label>{" "}
-              {currentTutorial.title}
-            </div>
-            <div>
-              <label>
-                <strong>Description:</strong>
-              </label>{" "}
-              {currentTutorial.description}
-            </div>
-            <div>
-              <label>
-                <strong>Status:</strong>
-              </label>{" "}
-              {currentTutorial.published ? "Published" : "Pending"}
-            </div>
-
-            <Link
-              to={"/tutorials/" + currentTutorial.id}
-              className="badge badge-warning"
+      <div className="row">
+        {tutorials.length > 0 ? (
+          tutorials.map((tutorial, index) => (
+            <div
+              className="col-md-4 mb-3"
+              key={index}
+              onClick={() => setCurrentTutorial(tutorial)}
             >
-              Edit
-            </Link>
-          </div>
+              <div
+                className={`card ${
+                  currentTutorial === tutorial ? "border-primary" : ""
+                }`}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card-body">
+                  <div className="row">
+                    {/* Imagen del tutorial */}
+                    <div className="col-md-4">
+                      {tutorial.imagen && (
+                        <img
+                          src={tutorial.imagen}
+                          alt={tutorial.title}
+                          className="tutorial-image"
+                        />
+                      )}
+                    </div>
+                    {/* Detalles del tutorial */}
+                    <div className="col-md-8">
+                      <h4 className="card-title">{tutorial.title}</h4>
+                      <p className="card-text">
+                        <b>Estado:</b>{" "}
+                        {tutorial.published ? "Publicado" : "Pendiente"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* Botones de editar y eliminar */}
+                <div className="botones">
+                  <Link to={"/tutorials/edit/" + tutorial.id}>
+                    <button className="btn btn-warning">Editar</button>
+                  </Link>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => removeAllTutorials(tutorial.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
         ) : (
-          <div>
-            <br />
-            <p>Please click on a Tutorial...</p>
+          <div className="col-12">
+            <div className="alert alert-warning" role="alert">
+              No hay tutoriales disponibles...
+            </div>
           </div>
         )}
       </div>
+
+      {/* Botón flotante para agregar nuevos tutoriales */}
+      <Link to={"/addTutorials"}>
+        <button className="btn btn-primary boton-flotante">
+          <i className="fas fa-plus"></i>
+        </button>
+      </Link>
     </div>
   );
 };

@@ -1,25 +1,23 @@
 import React, { Component, createContext } from "react";
 import { auth, generateUserDocument } from "../firebase";
 
-export const UserContext = createContext({ user: null });
+export const UserContext = createContext(null); // Asegura que el contexto tiene un valor por defecto
 
 class UserProvider extends Component {
   state = {
     user: null,
   };
 
-  componentDidMount = async () => {
+  componentDidMount() {
     auth.onAuthStateChanged(async (userAuth) => {
-      const user = await generateUserDocument(userAuth);
+      const user = userAuth ? await generateUserDocument(userAuth) : null;
       this.setState({ user });
     });
-  };
+  }
 
   render() {
-    const { user } = this.state;
-
     return (
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={{ user: this.state.user }}>
         {this.props.children}
       </UserContext.Provider>
     );

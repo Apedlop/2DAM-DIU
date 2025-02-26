@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { signUpWithEmail } from "../firebase.js"; // Asegúrate de importar las funciones de firebase
+import { signUpWithEmail } from "../firebase"; // Asegúrate de importar la función correctamente
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -11,21 +11,25 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Verificar que las contraseñas coinciden
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
 
+    // Limpiar error previo y comenzar el proceso de carga
     setError("");
     setLoading(true);
 
     try {
+      // Llamar a la función de Firebase para registrar al usuario
       await signUpWithEmail(email, password, {
-        displayName: email.split("@")[0],
-      }); // Se puede personalizar el nombre
+        displayName: email.split("@")[0], // Usar la parte del email como nombre por defecto
+      });
       alert("Registro exitoso. Verifica tu correo para continuar.");
+      // Aquí puedes redirigir al usuario a otra página si lo deseas
     } catch (err) {
-      setError(err.message);
+      setError(err.message); // Mostrar el error si ocurre algo
       console.error("Error al registrarse", err);
     }
 
@@ -68,7 +72,7 @@ const SignUp = () => {
         </div>
         {error && <p className="error">{error}</p>}
         <button type="submit" disabled={loading}>
-          Registrar
+          {loading ? "Cargando..." : "Registrar"}
         </button>
       </form>
     </div>

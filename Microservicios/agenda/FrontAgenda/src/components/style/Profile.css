@@ -1,0 +1,49 @@
+/* Estilo general para el contenedor del perfil */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra todo en el eje horizontal */
+  height: 100vh; /* Asegura que ocupe toda la pantalla */
+  text-align: center; /* Centra el texto dentro del contenedor */
+  padding: 20px;
+}
+
+/* Estilo para el título */
+.profile-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #6a4caf; /* Morado suave */
+  margin-bottom: 30px; /* Espacio debajo del título */
+}
+
+/* Estilo para la sección de la información del perfil */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra la información */
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  max-width: 500px; /* Ancho máximo para no ocupar toda la pantalla */
+  width: 100%;
+}
+
+/* Estilo para la imagen del perfil */
+.profile-image {
+  width: 120px; /* Tamaño de la imagen */
+  height: 120px;
+  border-radius: 50%; /* Hace la imagen circular */
+  object-fit: cover; /* Asegura que la imagen cubra el área sin deformarse */
+  border: 4px solid #6a4caf; /* Borde morado */
+  margin-bottom: 20px; /* Espacio debajo de la imagen */
+}
+
+/* Estilo para los párrafos */
+.profile-details p {
+  font-size: 18px;
+  color: #333;
+  margin: 5px 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

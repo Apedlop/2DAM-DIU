@@ -1,42 +1,81 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
 
 // Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDP40AmwPMIrmKqCHxdWpRGv9JQOhLeMoU",
   authDomain: "pruebaloginreact-angela.firebaseapp.com",
   projectId: "pruebaloginreact-angela",
-  storageBucket: "pruebaloginreact-angela.appspot.com",
+  storageBucket: "pruebaloginreact-angela.firebasestorage.app",
   messagingSenderId: "25721423912",
-  appId: "1:25721423912:web:02739f97d4d2ada4b98d1d",
-  measurementId: "G-V6QS74GD5S",
+  appId: "1:25721423912:web:971d50c758ac8bc6b98d1d",
+  measurementId: "G-006NZTPFCY",
 };
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const firestore = getFirestore(app);
+const analytics = getAnalytics(app);
 
-// Proveedor de autenticación con Google
-const provider = new GoogleAuthProvider();
-export const signInWithGoogle = async () => {
+// Obtener la autenticación y la base de datos
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Proveedor de Google
+const googleProvider = new GoogleAuthProvider();
+
+// Función para iniciar sesión con Google
+const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
+
+// Función para iniciar sesión con email y contraseña
+const signInWithEmail = (email, password) =>
+  signInWithEmailAndPassword(auth, email, password);
+
+// Función para crear un usuario con email y contraseña
+const signUpWithEmail = async (email, password, additionalData) => {
   try {
-    await signInWithPopup(auth, provider);
+    // Crear el usuario con email y contraseña
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    // Actualizar el perfil del usuario con displayName u otros datos
+    if (additionalData.displayName) {
+      await updateProfile(user, {
+        displayName: additionalData.displayName,
+      });
+    }
+
+    // Crear un documento en Firestore para almacenar datos adicionales del usuario
+    await generateUserDocument(user, additionalData);
+
+    return user;
   } catch (error) {
-    console.error("Error al iniciar sesión con Google", error);
+    throw new Error(error.message);
   }
 };
 
-// Generar documento de usuario
-export const generateUserDocument = async (user, additionalData) => {
-  if (!user) return null;
+// Función para crear o recuperar el documento del usuario en Firestore
+const generateUserDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return null;
 
-  const userRef = doc(firestore, `users/${user.uid}`);
-  const snapshot = await getDoc(userRef);
+  const userRef = doc(db, "users", userAuth.uid);
+  const userSnap = await getDoc(userRef);
 
-  if (!snapshot.exists()) {
-    const { email, displayName, photoURL } = user;
+  // Si el documento no existe, lo creamos
+  if (!userSnap.exists()) {
+    const { email, displayName, photoURL } = userAuth;
     try {
       await setDoc(userRef, {
         displayName,
@@ -49,17 +88,15 @@ export const generateUserDocument = async (user, additionalData) => {
     }
   }
 
-  return getUserDocument(user.uid);
+  return userSnap.data();
 };
 
-// Obtener documento de usuario
-const getUserDocument = async (uid) => {
-  if (!uid) return null;
-  try {
-    const userRef = doc(firestore, `users/${uid}`);
-    const userDocument = await getDoc(userRef);
-    return { uid, ...userDocument.data() };
-  } catch (error) {
-    console.error("Error obteniendo usuario", error);
-  }
+// Exportar funciones
+export {
+  auth,
+  db,
+  signInWithGoogle,
+  signInWithEmail,
+  signUpWithEmail,
+  generateUserDocument,
 };

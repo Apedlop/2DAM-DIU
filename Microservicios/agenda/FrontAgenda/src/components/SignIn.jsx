@@ -1,26 +1,30 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { signInWithGoogle } from "../firebase.js";
-import { auth } from "../firebase.js";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { Card, Container, Button, Form } from "react-bootstrap";
+import "./style/SignIn.css";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const auth = getAuth();
+  const navigate = useNavigate();
 
-  const signInWithEmailAndPasswordHandler = async (event, email, password) => {
-    event.preventDefault();
+  // Esta es la función que se ejecuta al intentar iniciar sesión
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/"); // Redirige al usuario a la página principal después del login
     } catch (error) {
-      setError("Error signing in with password and email!");
-      console.error("Error signing in with password and email", error);
+      setError(error.message); // Muestra el error si algo sale mal
     }
   };
 
-  const onChangeHandler = (event) => {
-    const { name, value } = event.currentTarget;
-
+  // Esta es la función que maneja los cambios de los campos de input
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
     if (name === "userEmail") {
       setEmail(value);
     } else if (name === "userPassword") {
@@ -29,21 +33,17 @@ const SignIn = () => {
   };
 
   return (
-    <div className="mt-8">
-      <h1 className="text-3xl mb-2 text-center font-bold">Sign In</h1>
-      <div className="border border-blue-400 mx-auto w-11/12 md:w-2/4 rounded py-8 px-4 md:px-8">
-        {error !== null && (
-          <div className="py-4 bg-red-600 w-full text-white text-center mb-3">
-            {error}
-          </div>
-        )}
-        <form>
+    <div className="sign-in-container">
+      <h1 className="sign-in-title">Sign In</h1>
+      <div className="form-container">
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleLogin}>
           <label htmlFor="userEmail" className="block">
             Email:
           </label>
           <input
             type="email"
-            className="my-1 p-1 w-full"
+            className="input-field"
             name="userEmail"
             value={email}
             placeholder="E.g: prueba@gmail.com"
@@ -55,42 +55,27 @@ const SignIn = () => {
           </label>
           <input
             type="password"
-            className="mt-1 mb-3 p-1 w-full"
+            className="input-field"
             name="userPassword"
             value={password}
             placeholder="Your Password"
             id="userPassword"
             onChange={onChangeHandler}
           />
-          <button
-            className="bg-green-400 hover:bg-green-500 w-full py-2 text-white"
-            onClick={(event) =>
-              signInWithEmailAndPasswordHandler(event, email, password)
-            }
-          >
+          <button className="sign-in-button" type="submit">
             Sign in
           </button>
         </form>
-        <p className="text-center my-3">or</p>
+        <p className="or-text">or</p>
         <button
-          className="bg-red-500 hover:bg-red-600 w-full py-2 text-white"
-          onClick={signInWithGoogle}
+          className="google-sign-in-button"
+          onClick={() => {
+            // Funcionalidad para el inicio de sesión con Google aquí
+            signInWithGoogle();
+          }}
         >
           Sign in with Google
         </button>
-        <p className="text-center my-3">
-          Don't have an account?{" "}
-          <Link to="signUp" className="text-blue-500 hover:text-blue-600">
-            Sign up here
-          </Link>{" "}
-          <br />{" "}
-          <Link
-            to="passwordReset"
-            className="text-blue-500 hover:text-blue-600"
-          >
-            Forgot Password?
-          </Link>
-        </p>
       </div>
     </div>
   );

@@ -4,15 +4,19 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import "./style/AgendaList.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ProgressBar, Modal, Button } from "react-bootstrap";
+import { ProgressBar } from "react-bootstrap";
+import { UserContext } from "../provider/UserProvider";
+import { useContext } from "react";
 
 function AgendaList() {
+  const { user } = useContext(UserContext); // Acceder al contexto del usuario
+
   const [personas, setPersonas] = useState([]); // Lista de personas
   const [totalPersonas, setTotalPersonas] = useState(0); // Cantidad total de personas
   const [selectPersona, setSelectPersona] = useState(null); // Persona seleccionada
   const [idSelect, setIdSelect] = useState(-1);
   const [buscarNombre, setBuscarNombre] = useState("");
-  const MAX_PERSONAS = 5;
+  const MAX_PERSONAS = 10;
 
   // Cuando se monta el componente, se carga la Agenda
   useEffect(() => {
@@ -25,7 +29,6 @@ function AgendaList() {
       .then((response) => {
         setPersonas(response.data);
         setTotalPersonas(response.data.length); // Guardar la cantidad total de personas
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -125,9 +128,7 @@ function AgendaList() {
               onClick={() => setActivateAgenda(persona, index)}
             >
               <div
-                className={`card ${
-                  index === idSelect ? "border-primary" : ""
-                }`}
+                className={`card ${index === idSelect ? "border-primary" : ""}`}
                 style={{ cursor: "pointer" }}
               >
                 <Link
@@ -142,17 +143,20 @@ function AgendaList() {
                     </p>
                   </div>
                 </Link>
-                <div className="botones">
-                  <Link to={"/agenda/edit/" + persona.id}>
-                    <button className="btn btn-warning">Editar</button>
-                  </Link>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => deletePersona(persona.id)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
+
+                {user && ( // Si el usuario existe, muestra los botones de editar y eliminar
+                  <div className="botones">
+                    <Link to={"/agenda/edit/" + persona.id}>
+                      <button className="btn btn-warning">Editar</button>
+                    </Link>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deletePersona(persona.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))
@@ -164,15 +168,18 @@ function AgendaList() {
           </div>
         )}
       </div>
-      <Link to={"/add"}>
-        <button
-          className="btn btn-primary boton-flotante"
-          title="Añadir nuevo contacto"
-          disabled={totalPersonas >= MAX_PERSONAS} // Usar totalPersonas en lugar de personas.length
-        >
-          <FaPlus />
-        </button>
-      </Link>
+
+      {user && ( // Si el usuario existe, muestra el botón de añadir
+        <Link to={"/add"}>
+          <button
+            className="btn btn-primary boton-flotante"
+            title="Añadir nuevo contacto"
+            disabled={totalPersonas >= MAX_PERSONAS} // Usar totalPersonas en lugar de personas.length
+          >
+            <FaPlus />
+          </button>
+        </Link>
+      )}
     </div>
   );
 }

@@ -1,10 +1,21 @@
 import React, { useContext } from "react";
 import { UserContext } from "../provider/UserProvider";
-import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth"; // Importar signOut
+import { auth } from "../firebase"; // Importar la configuración de Firebase
 import "./style/Profile.css"; // Añade estilos adicionales si es necesario
 
 function Profile() {
   const { user } = useContext(UserContext); // Acceder al contexto del usuario
+
+  // Función para cerrar sesión
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      console.log("Sesión cerrada correctamente");
+    } catch (error) {
+      console.error("Error al cerrar sesión", error);
+    }
+  };
 
   if (!user) {
     return (
@@ -27,6 +38,10 @@ function Profile() {
             <b>Correo electrónico:</b> {user.email}
           </p>
         </div>
+        {/* Botón para cerrar sesión */}
+        <button className="logout-button" onClick={handleLogout}>
+          Cerrar sesión
+        </button>
       </div>
     </div>
   );

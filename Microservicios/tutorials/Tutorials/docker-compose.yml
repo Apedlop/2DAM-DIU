@@ -1,30 +1,41 @@
-version: '2' #Versión del fichero Docker-compose (si no se pone la etiqueta, se cogerá la versión 1 automáticamente
-networks: #Define la/s redes que usarán los contenedores
-  mired: #Nombre de la red
-    ipam: #Administra las direcciones ips
-      config: #Etiqueta usada para definir la configuración de la red
-        - subnet: 182.28.0.0/16 #Aquí definimos la subred a usar
-          gateway: 182.28.0.1 #Aquí definimos la puerta de enlace de la red
-services: #Esta etiqueta es usada para definir los contenedores que instalaremos en Docker
-  db: #Nombre del servicio
-    image: bitnami/mongodb:latest #Especificamos la imagen a usar.
-    container_name: mongo_DB #Nombre del contenedor en nuestro Docker
+version: '3.8'
+networks:
+  mired:
+    ipam:
+      config:
+        - subnet: 182.28.0.0/16
+          gateway: 182.28.0.1
+services:
+  db:
+    image: bitnami/mongodb:latest
+    container_name: mongo_DB
     networks:
       mired:
-        ipv4_address: 182.28.0.11 #Dirección ip del contenedor
+        ipv4_address: 182.28.0.11
     ports:
-      - "27017:27017" #Especificamos los puertos
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=examplepassword
     expose:
-      - 27017 #Expone los puertos sin publicarlos al host.
+      - 27017
+
   app-tutorials:
-    image: apedlop042/tutorials2025:1
+    image: apedlop042/tutorials2025:2
     container_name: tutorialsapp
     networks:
       mired:
         ipv4_address: 182.28.0.12
     expose:
-      - 80
+      - 8098
     ports:
-      - "80:8080"
-    depends_on: #En esta etiqueta colocamos de qué servicio depende este contenedor
+      - "8098:8098"
+    depends_on:
       - db
+    environment:
+      - DB_HOST=mongo_DB
+      - DB_PORT=27017
+      - DB_USERNAME=root
+      - DB_PASSWORD=examplepassword
+    # Si la aplicación necesita esperar a MongoDB antes de arrancar
+    entrypoint: ["sh", "-c", "sleep 10 && /app/start.sh"]

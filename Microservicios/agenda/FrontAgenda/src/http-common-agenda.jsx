@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const agendaService = axios.create({
-  baseURL: "http://localhost:8099/api/v1",
+  baseURL: "http://agenda2025.us-east-1.elasticbeanstalk.com:8099/api/v1",
   headers: {
     "Content-type": "application/json",
   },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import agendaService from "../service/agenda.service";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
@@ -6,19 +6,15 @@ import "./style/AgendaList.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProgressBar } from "react-bootstrap";
 import { UserContext } from "../provider/UserProvider";
-import { useContext } from "react";
 
 function AgendaList() {
   const { user } = useContext(UserContext); // Acceder al contexto del usuario
-
   const [personas, setPersonas] = useState([]); // Lista de personas
   const [totalPersonas, setTotalPersonas] = useState(0); // Cantidad total de personas
-  const [selectPersona, setSelectPersona] = useState(null); // Persona seleccionada
-  const [idSelect, setIdSelect] = useState(-1);
   const [buscarNombre, setBuscarNombre] = useState("");
   const MAX_PERSONAS = 10;
 
-  // Cuando se monta el componente, se carga la Agenda
+  // Cargar la lista de contactos al montar el componente
   useEffect(() => {
     getAllAgenda();
   }, []);
@@ -28,29 +24,7 @@ function AgendaList() {
       .getAll()
       .then((response) => {
         setPersonas(response.data);
-        setTotalPersonas(response.data.length); // Guardar la cantidad total de personas
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const setActivateAgenda = (persona, index) => {
-    setSelectPersona(persona);
-    setIdSelect(index);
-  };
-
-  const refreshList = () => {
-    getAllAgenda();
-    setSelectPersona(null);
-    setIdSelect(-1);
-  };
-
-  const deletePersona = (id) => {
-    agendaService
-      .delete(id)
-      .then(() => {
-        refreshList();
+        setTotalPersonas(response.data.length);
       })
       .catch((e) => {
         console.log(e);
@@ -59,10 +33,8 @@ function AgendaList() {
 
   const searchNombre = () => {
     if (buscarNombre === "") {
-      // Si no hay texto en la búsqueda, obtener todas las personas
       getAllAgenda();
     } else {
-      // Si hay texto, buscar por nombre
       agendaService
         .findByName(buscarNombre)
         .then((response) => {
@@ -75,12 +47,11 @@ function AgendaList() {
   };
 
   const onChangeNombre = (e) => {
-    const buscarNombre = e.target.value;
-    setBuscarNombre(buscarNombre);
+    setBuscarNombre(e.target.value);
   };
 
   const obtenerPorcentaje = () => {
-    return (totalPersonas / MAX_PERSONAS) * 100; // Usar totalPersonas en lugar de personas.length
+    return (totalPersonas / MAX_PERSONAS) * 100;
   };
 
   return (
@@ -113,24 +84,13 @@ function AgendaList() {
           animated
           className="barraProgreso"
         />
-        {totalPersonas >= MAX_PERSONAS && ( // Usar totalPersonas en lugar de personas.length
-          <small className="text-muted d-block text-center mt-2">
-            Has alcanzado el límite de contactos.
-          </small>
-        )}
       </div>
+
       <div className="row">
         {personas.length > 0 ? (
           [...personas].reverse().map((persona, index) => (
-            <div
-              className="col-md-4 mb-3"
-              key={index}
-              onClick={() => setActivateAgenda(persona, index)}
-            >
-              <div
-                className={`card ${index === idSelect ? "border-primary" : ""}`}
-                style={{ cursor: "pointer" }}
-              >
+            <div className="col-md-4 mb-3" key={index}>
+              <div className="card" style={{ cursor: "pointer" }}>
                 <Link
                   to={"/agenda/" + persona.id}
                   style={{ textDecoration: "none", color: "inherit" }}
@@ -144,14 +104,14 @@ function AgendaList() {
                   </div>
                 </Link>
 
-                {user && ( // Si el usuario existe, muestra los botones de editar y eliminar
+                {user && ( // Solo muestra botones de edición/eliminación si el usuario está logueado
                   <div className="botones">
                     <Link to={"/agenda/edit/" + persona.id}>
                       <button className="btn btn-warning">Editar</button>
                     </Link>
                     <button
                       className="btn btn-danger"
-                      onClick={() => deletePersona(persona.id)}
+                      onClick={() => agendaService.delete(persona.id).then(getAllAgenda)}
                     >
                       Eliminar
                     </button>
@@ -169,12 +129,12 @@ function AgendaList() {
         )}
       </div>
 
-      {user && ( // Si el usuario existe, muestra el botón de añadir
+      {user && ( // Solo muestra el botón de añadir si el usuario está logueado
         <Link to={"/add"}>
           <button
             className="btn btn-primary boton-flotante"
             title="Añadir nuevo contacto"
-            disabled={totalPersonas >= MAX_PERSONAS} // Usar totalPersonas en lugar de personas.length
+            disabled={totalPersonas >= MAX_PERSONAS}
           >
             <FaPlus />
           </button>

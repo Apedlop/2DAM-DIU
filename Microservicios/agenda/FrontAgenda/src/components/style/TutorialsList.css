@@ -38,48 +38,71 @@
   margin-bottom: 20px;
 }
 
-/* Estilos para las tarjetas de tutoriales */
-.card {
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Estilos para la tabla de tutoriales */
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+table th,
+table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
 }
 
-.card-title {
-  font-size: 1.25rem;
+table th {
+  background-color: #6a1b9a; /* Morado oscuro acorde a los estilos */
   font-weight: bold;
-  color: #333;
+  color: white; /* Color de texto blanco para resaltar */
 }
 
-.card-text {
-  font-size: 0.95rem;
+.table td {
+  vertical-align: middle;
+}
+
+/* Estilos para las filas de la tabla */
+.tutorial-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tutorial-row:hover {
+  background-color: #e0e0e0; /* Fondo más oscuro cuando el cursor pasa sobre la fila */
+}
+
+/* Fila expandida */
+.expanded-row {
+  background-color: #f9f9f9;
+}
+
+.tutorial-description {
+  padding: 10px 0;
+  font-size: 1rem;
   color: #555;
 }
 
-.tutorial-image {
-  width: 100%;   /* Hace que la imagen ocupe todo el ancho disponible */
-  height: auto;  /* Mantiene la proporción de la imagen */
-  max-height: 200px; /* Puedes ajustar la altura máxima según lo que necesites */
-  object-fit: cover;  /* Esto asegurará que la imagen se recorte si es más grande de lo necesario */
+/* Imagen del tutorial */
+.tutorial-img {
+  width: 80px;  /* Ajusta el tamaño de la imagen */
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 /* Botones de editar y eliminar */
-.botones {
+.tutorial-actions {
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-top: 1px solid #eee;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
 .btn-warning {
   background-color: #ffb74d; /* Naranja suave */
   color: white;
   border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
 .btn-warning:hover {
@@ -90,6 +113,8 @@
   background-color: #e57373; /* Rojo pastel */
   color: white;
   border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
 .btn-danger:hover {
@@ -105,8 +130,8 @@
   color: white;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,4 +142,19 @@
 
 .boton-flotante:hover {
   background-color: #4a148c; /* Morado más oscuro */
+}
+
+/* Filas alternadas (color más oscuro y blanco) */
+table tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Fondo claro para las filas impares */
+}
+
+table tr:nth-child(even) {
+  background-color: #f1f1f1; /* Fondo ligeramente más oscuro para las filas pares */
+}
+
+/* Fila seleccionada */
+.active {
+  background-color: #d6d6d6; /* Fila activa con fondo ligeramente más oscuro */
+  font-weight: bold;
 }

@@ -1,45 +1,53 @@
-version: '2' # Versión del fichero Docker-compose
+version: '3.8'
 
-networks: # Define las redes que usarán los contenedores
-  mired: # Nombre de la red
-    ipam: # Administra las direcciones ips
-      config: # Configuración de la red
-        - subnet: 182.29.0.0/16 # Subred a usar
-          gateway: 182.29.0.1 # Puerta de enlace de la red
+networks:
+  mired:
+    ipam:
+      config:
+        - subnet: 182.28.0.0/16
+          gateway: 182.28.0.1
 
-services: # Define los contenedores que instalaremos en Docker
-  db: # Servicio de base de datos (usando MongoDB como ejemplo)
-    image: bitnami/mongodb:latest # Imagen de MongoDB
-    container_name: mongo_DB # Nombre del contenedor
+services:
+  dbmongo:
+    image: bitnami/mongodb:latest
+    container_name: mongo_DB
     networks:
       mired:
-        ipv4_address: 182.29.0.11 # Dirección IP del contenedor de la base de datos
+        ipv4_address: 182.28.0.11
     ports:
-      - "27017:27017" # Puerto para MongoDB
-    expose:
-      - 27017 # Expone el puerto 27017 para que lo usen otros contenedores
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: shared-db
+    restart: always
 
-  app-agenda: # Servicio de la aplicación Agenda
-    image: apedlop042/agenda2025:1 # Imagen de la aplicación Agenda
-    container_name: agendaapp # Nombre del contenedor
-    networks:
-      mired:
-        ipv4_address: 182.29.0.13 # Dirección IP del contenedor de la aplicación
-    expose:
-      - 81 # Expone el puerto 8080 para la aplicación
-    ports:
-      - "81:8099" # Puerto para acceder a la aplicación desde el host
-    depends_on: # Dependencias de este contenedor
-      - db # La aplicación depende de la base de datos
   app-tutorials:
-    image: apedlop042/tutorials2025:1
+    image: apedlop042/tutorials2025:4
     container_name: tutorialsapp
     networks:
       mired:
-        ipv4_address: 182.29.0.12
-    expose:
-      - 80
+        ipv4_address: 182.28.0.13
     ports:
-      - "80:8098"
-    depends_on: #En esta etiqueta colocamos de qué servicio depende este contenedor
-      - db
+      - "8098:8098"
+    depends_on:
+      - dbmongo
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongo_DB
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: shared-db
+    restart: always
+
+  app-agenda:
+    image: apedlop042/agenda2025:1
+    container_name: agendaapp
+    networks:
+      mired:
+        ipv4_address: 182.28.0.14
+    ports:
+      - "8099:8099"
+    depends_on:
+      - dbmongo
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongo_DB
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: shared-db
+    restart: always

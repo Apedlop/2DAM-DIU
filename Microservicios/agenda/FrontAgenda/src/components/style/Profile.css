@@ -47,3 +47,20 @@
   margin: 5px 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* Estilos para el botón de cerrar sesión */
+.logout-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
+}

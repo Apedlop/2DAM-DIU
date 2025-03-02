@@ -17,6 +17,7 @@ function AgendaAdd() {
   });
   const [tutorials, setTutorials] = useState([]); // Para almacenar los tutoriales publicados
   const [selectedTutorials, setSelectedTutorials] = useState([]); // Tutoriales seleccionados
+  const [error, setError] = useState(""); // Para manejar errores de validación
   const navegar = useNavigate(); // Hook para redireccionar
 
   useEffect(() => {
@@ -40,6 +41,20 @@ function AgendaAdd() {
   };
 
   const createAgenda = () => {
+    // Validación personalizada para campos vacíos
+    if (
+      !newPersona.nombre ||
+      !newPersona.apellidos ||
+      !newPersona.calle ||
+      !newPersona.codigoPostal ||
+      !newPersona.ciudad ||
+      !newPersona.cumpleanos 
+    ) {
+      setError("Todos los campos son obligatorios.");
+      return;
+    }
+
+    // Si todo está bien, se crea la agenda
     agendaService
       .create({ ...newPersona, tutorials: selectedTutorials })
       .then(() => {
@@ -57,6 +72,7 @@ function AgendaAdd() {
   return (
     <div className="agenda-add-container">
       <h2 className="agenda-add-title">Añadir Nueva Persona</h2>
+      {error && <div className="alert alert-danger">{error}</div>} {/* Mostrar mensaje de error */}
       <form>
         <div className="row rowAdd">
           {/* Columna izquierda */}
@@ -69,7 +85,6 @@ function AgendaAdd() {
                 type="text"
                 className="form-control"
                 id="nombre"
-                required
                 value={newPersona.nombre}
                 onChange={valoresEditados}
                 placeholder="Ingresa el nombre"
@@ -83,7 +98,6 @@ function AgendaAdd() {
                 type="text"
                 className="form-control"
                 id="calle"
-                required
                 value={newPersona.calle}
                 onChange={valoresEditados}
                 placeholder="Ingresa la calle"
@@ -97,7 +111,6 @@ function AgendaAdd() {
                 type="text"
                 className="form-control"
                 id="ciudad"
-                required
                 value={newPersona.ciudad}
                 onChange={valoresEditados}
                 placeholder="Ingresa la ciudad"
@@ -115,7 +128,6 @@ function AgendaAdd() {
                 type="text"
                 className="form-control"
                 id="apellidos"
-                required
                 value={newPersona.apellidos}
                 onChange={valoresEditados}
                 placeholder="Ingresa los apellidos"
@@ -129,7 +141,6 @@ function AgendaAdd() {
                 type="number"
                 className="form-control"
                 id="codigoPostal"
-                required
                 value={newPersona.codigoPostal}
                 onChange={valoresEditados}
                 placeholder="Ingresa el código postal"
@@ -143,7 +154,6 @@ function AgendaAdd() {
                 type="date"
                 className="form-control"
                 id="cumpleanos"
-                required
                 value={newPersona.cumpleanos}
                 onChange={valoresEditados}
               />

@@ -53,7 +53,27 @@ function AgendaDetails() {
             {/* Tutoriales */}
             <div className="tutorials-section">
               {persona.tutorials && persona.tutorials.length > 0 ? (
-                <TutorialsDetails tutorials={persona.tutorials} />
+                <TutorialsDetails
+                  tutorials={persona.tutorials}
+                  render={(tutorial, isSelected) => (
+                    <div className="tutorial-summary">
+                      <h3>{tutorial.title}</h3>
+                      <p>{tutorial.published ? "Publicado" : "No Publicado"}</p>
+                      {isSelected && (
+                        <div className="tutorial-details">
+                          <p>{tutorial.description}</p>
+                          {tutorial.imagen && (
+                            <img
+                              src={tutorial.imagen}
+                              alt={tutorial.title}
+                              className="tutorial-image"
+                            />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                />
               ) : (
                 <p className="no-tutorials">No hay tutoriales disponibles.</p>
               )}

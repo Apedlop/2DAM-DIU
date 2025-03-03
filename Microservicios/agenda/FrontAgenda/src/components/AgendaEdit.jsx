@@ -3,10 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useParams } from "react-router-dom";
 import agendaService from "../service/agenda.service";
 import tutorialsService from "../service/tutorials.service";
-import "./style/AgendaAdd.css"; // Importa los mismos estilos que AgendaAdd
+import "./style/AgendaAdd.css"; // Reutilizamos los estilos de AgendaAdd
 
 function AgendaEdit() {
-  const { id } = useParams(); // Obtener el id de la agenda a editar
+  const { id } = useParams(); // Obtener el ID de la agenda a editar
+  const navegar = useNavigate(); // Hook para redireccionar
 
   const [selectPersona, setSelectPersona] = useState({
     nombre: "",
@@ -15,48 +16,66 @@ function AgendaEdit() {
     codigoPostal: "",
     ciudad: "",
     cumpleanos: "",
-    tutorials: [], // Asegurarse de que sea siempre un arreglo
+    tutorials: [],
   });
 
-  const [tutorials, setTutorials] = useState([]); // Lista de tutoriales disponibles
-
-  const navegar = useNavigate(); // Hook para redireccionar
+  const [tutorials, setTutorials] = useState([]); // Lista de tutoriales publicados
+  const [selectedTutorials, setSelectedTutorials] = useState([]); // Tutoriales seleccionados
+  const [error, setError] = useState(""); // Manejo de errores
 
   useEffect(() => {
     // Obtener la información de la persona
     agendaService
       .get(id)
       .then((response) => {
+        const persona = response.data;
         setSelectPersona({
-          ...response.data,
-          tutorials: response.data.tutorials || [], // Asegurarse de que 'tutorials' sea un arreglo
+          ...persona,
+          tutorials: persona.tutorials || [], // Asegurar que sea un arreglo
         });
+        setSelectedTutorials(persona.tutorials?.map((t) => t.id) || []);
       })
       .catch((error) => {
         console.log("Error al obtener los datos:", error);
       });
 
-    // Obtener la lista de tutoriales disponibles
+    // Obtener la lista de tutoriales publicados
     tutorialsService
-      .getAll()
+      .getAllPublishedTutorials()
       .then((response) => {
-        setTutorials(response.data); // Asegurarse de que siempre sea un arreglo
+        setTutorials(response.data);
       })
       .catch((error) => {
         console.log("Error al obtener tutoriales:", error);
       });
   }, [id]);
 
+  const valoresEditados = (e) => {
+    const { id, value } = e.target;
+    setSelectPersona({
+      ...selectPersona,
+      [id]: value,
+    });
+  };
+
   const editAgenda = () => {
+    // Validar que ningún campo esté vacío
+    if (
+      !selectPersona.nombre ||
+      !selectPersona.apellidos ||
+      !selectPersona.calle ||
+      !selectPersona.codigoPostal ||
+      !selectPersona.ciudad ||
+      !selectPersona.cumpleanos
+    ) {
+      setError("Todos los campos son obligatorios.");
+      return;
+    }
+
+    // Preparar datos para actualización
     const updatePersona = {
-      id: selectPersona.id,
-      nombre: selectPersona.nombre,
-      apellidos: selectPersona.apellidos,
-      calle: selectPersona.calle,
-      codigoPostal: selectPersona.codigoPostal,
-      ciudad: selectPersona.ciudad,
-      cumpleanos: selectPersona.cumpleanos,
-      tutorials: selectPersona.tutorials,
+      ...selectPersona,
+      tutorials: selectedTutorials,
     };
 
     agendaService
@@ -69,25 +88,15 @@ function AgendaEdit() {
       });
   };
 
-  const valoresEditados = (e) => {
-    const { id, value } = e.target;
-    setSelectPersona({
-      ...selectPersona,
-      [id]: value,
-    });
-  };
-
-  const handleTutorialChange = (e) => {
-    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-    setSelectPersona({
-      ...selectPersona,
-      tutorials: selected,
-    });
+  const cancelar = () => {
+    navegar("/agenda");
   };
 
   return (
     <div className="agenda-add-container">
       <h2 className="agenda-add-title">Editar Persona</h2>
+      {error && <div className="alert alert-danger">{error}</div>}{" "}
+      {/* Mostrar mensaje de error */}
       <form>
         <div className="row rowAdd">
           {/* Columna izquierda */}
@@ -100,7 +109,6 @@ function AgendaEdit() {
                 type="text"
                 className="form-control"
                 id="nombre"
-                required
                 value={selectPersona.nombre}
                 onChange={valoresEditados}
                 placeholder="Ingresa el nombre"
@@ -114,7 +122,6 @@ function AgendaEdit() {
                 type="text"
                 className="form-control"
                 id="calle"
-                required
                 value={selectPersona.calle}
                 onChange={valoresEditados}
                 placeholder="Ingresa la calle"
@@ -128,7 +135,6 @@ function AgendaEdit() {
                 type="text"
                 className="form-control"
                 id="ciudad"
-                required
                 value={selectPersona.ciudad}
                 onChange={valoresEditados}
                 placeholder="Ingresa la ciudad"
@@ -146,7 +152,6 @@ function AgendaEdit() {
                 type="text"
                 className="form-control"
                 id="apellidos"
-                required
                 value={selectPersona.apellidos}
                 onChange={valoresEditados}
                 placeholder="Ingresa los apellidos"
@@ -160,7 +165,6 @@ function AgendaEdit() {
                 type="number"
                 className="form-control"
                 id="codigoPostal"
-                required
                 value={selectPersona.codigoPostal}
                 onChange={valoresEditados}
                 placeholder="Ingresa el código postal"
@@ -174,7 +178,6 @@ function AgendaEdit() {
                 type="date"
                 className="form-control"
                 id="cumpleanos"
-                required
                 value={selectPersona.cumpleanos}
                 onChange={valoresEditados}
               />
@@ -182,7 +185,7 @@ function AgendaEdit() {
           </div>
         </div>
 
-        {/* Lista de tutoriales (ocupa todo el ancho) */}
+        {/* Lista de tutoriales */}
         <div className="form-group">
           <label htmlFor="tutoriales" className="form-label">
             Selecciona Tutoriales
@@ -191,22 +194,24 @@ function AgendaEdit() {
             id="tutoriales"
             multiple
             className="form-control"
-            value={selectPersona.tutorials}
-            onChange={handleTutorialChange}
+            value={selectedTutorials}
+            onChange={(e) => {
+              const selected = Array.from(
+                e.target.selectedOptions,
+                (option) => option.value
+              );
+              setSelectedTutorials(selected);
+            }}
           >
-            {tutorials && tutorials.length > 0 ? (
-              tutorials.map((tutorial) => (
-                <option key={tutorial.id} value={tutorial.id}>
-                  {tutorial.title}
-                </option>
-              ))
-            ) : (
-              <option disabled>No hay tutoriales disponibles</option>
-            )}
+            {tutorials.map((tutorial) => (
+              <option key={tutorial.id} value={tutorial.id}>
+                {tutorial.title}
+              </option>
+            ))}
           </select>
         </div>
 
-        {/* Botones (ocupan todo el ancho) */}
+        {/* Botones */}
         <div className="form-group text-center marginButton">
           <button
             type="button"
@@ -215,11 +220,7 @@ function AgendaEdit() {
           >
             Guardar Cambios
           </button>
-          <button
-            type="button"
-            className="btn btn-cancelar"
-            onClick={() => navegar("/agenda")}
-          >
+          <button type="button" className="btn btn-cancelar" onClick={cancelar}>
             Cancelar
           </button>
         </div>

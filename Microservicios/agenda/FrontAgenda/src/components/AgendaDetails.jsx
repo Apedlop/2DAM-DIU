@@ -55,22 +55,18 @@ function AgendaDetails() {
               {persona.tutorials && persona.tutorials.length > 0 ? (
                 <TutorialsDetails
                   tutorials={persona.tutorials}
-                  render={(tutorial, isSelected) => (
-                    <div className="tutorial-summary">
-                      <h3>{tutorial.title}</h3>
-                      <p>{tutorial.published ? "Publicado" : "No Publicado"}</p>
-                      {isSelected && (
-                        <div className="tutorial-details">
-                          <p>{tutorial.description}</p>
-                          {tutorial.imagen && (
-                            <img
-                              src={tutorial.imagen}
-                              alt={tutorial.title}
-                              className="tutorial-image"
-                            />
-                          )}
-                        </div>
+                  render={(tutorial) => (
+                    <div className="tutorial-content">
+                      {tutorial.imagen && (
+                        <img
+                          src={tutorial.imagen}
+                          alt={tutorial.title}
+                          className="tutorial-image"
+                        />
                       )}
+                      <p className="tutorial-description">
+                        {tutorial.description}
+                      </p>
                     </div>
                   )}
                 />

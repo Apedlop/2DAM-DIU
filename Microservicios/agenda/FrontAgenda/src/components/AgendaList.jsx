@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import agendaService from "../service/agenda.service";
 import { Link } from "react-router-dom";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import "./style/AgendaList.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ProgressBar } from "react-bootstrap";
@@ -12,7 +12,7 @@ function AgendaList() {
   const [personas, setPersonas] = useState([]); // Lista de personas
   const [totalPersonas, setTotalPersonas] = useState(0); // Cantidad total de personas
   const [buscarNombre, setBuscarNombre] = useState("");
-  const MAX_PERSONAS = 10;
+  const MAX_PERSONAS = 100;
 
   // Cargar la lista de contactos al montar el componente
   useEffect(() => {
@@ -78,12 +78,18 @@ function AgendaList() {
       </div>
       <h1 className="titulo">Lista de Contactos</h1>
       <div className="margenBarraProgreso">
-        <ProgressBar
-          now={obtenerPorcentaje()}
-          label={`${Math.round(obtenerPorcentaje())}%`}
-          animated
-          className="barraProgreso"
-        />
+        {/* Contenedor para el porcentaje y la barra de progreso */}
+        <div className="contenedorBarraProgreso">
+          {/* Porcentaje arriba y centrado */}
+          <div className="porcentaje">{Math.round(obtenerPorcentaje())}%</div>
+
+          {/* Barra de progreso */}
+          <ProgressBar
+            now={obtenerPorcentaje()}
+            animated
+            className="barraProgreso"
+          />
+        </div>
       </div>
 
       <div className="row">
@@ -107,13 +113,18 @@ function AgendaList() {
                 {user && ( // Solo muestra botones de edición/eliminación si el usuario está logueado
                   <div className="botones">
                     <Link to={"/agenda/edit/" + persona.id}>
-                      <button className="btn btn-warning">Editar</button>
+                      <button className="btn btn-warning">
+                        {" "}
+                        <FaEdit /> Editar
+                      </button>
                     </Link>
                     <button
                       className="btn btn-danger"
-                      onClick={() => agendaService.delete(persona.id).then(getAllAgenda)}
+                      onClick={() =>
+                        agendaService.delete(persona.id).then(getAllAgenda)
+                      }
                     >
-                      Eliminar
+                      <FaTrash /> Eliminar
                     </button>
                   </div>
                 )}

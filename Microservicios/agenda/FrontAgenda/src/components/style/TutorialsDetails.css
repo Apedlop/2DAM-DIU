@@ -1,82 +1,64 @@
-/* Contenedor principal */
 .tutoriales-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  /* Título de la sección */
-  .tutoriales-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  /* Lista de tutoriales */
-  .tutoriales-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  /* Elemento de la lista */
-  .tutorial-item {
-    background-color: #f3f3f3;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .tutorial-item:hover {
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  .tutorial-item.active {
-    background-color: #f1f1f1;
-  }
-  
-  /* Resumen del tutorial */
-  .tutorial-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .tutorial-summary h3 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
-  }
-  
-  .tutorial-summary p {
-    font-size: 14px;
-    color: #555;
-    margin: 0;
-  }
-  
-  /* Detalles del tutorial */
-  .tutorial-details {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #eee;
-  }
-  
-  .tutorial-details p {
-    font-size: 14px;
-    color: #555;
-    margin: 0 0 10px;
-  }
-  
-  .tutorial-image {
-    max-width: 30%;
-    border-radius: 8px;
-    margin-top: 10px;
-    display: block;
-    margin: auto;
-  }
+  margin-top: 20px;
+}
+
+.tutoriales-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6a1b9a;
+  margin-bottom: 15px;
+}
+
+.tutoriales-list {
+  list-style: none;
+  padding: 0;
+}
+
+.tutorial-item {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+  cursor: pointer;
+}
+
+.tutorial-item.active {
+  background-color: #f0f0f0;
+  border-left: 4px solid #6a1b9a;
+}
+
+.tutorial-summary h3 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
+
+.tutorial-summary p {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0 0;
+}
+
+.tutorial-details {
+  margin-top: 10px;
+}
+
+.tutorial-content {
+  display: flex; /* Usamos Flexbox para alinear la imagen y la descripción */
+  align-items: center; /* Centra verticalmente los elementos */
+  gap: 15px; /* Espacio entre la imagen y la descripción */
+}
+
+.tutorial-image {
+  max-width: 150px; /* Ajusta el tamaño de la imagen */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-description {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  margin: 0; /* Elimina el margen para que esté centrado */
+}

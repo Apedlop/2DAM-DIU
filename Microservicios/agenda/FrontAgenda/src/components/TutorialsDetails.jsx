@@ -41,7 +41,19 @@ const TutorialsDetails = ({ tutorials, render }) => {
             }`}
             onClick={() => handleTutorialClick(tutorial)}
           >
-            {render(tutorial, selectedTutorial === tutorial)}
+            {/* Renderiza el resumen del tutorial */}
+            <div className="tutorial-summary">
+              <h3>{tutorial.title}</h3>
+              <p>{tutorial.published ? "Publicado" : "No Publicado"}</p>
+            </div>
+
+            {/* Renderiza los detalles del tutorial si está seleccionado */}
+            {selectedTutorial === tutorial && (
+              <div className="tutorial-details">
+                {render(tutorial)}{" "}
+                {/* Usa la prop render para personalizar los detalles */}
+              </div>
+            )}
           </li>
         ))}
       </ul>

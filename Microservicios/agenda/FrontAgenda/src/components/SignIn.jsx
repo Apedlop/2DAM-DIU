@@ -34,48 +34,38 @@ const SignIn = () => {
 
   return (
     <div className="sign-in-container">
-      <h1 className="sign-in-title">Sign In</h1>
+      <h1 className="sign-in-title">Iniciar sesión</h1>
       <div className="form-container">
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleLogin}>
           <label htmlFor="userEmail" className="block">
-            Email:
+            Correo:
           </label>
           <input
             type="email"
             className="input-field"
             name="userEmail"
             value={email}
-            placeholder="E.g: prueba@gmail.com"
+            placeholder="Ej: prueba@prueba.com"
             id="userEmail"
             onChange={onChangeHandler}
           />
           <label htmlFor="userPassword" className="block">
-            Password:
+            Contraseña:
           </label>
           <input
             type="password"
             className="input-field"
             name="userPassword"
             value={password}
-            placeholder="Your Password"
+            placeholder="Tu contraseña"
             id="userPassword"
             onChange={onChangeHandler}
           />
           <button className="sign-in-button" type="submit">
-            Sign in
+            Iniciar sesión
           </button>
         </form>
-        <p className="or-text">or</p>
-        <button
-          className="google-sign-in-button"
-          onClick={() => {
-            // Funcionalidad para el inicio de sesión con Google aquí
-            signInWithGoogle();
-          }}
-        >
-          Sign in with Google
-        </button>
       </div>
     </div>
   );

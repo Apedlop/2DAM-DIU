@@ -175,3 +175,32 @@
   margin: 2rem auto;
   max-width: 600px;
 }
+
+.margenBarraProgreso {
+  width: 100%; /* Ajusta el ancho según sea necesario */
+  margin: 20px 0; /* Añade margen si es necesario */
+}
+
+.contenedorBarraProgreso {
+  position: relative; /* Necesario para posicionar el porcentaje */
+  width: 100%;
+}
+
+.porcentaje {
+  position: absolute; /* Posiciona el porcentaje sobre la barra */
+  top: -20px; /* Ajusta la posición vertical (arriba de la barra) */
+  left: 50%; /* Centra horizontalmente */
+  transform: translateX(-50%); /* Ajusta el centrado */
+  font-size: 14px; /* Tamaño de la fuente */
+  font-weight: bold; /* Negrita */
+  color: #333; /* Color del texto */
+  background-color: #fff; /* Fondo del texto (opcional) */
+  padding: 2px 6px; /* Espaciado interno (opcional) */
+  border-radius: 4px; /* Bordes redondeados (opcional) */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra (opcional) */
+}
+
+.barraProgreso {
+  width: 100%; /* Ajusta el ancho de la barra */
+  height: 20px; /* Ajusta la altura de la barra */
+}

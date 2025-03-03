@@ -11,6 +11,7 @@ const TutorialsAdd = () => {
     imagen: "", // Nuevo campo para la URL de la imagen
   });
 
+  const [error, setError] = useState(""); // Para manejar el mensaje de error
   const navegar = useNavigate();
 
   // Esta función actualiza el estado 'newTutorial' con el valor del campo de entrada que ha cambiado.
@@ -31,10 +32,17 @@ const TutorialsAdd = () => {
   };
 
   const createTutorial = () => {
+    // Validación de los campos para asegurarse de que no estén vacíos
+    if (!newTutorial.title || !newTutorial.description || !newTutorial.imagen) {
+      setError("Todos los campos son obligatorios.");
+      return; // No continuar hasta que todos los campos estén completos
+    }
+
+    // Si todos los campos están completos, crear el tutorial
     tutorialService
       .create(newTutorial)
       .then(() => {
-        navegar("/tutorials");
+        navegar("/tutorials"); // Redirigir a la lista de tutoriales después de agregar
       })
       .catch((e) => {
         console.log(e);
@@ -46,6 +54,9 @@ const TutorialsAdd = () => {
       <div className="tutorials-add-card">
         <h2 className="tutorials-add-title">Add New Tutorial</h2>
         <form>
+          {/* Mostrar el mensaje de error si algún campo está vacío */}
+          {error && <div className="alert alert-danger">{error}</div>}
+
           <div className="form-group">
             <label htmlFor="title" className="form-label">
               Title
@@ -118,11 +129,7 @@ const TutorialsAdd = () => {
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={createTutorial}
-            className="btn-submit"
-          >
+          <button type="button" onClick={createTutorial} className="btn-submit">
             Submit
           </button>
         </form>
